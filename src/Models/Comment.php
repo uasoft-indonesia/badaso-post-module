@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Module\Blog\Models\Post;
 use Uasoft\Badaso\Models\User;
 
 class Comment extends Model
@@ -16,7 +15,7 @@ class Comment extends Model
         'post_id',
         'parent_id',
         'user_id',
-        'content'
+        'content',
     ];
 
     public $incrementing = false;

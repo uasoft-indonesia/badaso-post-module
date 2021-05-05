@@ -11,12 +11,12 @@ class BlogPermissionsSeeder extends Seeder
     public function run()
     {
         $keys = [
-            'upload_file'
+            'upload_file',
         ];
 
         foreach ($keys as $key) {
             Permission::firstOrCreate([
-                'key' => $key,
+                'key'        => $key,
                 'table_name' => null,
             ]);
         }

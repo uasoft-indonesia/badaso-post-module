@@ -4,9 +4,9 @@ namespace Uasoft\Badaso\Module\Blog\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Models\Tag;
-use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
@@ -26,21 +26,24 @@ class TagController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'title' => 'required|string|max:255',
+                'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug' => 'required|string|max:255|unique:tags',
-                'content' => 'nullable|string'
+                'slug'       => 'required|string|max:255|unique:tags',
+                'content'    => 'nullable|string',
             ]);
 
             $tags = Tag::create($request->all());
             $tags = json_decode(json_encode($tags));
 
             DB::commit();
+
             return ApiResponse::success($tags);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -49,7 +52,7 @@ class TagController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:tags,id'
+                'id' => 'required|string|size:36|exists:tags,id',
             ]);
 
             $tags = Tag::findOrFail($request->id);
@@ -66,7 +69,7 @@ class TagController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:tags,slug'
+                'slug' => 'required|exists:tags,slug',
             ]);
 
             $tags = Tag::where('slug', $request->slug)->firstOrFail();
@@ -82,22 +85,25 @@ class TagController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:tags,id',
-                'title' => 'required|string|max:255',
+                'id'         => 'required|string|size:36|exists:tags,id',
+                'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug' => 'required|string|max:255|exists:tags,slug',
-                'content' => 'nullable|string'
+                'slug'       => 'required|string|max:255|exists:tags,slug',
+                'content'    => 'nullable|string',
             ]);
 
             $tags = Tag::findOrFail($request->id);
             $tags->update($request->all());
-            
+
             DB::commit();
+
             return ApiResponse::success($tags);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -105,6 +111,7 @@ class TagController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => 'required|exists:tags|string',
@@ -114,9 +121,11 @@ class TagController extends Controller
             $tags->delete();
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -124,6 +133,7 @@ class TagController extends Controller
     public function deleteMultiple(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'ids' => 'required',
@@ -141,7 +151,7 @@ class TagController extends Controller
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
-            
+
             return ApiResponse::failed($e);
         }
     }

@@ -4,18 +4,9 @@ namespace Uasoft\Badaso\Module\Blog\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule;
-use Uasoft\Badaso\Module\Blog\Helpers\ConfigHelper;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\VarExporter\VarExporter;
-use Uasoft\Badaso\Helpers\ApiDocs;
-use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
-use Uasoft\Badaso\Module\Blog\Models\Post;
-use Uasoft\Badaso\Module\Blog\Models\Category;
-use Uasoft\Badaso\Module\Blog\Models\Tag;
-use Uasoft\Badaso\Module\Blog\Models\Comment;
+use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule;
 
 class BadasoBlogSetup extends Command
 {
@@ -67,10 +58,10 @@ class BadasoBlogSetup extends Command
                 array_push($hidden_tables, $table);
             }
         }
-        
+
         $hidden_tables = json_decode(json_encode($hidden_tables));
 
-        \File::put(config_path('hidden-tables.php'), "<?php\n return " . VarExporter::export($hidden_tables) . " ;");
+        \File::put(config_path('hidden-tables.php'), "<?php\n return ".VarExporter::export($hidden_tables).' ;');
         $this->info('badaso.php configuration updated');
     }
 

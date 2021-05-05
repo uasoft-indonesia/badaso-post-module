@@ -4,9 +4,9 @@ namespace Uasoft\Badaso\Module\Blog\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Models\Category;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -26,22 +26,25 @@ class CategoryController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'title' => 'required|string|max:255',
+                'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug' => 'required|string|max:255|unique:categories',
-                'content' => 'nullable|string',
-                'parent_id' => 'nullable|exists:categories,id'
+                'slug'       => 'required|string|max:255|unique:categories',
+                'content'    => 'nullable|string',
+                'parent_id'  => 'nullable|exists:categories,id',
             ]);
 
             $category = Category::create($request->all());
             $category = json_decode(json_encode($category));
 
             DB::commit();
+
             return ApiResponse::success($category);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -50,15 +53,15 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:categories',
-                'except' => 'nullable|in:true,false'
+                'id'     => 'required|string|size:36|exists:categories',
+                'except' => 'nullable|in:true,false',
             ]);
 
             $category = Category::with('parent', 'children')->where('id', $request->id)->first();
 
             $data['category'] = $category->toArray();
 
-            if ($request->except === 'true') {                
+            if ($request->except === 'true') {
                 $data['categories'] = Category::where('id', '!=', $request->id)->get()->toArray();
             }
 
@@ -72,15 +75,15 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:categories',
-                'except' => 'nullable|in:true,false'
+                'slug'   => 'required|exists:categories',
+                'except' => 'nullable|in:true,false',
             ]);
 
             $category = Category::with('parent', 'children')->where('slug', $request->slug)->first();
 
             $data['category'] = $category->toArray();
 
-            if ($request->except === 'true') {                
+            if ($request->except === 'true') {
                 $data['categories'] = Category::where('id', '!=', $request->id)->get()->toArray();
             }
 
@@ -93,23 +96,26 @@ class CategoryController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:categories',
-                'title' => 'required|string|max:255',
+                'id'         => 'required|string|size:36|exists:categories',
+                'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug' => 'required|string|max:255|exists:categories,slug',
-                'content' => 'nullable|string',
-                'parent_id' => 'nullable|exists:categories,id'
+                'slug'       => 'required|string|max:255|exists:categories,slug',
+                'content'    => 'nullable|string',
+                'parent_id'  => 'nullable|exists:categories,id',
             ]);
 
             $category = Category::findOrFail($request->id);
             $category->update($request->all());
-            
+
             DB::commit();
+
             return ApiResponse::success($category);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -117,6 +123,7 @@ class CategoryController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => 'required|exists:categories|string',
@@ -126,9 +133,11 @@ class CategoryController extends Controller
             $category->delete();
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -154,7 +163,7 @@ class CategoryController extends Controller
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
-            
+
             return ApiResponse::failed($e);
         }
     }

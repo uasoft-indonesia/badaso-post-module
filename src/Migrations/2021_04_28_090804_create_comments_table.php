@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCommentsTable extends Migration
 {
@@ -21,7 +21,7 @@ class CreateCommentsTable extends Migration
             $table->longText('content');
             $table->timestamps();
         });
-        
+
         Schema::table('comments', function (Blueprint $table) {
             $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('parent_id')->references('id')->on('comments')->onDelete('cascade');

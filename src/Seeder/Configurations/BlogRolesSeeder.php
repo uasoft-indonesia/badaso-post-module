@@ -8,19 +8,20 @@ class BlogRolesSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function run()
     {
         \DB::beginTransaction();
+
         try {
             $roles = [
-                'name' => 'editor',
+                'name'         => 'editor',
                 'display_name' => 'Editor',
-                'created_at' => '2021-01-01 15:26:06',
-                'updated_at' => '2021-01-01 15:26:06',
+                'created_at'   => '2021-01-01 15:26:06',
+                'updated_at'   => '2021-01-01 15:26:06',
             ];
 
             Role::firstOrCreate($roles);

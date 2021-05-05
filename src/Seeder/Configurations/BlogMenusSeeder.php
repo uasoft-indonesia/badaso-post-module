@@ -7,20 +7,21 @@ class BlogMenusSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function run()
     {
         \DB::beginTransaction();
+
         try {
             $menus = [
                 0 => [
-                    'key' => 'badaso-blog-module',
+                    'key'          => 'badaso-blog-module',
                     'display_name' => 'Blogger Menu',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
+                    'created_at'   => '2021-01-01 15:26:06',
+                    'updated_at'   => '2021-01-01 15:26:06',
                 ],
             ];
 
