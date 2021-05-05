@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Module\Blog\Models\Post;
 
 class Category extends Model
 {
@@ -16,7 +15,7 @@ class Category extends Model
         'title',
         'meta_title',
         'slug',
-        'content'
+        'content',
     ];
 
     public $incrementing = false;

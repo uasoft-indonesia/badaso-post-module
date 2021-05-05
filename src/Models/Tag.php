@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Module\Blog\Models\Post;
 
 class Tag extends Model
 {
@@ -15,7 +14,7 @@ class Tag extends Model
         'title',
         'meta_title',
         'slug',
-        'content'
+        'content',
     ];
 
     protected $hidden = ['pivot'];

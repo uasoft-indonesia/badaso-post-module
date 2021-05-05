@@ -4,9 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Module\Blog\Models\Tag;
-use Uasoft\Badaso\Module\Blog\Models\Category;
-use Uasoft\Badaso\Module\Blog\Models\Comment;
 use Uasoft\Badaso\Models\User;
 
 class Post extends Model

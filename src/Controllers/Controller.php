@@ -2,16 +2,9 @@
 
 namespace Uasoft\Badaso\Module\Blog\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use ReflectionClass;
-use Uasoft\Badaso\Facades\Badaso;
-use Uasoft\Badaso\Helpers\CaseConvert;
-use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Traits\FileHandler;
 
 abstract class Controller extends BaseController
@@ -42,7 +35,7 @@ abstract class Controller extends BaseController
                 WHERE u.id = :user_id
                 AND p.key = :permission
             ', [
-                'user_id' => $user->id,
+                'user_id'    => $user->id,
                 'permission' => $method.'_'.$data_type->name,
             ]);
 

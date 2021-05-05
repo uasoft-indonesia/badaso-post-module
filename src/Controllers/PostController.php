@@ -3,15 +3,13 @@
 namespace Uasoft\Badaso\Module\Blog\Controllers;
 
 use Exception;
-use Illuminate\Http\Request;
-use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Module\Blog\Models\Post;
-use Uasoft\Badaso\Module\Blog\Models\Category;
-use Uasoft\Badaso\Module\Blog\Models\Tag;
-use Uasoft\Badaso\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Module\Blog\Models\Category;
+use Uasoft\Badaso\Module\Blog\Models\Post;
+use Uasoft\Badaso\Module\Blog\Models\Tag;
 
 class PostController extends Controller
 {
@@ -19,10 +17,10 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'sortby' => 'nullable|string',
+                'sortby'   => 'nullable|string',
                 'sorttype' => 'nullable|string|in:desc,asc',
                 'category' => 'nullable|exists:categories,slug',
-                'tag' => 'nullable|exists:tags,slug',
+                'tag'      => 'nullable|exists:tags,slug',
             ]);
 
             $data['posts'] = [];
@@ -41,10 +39,10 @@ class PostController extends Controller
                     ->get();
             } elseif (isset($request->tag) && isset($request->category)) {
                 $posts = Post::
-                    whereHas('category', function (Builder $query) use($request) {
+                    whereHas('category', function (Builder $query) use ($request) {
                         $query->where('slug', $request->category);
                     })
-                    ->whereHas('tags', function (Builder $query) use($request) {
+                    ->whereHas('tags', function (Builder $query) use ($request) {
                         $query->where('slug', $request->tag);
                     })
                     ->with('category.parent', 'tags', 'user:id,name')
@@ -67,41 +65,44 @@ class PostController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'title' => 'required|string',
-                'slug' => 'required|string|max:255|unique:posts',
-                'content' => 'required|string',
-                'meta_title' => 'nullable|string',
+                'title'            => 'required|string',
+                'slug'             => 'required|string|max:255|unique:posts',
+                'content'          => 'required|string',
+                'meta_title'       => 'nullable|string',
                 'meta_description' => 'nullable|string',
-                'summary' => 'nullable|string',
-                'published' => 'required|boolean',
-                'tags' => 'required|array|exists:tags,id',
-                'category' => 'required|exists:categories,id',
-                'commentCount' => 'required|integer',
+                'summary'          => 'nullable|string',
+                'published'        => 'required|boolean',
+                'tags'             => 'required|array|exists:tags,id',
+                'category'         => 'required|exists:categories,id',
+                'commentCount'     => 'required|integer',
             ]);
 
             $post = Post::create([
-                'user_id' => auth()->user()->id,
-                'parent_id' => $request->parent ?? null,
-                'category_id' => $request->category,
-                'title' => $request->title,
-                'meta_title' => $request->meta_title,
+                'user_id'          => auth()->user()->id,
+                'parent_id'        => $request->parent ?? null,
+                'category_id'      => $request->category,
+                'title'            => $request->title,
+                'meta_title'       => $request->meta_title,
                 'meta_description' => $request->meta_description,
-                'slug' => $request->slug,
-                'summary' => $request->summary,
-                'content' => $request->content,
-                'published' => $request->published,
-                'comment_count' => $request->comment_count,
-                'published_at' => $request->published ? (string) now() : null,
+                'slug'             => $request->slug,
+                'summary'          => $request->summary,
+                'content'          => $request->content,
+                'published'        => $request->published,
+                'comment_count'    => $request->comment_count,
+                'published_at'     => $request->published ? (string) now() : null,
             ]);
 
             $post->tags()->attach($request->tags);
 
             DB::commit();
+
             return ApiResponse::success($post);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -110,7 +111,7 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:posts'
+                'id' => 'required|string|size:36|exists:posts',
             ]);
 
             $posts = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
@@ -127,7 +128,7 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:posts'
+                'slug' => 'required|exists:posts',
             ]);
 
             $posts = Post::with('category', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
@@ -143,19 +144,20 @@ class PostController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'id' => 'required|exists:posts',
-                'title' => 'required|string',
-                'slug' => 'required|string|max:255|exists:posts,slug',
-                'content' => 'required|string',
-                'meta_title' => 'nullable|string',
+                'id'               => 'required|exists:posts',
+                'title'            => 'required|string',
+                'slug'             => 'required|string|max:255|exists:posts,slug',
+                'content'          => 'required|string',
+                'meta_title'       => 'nullable|string',
                 'meta_description' => 'nullable|string',
-                'summary' => 'nullable|string',
-                'published' => 'required|boolean',
-                'tags' => 'required|array|exists:tags,id',
-                'category' => 'required|exists:categories,id',
-                'commentCount' => 'required|integer',
+                'summary'          => 'nullable|string',
+                'published'        => 'required|boolean',
+                'tags'             => 'required|array|exists:tags,id',
+                'category'         => 'required|exists:categories,id',
+                'commentCount'     => 'required|integer',
             ]);
 
             $post = Post::findOrFail($request->id);
@@ -175,11 +177,12 @@ class PostController extends Controller
             $post->update();
             $post->tags()->sync($request->tags);
 
-
             DB::commit();
+
             return ApiResponse::success($post);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -187,6 +190,7 @@ class PostController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => 'required|exists:posts',
@@ -197,9 +201,11 @@ class PostController extends Controller
             $post->delete();
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -226,7 +232,7 @@ class PostController extends Controller
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
-            
+
             return ApiResponse::failed($e);
         }
     }

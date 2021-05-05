@@ -10,21 +10,22 @@ class BlogRolePermissionsSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function run()
     {
         \DB::beginTransaction();
+
         try {
             $editor = Role::where('name', 'editor')->firstOrFail();
 
-            $permission = array('posts', 'categories', 'tags');
+            $permission = ['posts', 'categories', 'tags'];
 
             $permissions = Permission::where(function ($query) use ($permission) {
-                for ($i=0; $i < count($permission); $i++) { 
-                    $query->orWhere('key', 'like', '%' . $permission[$i]);
+                for ($i = 0; $i < count($permission); $i++) {
+                    $query->orWhere('key', 'like', '%'.$permission[$i]);
                 }
             })->get();
 
