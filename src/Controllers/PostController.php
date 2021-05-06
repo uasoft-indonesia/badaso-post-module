@@ -26,13 +26,13 @@ class PostController extends Controller
 
             $data['posts'] = [];
 
-            if (isset($request->category) && !isset($request->tag)) {
+            if (isset($request->category) && ! isset($request->tag)) {
                 $category = Category::where('slug', $request->category)->first();
                 $posts = $category->posts()
                     ->with('tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
                     ->get();
-            } elseif (isset($request->tag) && !isset($request->category)) {
+            } elseif (isset($request->tag) && ! isset($request->category)) {
                 $tags = Tag::where('slug', $request->tag)->first();
                 $posts = $tags->posts()
                     ->with('category.parent', 'tags', 'user:id,name')
