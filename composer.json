@@ -6,9 +6,9 @@
     "license": "proprietary",
     "homepage": "https://badaso.uatech.co.id/",
     "support": {
-        "issues": "https://github.com/uasoft-indonesia/badaso/issues",
-        "discussion": "https://github.com/uasoft-indonesia/badaso/discussions",
-        "source": "https://github.com/uasoft-indonesia/voyager"
+        "issues": "https://github.com/uasoft-indonesia/badaso-blog-module/issues",
+        "discussion": "https://github.com/uasoft-indonesia/badaso-blog-module/discussions",
+        "source": "https://github.com/uasoft-indonesia/badaso-blog-module"
     },
     "type": "library",
     "require": {

@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import './../assets/styles.scss'
 import PostsBrowse from "./posts/browse";
 import PostsRead from "./posts/read";
 import PostsAdd from "./posts/add";

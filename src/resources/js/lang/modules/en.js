@@ -238,7 +238,7 @@ export default {
       }
     },
     edit: {
-      title: "Add Tag",
+      title: "Edit Tag",
       button: "Save",
       field: {
         title: {
@@ -299,7 +299,7 @@ export default {
       }
     },
     edit: {
-      title: "Add Comment",
+      title: "Edit Comment",
       button: "Save",
       field: {
         comment: {

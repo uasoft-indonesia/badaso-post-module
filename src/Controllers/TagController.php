@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Models\Tag;
+use Uasoft\Badaso\Controllers\Controller;
 
 class TagController extends Controller
 {
