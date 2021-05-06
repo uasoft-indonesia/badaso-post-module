@@ -29,7 +29,7 @@ class BlogRolePermissionsSeeder extends Seeder
                 }
             })->get();
 
-            if (!is_null($editor)) {
+            if (! is_null($editor)) {
                 foreach ($permissions as $row) {
                     $role_permission = RolePermission::where('role_id', $editor->id)
                             ->where('permission_id', $row->id)
