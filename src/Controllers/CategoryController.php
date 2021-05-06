@@ -5,9 +5,9 @@ namespace Uasoft\Badaso\Module\Blog\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Models\Category;
-use Uasoft\Badaso\Controllers\Controller;
 
 class CategoryController extends Controller
 {
