@@ -2,9 +2,6 @@
 
 namespace Uasoft\Badaso\Module\Blog\Helpers;
 
-use Exception;
-use Illuminate\Support\Facades\DB;
-use ReflectionClass;
 use Analytics;
 use Spatie\Analytics\Period;
 
@@ -55,22 +52,22 @@ class GetData
             }
         }
         $data = $query->paginate($limit ? $limit : 10)->toArray();
-        
+
         return $data;
     }
 
     public static function getAnalytics($data)
     {
-        $prefix = config('blog_post_url_prefix') ? '/' . config('blog_post_url_prefix') . '/' : '/' ;
+        $prefix = config('blog_post_url_prefix') ? '/'.config('blog_post_url_prefix').'/' : '/';
         $queries = [];
         foreach ($data['data'] as $key => $item) {
-            $url = $prefix . $item['slug'];
+            $url = $prefix.$item['slug'];
             $data['data'][$key]['view_count'] = Analytics::performQuery(
                 Period::days(0),
                 'ga:pageviews',
                 [
                     'metrics' => 'ga:pageviews',
-                    'filters' => 'ga:pagePath==' . $url
+                    'filters' => 'ga:pagePath=='.$url,
                 ]
             )->totalsForAllResults['ga:pageviews'];
         }
