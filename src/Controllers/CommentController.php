@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Models\Comment;
+use Uasoft\Badaso\Module\Blog\Models\Post;
 
 class CommentController extends Controller
 {
@@ -59,6 +60,8 @@ class CommentController extends Controller
                     'content'   => 'required|string',
                 ]);
 
+                $post = Post::find($request->post_id);
+
                 $comment = Comment::create([
                     'post_id'   => $request->post_id,
                     'parent_id' => $request->parent_id ?? null,
@@ -67,13 +70,16 @@ class CommentController extends Controller
                     'content'   => $request->content,
                 ]);
 
+                $post->comment_count += 1;
+                $post->save();
+
                 $comment = json_decode(json_encode($comment));
 
                 DB::commit();
 
                 return ApiResponse::success($comment);
             } else {
-                return ApiResponse::failed(__('badaso-blog::validation.comment.user_not_logged_in'));
+                return ApiResponse::failed(__('badaso-blog::validation.auth.user_not_logged_in'));
             }
         } catch (Exception $e) {
             DB::rollback();
