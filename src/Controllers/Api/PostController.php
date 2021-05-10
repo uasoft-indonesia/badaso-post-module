@@ -12,7 +12,7 @@ use Uasoft\Badaso\Module\Blog\Models\Category;
 use Uasoft\Badaso\Module\Blog\Models\Post;
 use Uasoft\Badaso\Module\Blog\Models\Tag;
 
-class PostController extends Api\Controller
+class PostController extends Controller
 {
     public function browse(Request $request)
     {
