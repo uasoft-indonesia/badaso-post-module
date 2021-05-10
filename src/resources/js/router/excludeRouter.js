@@ -1,0 +1,17 @@
+export default [
+  'PostsBrowse', 
+  'PostsRead', 
+  'PostsEdit', 
+  'PostsAdd', 
+  'CategoryBrowse',
+  'CategoryRead',
+  'CategoryEdit',
+  'CategoryAdd',
+  'TagsBrowse',
+  'TagsRead',
+  'TagsEdit',
+  'TagsAdd',
+  'CommentBrowse',
+  'CommentRead',
+  'CommentEdit',
+]
