@@ -76,6 +76,7 @@ class CommentController extends Controller
                 $comment = json_decode(json_encode($comment));
 
                 DB::commit();
+
                 return ApiResponse::success($comment);
             } else {
                 return ApiResponse::failed(__('badaso-blog::validation.auth.user_not_logged_in'));

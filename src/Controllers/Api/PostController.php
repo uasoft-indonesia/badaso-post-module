@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Module\Blog\Controllers\Api;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Models\Category;
