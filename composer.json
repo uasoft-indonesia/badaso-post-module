@@ -27,7 +27,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Uasoft\\Badaso\\Module\\Blog\\Providers\\BadasoBlogServiceProvider"
+                "Uasoft\\Badaso\\Module\\Blog\\Providers\\BadasoBlogModuleServiceProvider"
             ]
         }
     }
