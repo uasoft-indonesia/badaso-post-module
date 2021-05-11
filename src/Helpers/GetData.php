@@ -3,8 +3,8 @@
 namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Analytics;
-use Spatie\Analytics\Period;
 use Carbon\Carbon;
+use Spatie\Analytics\Period;
 
 class GetData
 {
