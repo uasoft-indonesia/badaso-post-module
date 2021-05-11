@@ -147,7 +147,6 @@ export default {
   }),
   mounted() {
     this.getPostList();
-    this.getAnalyticsLink('asdadsdsadsa');
   },
   methods: {
     confirmDelete(id) {
