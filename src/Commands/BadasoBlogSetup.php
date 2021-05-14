@@ -83,6 +83,9 @@ class BadasoBlogSetup extends Command
     {
         return [
             'MIX_BLOG_POST_URL_PREFIX' => '',
+            'MIX_ANALYTICS_ACCOUNT_ID' => '',
+            'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
+            'MIX_ANALYTICS_VIEW_ID' => '',
         ];
     }
 

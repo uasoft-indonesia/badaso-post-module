@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Analytics;
+use Carbon\Carbon;
 use Spatie\Analytics\Period;
 
 class GetData
@@ -62,8 +63,9 @@ class GetData
         $queries = [];
         foreach ($data['data'] as $key => $item) {
             $url = $prefix.$item['slug'];
+            $period = Period::create(Carbon::parse($item['created_at']), now());
             $data['data'][$key]['view_count'] = Analytics::performQuery(
-                Period::days(0),
+                $period,
                 'ga:pageviews',
                 [
                     'metrics' => 'ga:pageviews',

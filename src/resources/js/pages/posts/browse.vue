@@ -106,6 +106,12 @@
                         >
                           Delete
                         </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="poll"
+                          v-if="$helper.isAllowed('browse_posts')"
+                        >
+                          <a :href="getAnalyticsLink(post.slug)" target="_blank" style="color: inherit;">Detail Analytic</a>
+                        </badaso-dropdown-item>
                       </vs-dropdown-menu>
                     </badaso-dropdown>
                   </vs-td>
@@ -136,6 +142,8 @@ export default {
     orderDirection: "desc",
     rowPerPage: null,
     willDeleteId: null,
+    analyticsBaseUrl: "https://analytics.google.com/analytics/web/#/report/content-pages/",
+    analyticsDescUrl: "/explorer-table.plotKeys=%5B%5D&_r.drilldown=analytics.pagePath:",
   }),
   mounted() {
     this.getPostList();
@@ -254,6 +262,25 @@ export default {
     handleSelect(data) {
       this.selected = data;
     },
+    getAnalyticsLink(slug) {
+      let accountId = process.env.MIX_ANALYTICS_ACCOUNT_ID
+        ? "a" + process.env.MIX_ANALYTICS_ACCOUNT_ID
+        : null;
+
+      let webPropertyId = process.env.MIX_ANALYTICS_WEBPROPERTY_ID
+        ? "w" + process.env.MIX_ANALYTICS_WEBPROPERTY_ID
+        : null;
+
+      let viewId = process.env.MIX_ANALYTICS_VIEW_ID
+        ? "p" + process.env.MIX_ANALYTICS_VIEW_ID
+        : null;
+
+      if (accountId && webPropertyId && viewId) {
+        return this.analyticsBaseUrl + accountId + webPropertyId + viewId + this.analyticsDescUrl + '~2F' + slug;
+      } else {
+        return '#';
+      }
+    }
   },
 };
 </script>
