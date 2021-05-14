@@ -43,6 +43,7 @@ class BadasoBlogSetup extends Command
      */
     public function handle()
     {
+        $this->addingBadasoEnv();
         $this->publishBadasoProvider();
         $this->updateBadasoConfigHiddenTables();
         $this->linkStorage();
