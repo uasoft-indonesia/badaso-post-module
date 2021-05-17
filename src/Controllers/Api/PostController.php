@@ -60,8 +60,8 @@ class PostController extends Controller
                 $content = $post->content;
                 @$doc->loadHTML($content);
                 $xpath = new \DOMXPath($doc);
-                $src = $xpath->evaluate("string(//img/@src)");
-                $post['thumbnail'] = $src === "" ? null : $src;
+                $src = $xpath->evaluate('string(//img/@src)');
+                $post['thumbnail'] = $src === '' ? null : $src;
                 $data['posts'][$key] = $post->toArray();
             }
 
@@ -85,8 +85,8 @@ class PostController extends Controller
             $content = $post->content;
             @$doc->loadHTML($content);
             $xpath = new \DOMXPath($doc);
-            $src = $xpath->evaluate("string(//img/@src)");
-            $post['thumbnail'] = $src === "" ? null : $src;
+            $src = $xpath->evaluate('string(//img/@src)');
+            $post['thumbnail'] = $src === '' ? null : $src;
 
             $data['posts'] = $post->toArray();
 
