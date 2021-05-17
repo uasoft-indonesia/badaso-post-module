@@ -54,7 +54,16 @@ class PostController extends Controller
                     ->get();
             }
 
-            $data['posts'] = $posts->toArray();
+            $doc = new \DOMDocument();
+
+            foreach ($posts as $key => $post) {
+                $content = $post->content;
+                @$doc->loadHTML($content);
+                $xpath = new \DOMXPath($doc);
+                $src = $xpath->evaluate("string(//img/@src)");
+                $post['thumbnail'] = $src === "" ? null : $src;
+                $data['posts'][$key] = $post->toArray();
+            }
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -69,9 +78,17 @@ class PostController extends Controller
                 'slug' => 'required|exists:posts',
             ]);
 
-            $posts = Post::with('category', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
+            $post = Post::with('category', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
 
-            $data['posts'] = $posts->toArray();
+            $doc = new \DOMDocument();
+
+            $content = $post->content;
+            @$doc->loadHTML($content);
+            $xpath = new \DOMXPath($doc);
+            $src = $xpath->evaluate("string(//img/@src)");
+            $post['thumbnail'] = $src === "" ? null : $src;
+
+            $data['posts'] = $post->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
