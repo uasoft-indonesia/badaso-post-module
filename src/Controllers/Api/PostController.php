@@ -32,7 +32,7 @@ class PostController extends Controller
                     })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->paginate($request->per_page);
+                    ->paginate($request->per_page ?? 10);
             } elseif (isset($request->tag) && ! isset($request->category)) {
                 $posts = Post::
                     whereHas('tags', function (Builder $query) use ($request) {
@@ -40,7 +40,7 @@ class PostController extends Controller
                     })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->paginate($request->per_page);
+                    ->paginate($request->per_page ?? 10);
             } elseif (isset($request->tag) && isset($request->category)) {
                 $posts = Post::
                     whereHas('category', function (Builder $query) use ($request) {
@@ -51,11 +51,11 @@ class PostController extends Controller
                     })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->paginate($request->per_page);
+                    ->paginate($request->per_page ?? 10);
             } else {
                 $posts = Post::with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->paginate($request->per_page);
+                    ->paginate($request->per_page ?? 10);
             }
 
             $doc = new \DOMDocument();
