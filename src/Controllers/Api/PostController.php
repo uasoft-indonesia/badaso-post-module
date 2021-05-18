@@ -21,22 +21,28 @@ class PostController extends Controller
                 'sorttype' => 'nullable|string|in:desc,asc',
                 'category' => 'nullable|exists:categories,slug',
                 'tag'      => 'nullable|exists:tags,slug',
+                'page'     => 'required',
+                'per_page' => 'nullable'
             ]);
 
             $data['posts'] = [];
 
             if (isset($request->category) && ! isset($request->tag)) {
-                $category = Category::where('slug', $request->category)->first();
-                $posts = $category->posts()
-                    ->with('tags', 'user:id,name')
-                    ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
-            } elseif (isset($request->tag) && ! isset($request->category)) {
-                $tags = Tag::where('slug', $request->tag)->first();
-                $posts = $tags->posts()
+                $posts = Post::
+                    whereHas('category', function (Builder $query) use ($request) {
+                        $query->where('slug', $request->category);
+                    })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
+                    ->paginate($request->per_page);
+            } elseif (isset($request->tag) && ! isset($request->category)) {
+                $posts = Post::
+                    whereHas('tags', function (Builder $query) use ($request) {
+                        $query->where('slug', $request->tag);
+                    })
+                    ->with('category.parent', 'tags', 'user:id,name')
+                    ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
+                    ->paginate($request->per_page);
             } elseif (isset($request->tag) && isset($request->category)) {
                 $posts = Post::
                     whereHas('category', function (Builder $query) use ($request) {
@@ -47,11 +53,11 @@ class PostController extends Controller
                     })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
+                    ->paginate($request->per_page);
             } else {
                 $posts = Post::with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
+                    ->paginate($request->per_page);
             }
 
             $doc = new \DOMDocument();
