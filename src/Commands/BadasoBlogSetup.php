@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 use Symfony\Component\VarExporter\VarExporter;
 use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule;
 

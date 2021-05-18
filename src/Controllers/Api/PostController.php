@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Module\Blog\Models\Category;
 use Uasoft\Badaso\Module\Blog\Models\Post;
-use Uasoft\Badaso\Module\Blog\Models\Tag;
 
 class PostController extends Controller
 {
@@ -22,7 +20,7 @@ class PostController extends Controller
                 'category' => 'nullable|exists:categories,slug',
                 'tag'      => 'nullable|exists:tags,slug',
                 'page'     => 'required',
-                'per_page' => 'nullable'
+                'per_page' => 'nullable',
             ]);
 
             $data['posts'] = [];
