@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Module\Blog\Models\Category;
 use Uasoft\Badaso\Module\Blog\Models\Post;
-use Uasoft\Badaso\Module\Blog\Models\Tag;
 
 class PostController extends Controller
 {
@@ -21,22 +19,28 @@ class PostController extends Controller
                 'sorttype' => 'nullable|string|in:desc,asc',
                 'category' => 'nullable|exists:categories,slug',
                 'tag'      => 'nullable|exists:tags,slug',
+                'page'     => 'required',
+                'per_page' => 'nullable',
             ]);
 
             $data['posts'] = [];
 
             if (isset($request->category) && ! isset($request->tag)) {
-                $category = Category::where('slug', $request->category)->first();
-                $posts = $category->posts()
-                    ->with('tags', 'user:id,name')
-                    ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
-            } elseif (isset($request->tag) && ! isset($request->category)) {
-                $tags = Tag::where('slug', $request->tag)->first();
-                $posts = $tags->posts()
+                $posts = Post::
+                    whereHas('category', function (Builder $query) use ($request) {
+                        $query->where('slug', $request->category);
+                    })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
+                    ->paginate($request->per_page);
+            } elseif (isset($request->tag) && ! isset($request->category)) {
+                $posts = Post::
+                    whereHas('tags', function (Builder $query) use ($request) {
+                        $query->where('slug', $request->tag);
+                    })
+                    ->with('category.parent', 'tags', 'user:id,name')
+                    ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
+                    ->paginate($request->per_page);
             } elseif (isset($request->tag) && isset($request->category)) {
                 $posts = Post::
                     whereHas('category', function (Builder $query) use ($request) {
@@ -47,14 +51,23 @@ class PostController extends Controller
                     })
                     ->with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
+                    ->paginate($request->per_page);
             } else {
                 $posts = Post::with('category.parent', 'tags', 'user:id,name')
                     ->orderBy($request->sortby ?? 'published_at', $request->sorttype ?? 'desc')
-                    ->get();
+                    ->paginate($request->per_page);
             }
 
-            $data['posts'] = $posts->toArray();
+            $doc = new \DOMDocument();
+
+            foreach ($posts as $key => $post) {
+                $content = $post->content;
+                @$doc->loadHTML($content);
+                $xpath = new \DOMXPath($doc);
+                $src = $xpath->evaluate('string(//img/@src)');
+                $post['thumbnail'] = $src === '' ? null : $src;
+                $data['posts'][$key] = $post->toArray();
+            }
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -69,9 +82,17 @@ class PostController extends Controller
                 'slug' => 'required|exists:posts',
             ]);
 
-            $posts = Post::with('category', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
+            $post = Post::with('category', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
 
-            $data['posts'] = $posts->toArray();
+            $doc = new \DOMDocument();
+
+            $content = $post->content;
+            @$doc->loadHTML($content);
+            $xpath = new \DOMXPath($doc);
+            $src = $xpath->evaluate('string(//img/@src)');
+            $post['thumbnail'] = $src === '' ? null : $src;
+
+            $data['posts'] = $post->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
