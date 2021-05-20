@@ -8,13 +8,16 @@ $api_route_prefix = \config('badaso.api_route_prefix');
 Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Module\Blog\Controllers', 'as' => 'badaso.', 'middleware' => [ApiRequest::class]], function () {
     Route::group(['prefix' => 'module/blog/v1'], function () {
         Route::group(['prefix' => 'post'], function () {
-            Route::get('/', 'PostController@browse');
-            Route::get('/read', 'PostController@read');
-            Route::get('/read-slug', 'PostController@readBySlug');
+            Route::get('/', 'PostController@browse')->middleware(BadasoCheckPermissions::class.':browse_posts');
+            Route::get('/read', 'PostController@read')->middleware(BadasoCheckPermissions::class.':read_posts');
             Route::post('/add', 'PostController@add')->middleware(BadasoCheckPermissions::class.':add_posts');
             Route::put('/edit', 'PostController@edit')->middleware(BadasoCheckPermissions::class.':edit_posts');
             Route::delete('/delete', 'PostController@delete')->middleware(BadasoCheckPermissions::class.':delete_posts');
             Route::delete('/delete-multiple', 'PostController@deleteMultiple')->middleware(BadasoCheckPermissions::class.':delete_posts');
+            Route::group(['prefix' => 'public'], function () {
+                Route::get('/', 'Api\PostController@browse');
+                Route::get('/read', 'Api\PostController@readBySlug');
+            });
         });
 
         Route::group(['prefix' => 'category'], function () {

@@ -10,7 +10,23 @@ class Post extends Model
 {
     protected $table = 'posts';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'user_id',
+        'parent_id',
+        'category_id',
+        'title',
+        'slug',
+        'meta_title',
+        'meta_description',
+        'summary',
+        'content',
+        'published',
+        'comment_count',
+        'created_at',
+        'updated_at',
+        'published_at',
+    ];
 
     protected $hidden = ['pivot'];
 

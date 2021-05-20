@@ -80,24 +80,14 @@
  *             mediaType="application/json",
  *             @OA\Schema(
  *                 @OA\Property(
- *                     property="title",
+ *                     property="postId",
  *                     type="object",
- *                     example="example"
- *                 ),
- *                 @OA\Property(
- *                     property="metaTitle",
- *                     type="object",
- *                     example="example"
- *                 ),
- *                 @OA\Property(
- *                     property="slug",
- *                     type="object",
- *                     example="example-comment"
+ *                     example="798895fc-ba0b-4792-87f8-b78e7e4aa2d4"
  *                 ),
  *                 @OA\Property(
  *                     property="content",
  *                     type="object",
- *                     example="An example of create new comment."
+ *                     example="Lorem ipsum dolor sit amet"
  *                 ),
  *             )
  *         )
@@ -121,29 +111,14 @@
  *             mediaType="application/json",
  *             @OA\Schema(
  *                 @OA\Property(
- *                     property="id",
+ *                     property="postId",
  *                     type="object",
- *                     example="79b6e6ed-b54d-430e-9f2e-761b89033aad"
- *                 ),
- *                 @OA\Property(
- *                     property="title",
- *                     type="object",
- *                     example="example"
- *                 ),
- *                 @OA\Property(
- *                     property="metaTitle",
- *                     type="object",
- *                     example="example"
- *                 ),
- *                 @OA\Property(
- *                     property="slug",
- *                     type="object",
- *                     example="example-comment"
+ *                     example="798895fc-ba0b-4792-87f8-b78e7e4aa2d4"
  *                 ),
  *                 @OA\Property(
  *                     property="content",
  *                     type="object",
- *                     example="An example of create new comment."
+ *                     example="Lorem ipsum dolor sit amet"
  *                 ),
  *             )
  *         )
