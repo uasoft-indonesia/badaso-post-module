@@ -2,7 +2,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post",
+ *      path="/module/blog/v1/post/public",
  *      operationId="browsePost",
  *      tags={"post"},
  *      summary="Browse Post",
@@ -79,7 +79,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post/read-slug",
+ *      path="/module/blog/v1/post/public/read",
  *      operationId="readPostBySlug",
  *      tags={"post"},
  *      summary="Get Post based on slug",
