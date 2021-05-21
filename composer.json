@@ -12,7 +12,9 @@
     },
     "type": "library",
     "require": {
-        "symfony/var-exporter": "^5.2"
+        "symfony/var-exporter": "^5.2",
+        "google/apiclient": "^2.9",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "authors": [{
         "name": "UASOFT",

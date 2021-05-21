@@ -97,6 +97,18 @@
                   ></badaso-select-multiple>
                 </vs-row>
               </badaso-collapse-item>
+              <badaso-collapse-item open style="background: #fff;">
+                <h3 slot="header">{{ $t("posts.add.featuredImage") }}</h3>
+                <vs-row class="mb-0">
+                  <badaso-upload-image
+                    v-model="post.thumbnail"
+                    size="12"
+                    :label="$t('posts.add.field.featured.title')"
+                    :placeholder="$t('posts.add.field.featured.placeholder')"
+                    :alert="errors.thumbnail"
+                  ></badaso-upload-image>
+                </vs-row>
+              </badaso-collapse-item>
             </badaso-collapse>
           </vs-col>
         </vs-row>
@@ -131,7 +143,8 @@ export default {
       published: true,
       tags: [],
       category: "",
-      commentCount: 0
+      commentCount: 0,
+      thumbnail: ""
     },
     categories: [],
     tags: []

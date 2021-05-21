@@ -21,6 +21,7 @@ class Post extends Model
         'meta_description',
         'summary',
         'content',
+        'thumbnail',
         'published',
         'comment_count',
         'created_at',

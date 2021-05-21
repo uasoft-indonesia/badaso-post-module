@@ -36,7 +36,11 @@
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.content") }}</th>
-              <td><div v-html="posts.content"></div></td>
+              <td><div class="posts-content" v-html="posts.content"></div></td>
+            </tr>
+            <tr>
+              <th>{{ $t("posts.detail.header.thumbnail") }}</th>
+              <td><img class="thumbnail" :src="posts.thumbnail"></td>
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.metaTitle") }}</th>
@@ -117,3 +121,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.posts-content {
+  & > p > img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+.thumbnail {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+</style>

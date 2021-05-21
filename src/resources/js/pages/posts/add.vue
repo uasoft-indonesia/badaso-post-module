@@ -59,7 +59,7 @@
             <badaso-collapse type="margin" class="p-0">
               <badaso-collapse-item open style="background: #fff; margin-bottom: 30px" class="mt-0">
                 <h3 slot="header">{{ $t("posts.add.publish") }}</h3>
-                <vs-row>
+                <vs-row class="mb-0">
                   <badaso-text
                     v-model="post.slug"
                     size="12"
@@ -76,9 +76,9 @@
                   ></badaso-switch>
                 </vs-row>
               </badaso-collapse-item>
-              <badaso-collapse-item open style="background: #fff;">
+              <badaso-collapse-item open style="background: #fff; margin-bottom: 30px">
                 <h3 slot="header">{{ $t("posts.add.categoryAndTags") }}</h3>
-                <vs-row>
+                <vs-row class="mb-0">
                   <badaso-select
                     v-model="post.category"
                     size="12"
@@ -95,6 +95,18 @@
                     :alert="errors.tags"
                     :items="tags"
                   ></badaso-select-multiple>
+                </vs-row>
+              </badaso-collapse-item>
+              <badaso-collapse-item open style="background: #fff;">
+                <h3 slot="header">{{ $t("posts.add.featuredImage") }}</h3>
+                <vs-row class="mb-0">
+                  <badaso-upload-image
+                    v-model="post.thumbnail"
+                    size="12"
+                    :label="$t('posts.add.field.featured.title')"
+                    :placeholder="$t('posts.add.field.featured.placeholder')"
+                    :alert="errors.thumbnail"
+                  ></badaso-upload-image>
                 </vs-row>
               </badaso-collapse-item>
             </badaso-collapse>
@@ -132,7 +144,8 @@ export default {
       published: true,
       tags: [],
       category: "",
-      commentCount: 0
+      commentCount: 0,
+      thumbnail: ""
     },
     categories: [],
     tags: []
@@ -166,6 +179,8 @@ export default {
             });
           });
       } catch (error) {
+        console.log(error);
+        this.errors = error.data
         this.$vs.notify({
           title: this.$t("alert.danger"),
           text: error.message,

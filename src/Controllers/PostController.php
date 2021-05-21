@@ -9,22 +9,91 @@ use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Blog\Helpers\GetData;
 use Uasoft\Badaso\Module\Blog\Models\Post;
+use Uasoft\Badaso\Traits\FileHandler;
 
 class PostController extends Controller
 {
+    use FileHandler;
+
     public function browse(Request $request)
     {
         try {
             $request->validate([
-                'limit' => 'sometimes|required|integer',
-                'page' => 'sometimes|required|integer',
-                'filter_value' => 'nullable|string',
-                'order_field' => 'nullable|string',
-                'order_direction' => 'nullable|string',
+                'order_field'       => 'nullable|string',
+                'order_direction'   => 'nullable|string|in:desc,asc',
+                'category'          => 'nullable|exists:categories,slug',
+                'tag'               => 'nullable|exists:tags,slug',
+                'page'              => 'sometimes|required|integer',
+                'limit'             => 'sometimes|required|integer',
+                'search'            => 'nullable|string',
             ]);
 
+            $data['posts'] = [];
+            $tag = $request->input('tag');
+            $category = $request->input('category');
+            $search = $request->input('search');
+
+            $posts = Post::with('category.parent', 'tags', 'user:id,name')
+                ->when($tag, function ($query, $tag) {
+                    return $query->whereHas('tags', function ($q) use ($tag) {
+                        $q->where('slug', $tag)->orWhere('title', $tag);
+                    });
+                })
+                ->when($category, function ($query, $category) {
+                    return $query->whereHas('category', function ($q) use ($category) {
+                        $q->where('slug', $category)->orWhere('title', $category);
+                    });
+                })
+                ->when($search, function ($query, $search) {
+                    if ($search === 'newest') {
+                        return $query;
+                    }
+                    
+                    return $query->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('tags', function ($q) use ($search) {
+                            $q->where('slug', $search)->orWhere('title', $search);
+                        });
+                })
+                ->orderBy($request->order_field ?? 'published_at', $request->order_direction ?? 'desc')
+                ->paginate($request->limit ?? 10);
+
+            $data['posts'] = $posts->toArray();
+            
+            $doc = new \DOMDocument();
+
+            foreach ($data['posts']['data'] as $key => $post) {
+                if ($post['thumbnail'] === null) {
+                    @$doc->loadHTML($post['content']);
+                    $xpath = new \DOMXPath($doc);
+                    $src = $xpath->evaluate('string(//img/@src)');
+                    $post['thumbnail'] = $src === '' ? null : $src;
+                }
+
+                $data['posts']['data'][$key] = $post;
+            }
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function browseWithAnalytics(Request $request)
+    {
+        try {
+            $request->validate([
+                'order_field' => 'nullable|string',
+                'order_direction' => 'nullable|string',
+                'category' => 'nullable|exists:categories,slug',
+                'tag'      => 'nullable|exists:tags,slug',
+                'page'     => 'sometimes|required|integer',
+                'limit' => 'sometimes|required|integer',
+                'search'   => 'nullable|string',
+            ]);
+
+            $oldest = Post::oldest()->first();
             $data = GetData::getData(new Post, $request->all(), ['category.parent', 'tags', 'user:id,name']);
-            $data = GetData::getAnalytics($data);
+            $data = GetData::getAnalytics($data, $oldest);
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -48,7 +117,16 @@ class PostController extends Controller
                 'tags'             => 'required|array|exists:tags,id',
                 'category'         => 'required|exists:categories,id',
                 'commentCount'     => 'required|integer',
+                'thumbnail'        => 'nullable',
             ]);
+
+            $doc = new \DOMDocument();
+
+            $thumbnail = null;
+
+            if (!empty($request->thumbnail)) {
+                $thumbnail = '/storage/' . $this->handleUploadFiles([$request->thumbnail])[0];
+            }
 
             $post = Post::create([
                 'user_id'          => auth()->user()->id,
@@ -60,6 +138,7 @@ class PostController extends Controller
                 'slug'             => $request->slug,
                 'summary'          => $request->summary,
                 'content'          => $request->content,
+                'thumbnail'        => $thumbnail,
                 'published'        => $request->published,
                 'comment_count'    => $request->comment_count,
                 'published_at'     => $request->published ? (string) now() : null,
@@ -87,6 +166,31 @@ class PostController extends Controller
             $posts = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
 
             $data['posts'] = $posts->toArray();
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function readBySlug(Request $request)
+    {
+        try {
+            $request->validate([
+                'slug' => 'required|exists:posts',
+            ]);
+
+            $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
+
+            $doc = new \DOMDocument();
+
+            $content = $post->content;
+            @$doc->loadHTML($content);
+            $xpath = new \DOMXPath($doc);
+            $src = $xpath->evaluate('string(//img/@src)');
+            $post['thumbnail'] = $src === '' ? null : $src;
+
+            $data['post'] = $post->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
