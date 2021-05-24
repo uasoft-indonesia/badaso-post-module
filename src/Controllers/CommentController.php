@@ -32,13 +32,18 @@ class CommentController extends Controller
         try {
             $request->validate([
                 'slug' => 'required|exists:posts,slug',
+                'page' => 'required|integer',
+                'per_page' => 'nullable|integer',
+                'sort' => 'nullable|string'
             ]);
 
-            $comments = Comment::with('user:id,name', 'parent', 'children')
+            $comments = Comment::with('user:id,name,avatar', 'children.user:id,name,avatar')
                 ->whereHas('post', function (Builder $query) use ($request) {
                     $query->where('slug', $request->slug);
                 })
-                ->get();
+                ->where('parent_id', null)
+                ->orderBy('created_at', $request->sort ?? 'desc')
+                ->paginate($request->per_page);
 
             $data['comments'] = $comments->toArray();
 
@@ -73,11 +78,13 @@ class CommentController extends Controller
                 $post->comment_count += 1;
                 $post->save();
 
-                $comment = json_decode(json_encode($comment));
+                $comment_with_user = Comment::where('id', $comment->id)->with('user:id,name,avatar')->first();
+
+                $comment_with_user = json_decode(json_encode($comment_with_user));
 
                 DB::commit();
 
-                return ApiResponse::success($comment);
+                return ApiResponse::success($comment_with_user);
             } else {
                 return ApiResponse::failed(__('badaso-blog::validation.auth.user_not_logged_in'));
             }
