@@ -74,9 +74,8 @@ class GetData
 
     public static function getAnalytics($data, $oldest = null)
     {
-        $prefix = config('badaso.blog_post_url_prefix') ? '/'.config('badaso.blog_post_url_prefix') : '';
+        $prefix = config('badaso-blog.blog_post_url_prefix') ? '/'.config('badaso-blog.blog_post_url_prefix') : '';
         $token = self::getToken();
-        $prefix = config('blog_post_url_prefix') ? '/'.config('blog_post_url_prefix').'/' : '/';
         $url = [];
 
         if (gettype($oldest) !== 'array' && !empty($oldest)) {
@@ -86,15 +85,20 @@ class GetData
         $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
 
         foreach ($data['data'] as $key => $value) {
-            $url[] = 'ga:pagePath==/' . $value['slug'];
+            if (!empty($prefix)) {
+                $url[] = 'ga:pagePath==' . $prefix . '/' . $value['slug'];
+            } else {
+                $url[] = 'ga:pagePath==/' . $value['slug'];
+            }
         }
 
         $rows = self::getAnalyticsData($token, $url, $data, $period);
 
         foreach ($data['data'] as $key => $value) {
-            $search = array_search($prefix . '/' . $value['slug'], array_keys($rows));
-            if (gettype($search) === 'integer') {
-                $data['data'][$key]['view_count'] = $search;
+            $search = $rows[$prefix . '/' . $value['slug']] ?? null;
+            
+            if ($search !== null) {
+                $data['data'][$key]['view_count'] = $rows[$prefix . '/' . $value['slug']];
             } else {
                 $data['data'][$key]['view_count'] = 0;
             }
@@ -105,9 +109,10 @@ class GetData
 
     public static function getPopularPosts($model, $request, $relations, $oldest)
     {
-        $prefix = config('badaso.blog_post_url_prefix') ? '/'.config('badaso.blog_post_url_prefix') : '';
+        $prefix = config('badaso-blog.blog_post_url_prefix') ? '/'.config('badaso-blog.blog_post_url_prefix') : '';
         $posts = [];
         $result = [];
+        $filteredResult = [];
 
         $query = $model::query();
 
@@ -132,12 +137,16 @@ class GetData
 
         if (array_key_exists('rows', $response)) {
             foreach ($response->rows as $key => $row) {
-                if ($row[0] !== "/") {
-                    $result[$prefix . ltrim($row[0], '/')] = (int) $row[1];
+                if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
+                    $result[$row[0]] = (int) $row[1];
                 }
             }
 
             $result = array_filter($result);
+
+            foreach ($result as $key => $row) {
+                $filteredResult[str_replace($prefix . '/', '', $key)] = $row;
+            }
         }
 
         if (count($relations) > 0) {
@@ -146,10 +155,10 @@ class GetData
             }
         }
 
-        $posts = $query->whereIn('slug', array_keys($result))->skip(0)->take($request->limit)->get()->toArray();
+        $posts = $query->whereIn('slug', array_keys($filteredResult))->skip(0)->take($request->limit)->get()->toArray();
 
         foreach ($posts as $key => $post) {
-            $posts[$key]['view_count'] = $result[$post['slug']];
+            $posts[$key]['view_count'] = $filteredResult[$post['slug']];
         }
 
         $posts = collect($posts)->sortByDesc('view_count');
@@ -179,7 +188,9 @@ class GetData
 
             if (array_key_exists('rows', $response)) {
                 foreach ($response->rows as $key => $row) {
-                    $data[$row[0]] = $row[1];
+                    if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
+                        $data[$row[0]] = $row[1];
+                    }
                 }
             }
 
