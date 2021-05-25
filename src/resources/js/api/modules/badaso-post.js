@@ -3,11 +3,11 @@ import QueryString from "../../../../../../badaso/src/resources/js/api/query-str
 
 let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX + "/module/blog"
-  : "/badaso-api";
+  : "/badaso-api/module/blog";
 
 export default {
   browse(data = {}) {
-    let ep = apiPrefix + "/v1/post";
+    let ep = apiPrefix + "/v1/post/browse-analytics";
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);

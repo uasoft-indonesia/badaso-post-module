@@ -2,13 +2,13 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post/public",
+ *      path="/module/blog/v1/post",
  *      operationId="browsePost",
  *      tags={"post"},
  *      summary="Browse Post",
  *      description="Returns list of Post",
  *      @OA\Parameter(
- *          name="sortby",
+ *          name="order_field",
  *          required=false,
  *          example="updated_at",
  *          in="query",
@@ -18,7 +18,7 @@
  *          style="form"
  *      ),
  *      @OA\Parameter(
- *          name="sorttype",
+ *          name="order_direction",
  *          required=false,
  *          in="query",
  *          @OA\Schema(
@@ -48,10 +48,122 @@
  *              type="string"
  *          )
  *      ),
+ *      @OA\Parameter(
+ *          name="page",
+ *          required=true,
+ *          example="1",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="integer"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="limit",
+ *          required=true,
+ *          example="10",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="integer"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="search",
+ *          required=false,
+ *          example="lorem ipsum",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="string"
+ *          )
+ *      ),
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ * )
+ */
+
+/**
+ * @OA\Get(
+ *      path="/module/blog/v1/post/browse-analytics",
+ *      operationId="browsePost",
+ *      tags={"post"},
+ *      summary="Browse Post",
+ *      description="Returns list of Post",
+ *      @OA\Parameter(
+ *          name="order_field",
+ *          required=false,
+ *          example="updated_at",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="string"
+ *          ),
+ *          style="form"
+ *      ),
+ *      @OA\Parameter(
+ *          name="order_direction",
+ *          required=false,
+ *          in="query",
+ *          @OA\Schema(
+ *              type="array",
+ *              @OA\Items(
+ *                   type="string",
+ *                   enum={"asc", "desc"},
+ *                   default="asc",
+ *              )
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="category",
+ *          required=false,
+ *          example="example-category",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="string"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="tag",
+ *          required=false,
+ *          example="example-tag",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="string"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="page",
+ *          required=true,
+ *          example="1",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="integer"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="limit",
+ *          required=true,
+ *          example="10",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="integer"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="search",
+ *          required=false,
+ *          example="lorem ipsum",
+ *          in="query",
+ *          @OA\Schema(
+ *              type="string"
+ *          )
+ *      ),
+ *      @OA\Response(response=200, description="Successful operation"),
+ *      @OA\Response(response=400, description="Bad request"),
+ *      @OA\Response(response=401, description="Unauthorized"),
+ *      @OA\Response(response=402, description="Payment Required"),
+ *      security={
+ *          {"bearerAuth": {}}
+ *      }
  * )
  */
 
@@ -74,12 +186,15 @@
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ *      security={
+ *          {"bearerAuth": {}}
+ *      }
  * )
  */
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post/public/read",
+ *      path="/module/blog/v1/post/read-slug",
  *      operationId="readPostBySlug",
  *      tags={"post"},
  *      summary="Get Post based on slug",

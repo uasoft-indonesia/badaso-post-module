@@ -19,6 +19,7 @@ export default {
       title: "Post Content",
       publish: "Publish Setting",
       categoryAndTags: "Category & Tags",
+      featuredImage: "Featured Image",
       seo: "SEO",
       button: "Save",
       field: {
@@ -57,6 +58,10 @@ export default {
         published: {
           title: "Published",
           placeholder: "Published"
+        },
+        featured: {
+          title: "Thumbnail",
+          placeholder: "Thumbnail",
         },
       }
     },
@@ -106,12 +111,13 @@ export default {
       }
     },
     detail: {
-      title: "Detail Category",
+      title: "Detail Post",
       header: {
         title: "Title",
         author: "Author",
         slug: "Slug",
-        content: "Description",
+        content: "Content",
+        thumbnail: "Thumbnail",
         metaTitle: "Meta Title",
         metaDescription: "Meta Description",
         summary: "Summary",

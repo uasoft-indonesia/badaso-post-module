@@ -10,7 +10,7 @@ export default [
     name: "PostsBrowse",
     component: Pages,
     meta: {
-      title: "Browse Permission",
+      title: "Browse Post",
       useComponent: "AdminContainer"
     },
   },
