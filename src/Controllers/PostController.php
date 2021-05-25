@@ -45,10 +45,6 @@ class PostController extends Controller
                     });
                 })
                 ->when($search, function ($query, $search) {
-                    if ($search === 'newest') {
-                        return $query;
-                    }
-                    
                     return $query->where('title', 'LIKE', '%' . $search . '%')
                         ->orWhereHas('tags', function ($q) use ($search) {
                             $q->where('slug', $search)->orWhere('title', $search);
@@ -94,6 +90,36 @@ class PostController extends Controller
             $oldest = Post::oldest()->first();
             $data = GetData::getData(new Post, $request->all(), ['category.parent', 'tags', 'user:id,name']);
             $data = GetData::getAnalytics($data, $oldest);
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function browseMostPopularPost(Request $request)
+    {
+        try {
+            $request->validate([
+                'page'     => 'sometimes|required|integer',
+                'limit' => 'sometimes|required|integer',
+            ]);
+
+            $oldest = Post::oldest()->first();
+            $data['posts'] = GetData::getPopularPosts(new Post, $request, ['category.parent', 'tags', 'user:id,name'], $oldest);
+
+            $doc = new \DOMDocument();
+
+            foreach ($data['posts'] as $key => $post) {
+                if ($post['thumbnail'] === null) {
+                    @$doc->loadHTML($post['content']);
+                    $xpath = new \DOMXPath($doc);
+                    $src = $xpath->evaluate('string(//img/@src)');
+                    $post['thumbnail'] = $src === '' ? null : $src;
+                }
+
+                $data['posts'][$key] = $post;
+            }
 
             return ApiResponse::success($data);
         } catch (Exception $e) {

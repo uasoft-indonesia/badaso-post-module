@@ -10,6 +10,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
         Route::group(['prefix' => 'post'], function () {
             Route::get('/', 'PostController@browse');
             Route::get('/browse-analytics', 'PostController@browseWithAnalytics')->middleware(BadasoCheckPermissions::class.':browse_posts');
+            Route::get('/popular', 'PostController@browseMostPopularPost');
             Route::get('/read', 'PostController@read')->middleware(BadasoCheckPermissions::class.':read_posts');
             Route::get('/read-slug', 'PostController@readBySlug');
             Route::post('/add', 'PostController@add')->middleware(BadasoCheckPermissions::class.':add_posts');

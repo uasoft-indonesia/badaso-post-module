@@ -74,6 +74,7 @@ class GetData
 
     public static function getAnalytics($data, $oldest = null)
     {
+        $prefix = config('badaso.blog_post_url_prefix') ? '/'.config('badaso.blog_post_url_prefix') : '';
         $token = self::getToken();
         $prefix = config('blog_post_url_prefix') ? '/'.config('blog_post_url_prefix').'/' : '/';
         $url = [];
@@ -91,7 +92,7 @@ class GetData
         $rows = self::getAnalyticsData($token, $url, $data, $period);
 
         foreach ($data['data'] as $key => $value) {
-            $search = array_search('/' . $value['slug'], array_keys($rows));
+            $search = array_search($prefix . '/' . $value['slug'], array_keys($rows));
             if (gettype($search) === 'integer') {
                 $data['data'][$key]['view_count'] = $search;
             } else {
@@ -100,6 +101,60 @@ class GetData
         }
 
         return $data;
+    }
+
+    public static function getPopularPosts($model, $request, $relations, $oldest)
+    {
+        $prefix = config('badaso.blog_post_url_prefix') ? '/'.config('badaso.blog_post_url_prefix') : '';
+        $posts = [];
+        $result = [];
+
+        $query = $model::query();
+
+        $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
+        $token = self::getToken();
+
+        $client = new \GuzzleHttp\Client();
+        $params = [
+            'query' => [
+                'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
+                'start-date' => $period->startDate->format('Y-m-d'),
+                'end-date' => $period->endDate->format('Y-m-d'),
+                'metrics' => 'ga:pageviews',
+                'dimensions' => 'ga:pagePath',
+                'sort' => '-ga:pageviews',
+                'access_token' => $token
+            ]
+        ];
+
+        $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
+        $response = json_decode($res->getBody()->getContents());
+
+        if (array_key_exists('rows', $response)) {
+            foreach ($response->rows as $key => $row) {
+                if ($row[0] !== "/") {
+                    $result[$prefix . ltrim($row[0], '/')] = (int) $row[1];
+                }
+            }
+
+            $result = array_filter($result);
+        }
+
+        if (count($relations) > 0) {
+            foreach ($relations as $key => $relation) {
+                $query->with($relation);
+            }
+        }
+
+        $posts = $query->whereIn('slug', array_keys($result))->skip(0)->take($request->limit)->get()->toArray();
+
+        foreach ($posts as $key => $post) {
+            $posts[$key]['view_count'] = $result[$post['slug']];
+        }
+
+        $posts = collect($posts)->sortByDesc('view_count');
+
+        return $posts->values()->all();
     }
 
     private static function getAnalyticsData($token, $url = [], $data, $period)
