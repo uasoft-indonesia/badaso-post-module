@@ -34,7 +34,7 @@ class CommentController extends Controller
                 'slug' => 'required|exists:posts,slug',
                 'page' => 'required|integer',
                 'per_page' => 'nullable|integer',
-                'sort' => 'nullable|string'
+                'sort' => 'nullable|string',
             ]);
 
             $comments = Comment::with('user:id,name,avatar', 'children.user:id,name,avatar')

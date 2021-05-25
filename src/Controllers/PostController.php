@@ -45,7 +45,7 @@ class PostController extends Controller
                     });
                 })
                 ->when($search, function ($query, $search) {
-                    return $query->where('title', 'LIKE', '%' . $search . '%')
+                    return $query->where('title', 'LIKE', '%'.$search.'%')
                         ->orWhereHas('tags', function ($q) use ($search) {
                             $q->where('slug', $search)->orWhere('title', $search);
                         });
@@ -54,7 +54,7 @@ class PostController extends Controller
                 ->paginate($request->limit ?? 10);
 
             $data['posts'] = $posts->toArray();
-            
+
             $doc = new \DOMDocument();
 
             foreach ($data['posts']['data'] as $key => $post) {
@@ -150,8 +150,8 @@ class PostController extends Controller
 
             $thumbnail = null;
 
-            if (!empty($request->thumbnail)) {
-                $thumbnail = '/storage/' . $this->handleUploadFiles([$request->thumbnail])[0];
+            if (! empty($request->thumbnail)) {
+                $thumbnail = '/storage/'.$this->handleUploadFiles([$request->thumbnail])[0];
             }
 
             $post = Post::create([
