@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Module\Blog\Helpers;
 
-use Analytics;
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
 
@@ -78,27 +77,27 @@ class GetData
         $token = self::getToken();
         $url = [];
 
-        if (gettype($oldest) !== 'array' && !empty($oldest)) {
+        if (gettype($oldest) !== 'array' && ! empty($oldest)) {
             $oldest = $oldest->toArray();
         }
 
         $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
 
         foreach ($data['data'] as $key => $value) {
-            if (!empty($prefix)) {
-                $url[] = 'ga:pagePath==' . $prefix . '/' . $value['slug'];
+            if (! empty($prefix)) {
+                $url[] = 'ga:pagePath=='.$prefix.'/'.$value['slug'];
             } else {
-                $url[] = 'ga:pagePath==/' . $value['slug'];
+                $url[] = 'ga:pagePath==/'.$value['slug'];
             }
         }
 
         $rows = self::getAnalyticsData($token, $url, $data, $period);
 
         foreach ($data['data'] as $key => $value) {
-            $search = $rows[$prefix . '/' . $value['slug']] ?? null;
-            
+            $search = $rows[$prefix.'/'.$value['slug']] ?? null;
+
             if ($search !== null) {
-                $data['data'][$key]['view_count'] = $rows[$prefix . '/' . $value['slug']];
+                $data['data'][$key]['view_count'] = $rows[$prefix.'/'.$value['slug']];
             } else {
                 $data['data'][$key]['view_count'] = 0;
             }
@@ -122,14 +121,14 @@ class GetData
         $client = new \GuzzleHttp\Client();
         $params = [
             'query' => [
-                'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
+                'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
                 'start-date' => $period->startDate->format('Y-m-d'),
                 'end-date' => $period->endDate->format('Y-m-d'),
                 'metrics' => 'ga:pageviews',
                 'dimensions' => 'ga:pagePath',
                 'sort' => '-ga:pageviews',
-                'access_token' => $token
-            ]
+                'access_token' => $token,
+            ],
         ];
 
         $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
@@ -145,7 +144,7 @@ class GetData
             $result = array_filter($result);
 
             foreach ($result as $key => $row) {
-                $filteredResult[str_replace($prefix . '/', '', $key)] = $row;
+                $filteredResult[str_replace($prefix.'/', '', $key)] = $row;
             }
         }
 
@@ -173,14 +172,14 @@ class GetData
             $data = [];
             $params = [
                 'query' => [
-                    'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
+                    'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
                     'start-date' => $period->startDate->format('Y-m-d'),
                     'end-date' => $period->endDate->format('Y-m-d'),
                     'metrics' => 'ga:pageviews',
                     'dimensions' => 'ga:pagePath',
                     'filters' => implode(',', $url),
-                    'access_token' => $token
-                ]
+                    'access_token' => $token,
+                ],
             ];
 
             $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
@@ -203,9 +202,9 @@ class GetData
         $credential_path = storage_path('app/analytics/service-account-credentials.json');
         $client = new \Google\Client();
         $client->setAuthConfig($credential_path);
-        
+
         $client->addScope('https://www.googleapis.com/auth/analytics.readonly');
-        $client->setApplicationName("GoogleAnalytics");
+        $client->setApplicationName('GoogleAnalytics');
         $client->refreshTokenWithAssertion();
         $token = $client->getAccessToken();
 
