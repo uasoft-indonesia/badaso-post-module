@@ -16,10 +16,10 @@ php artisan badaso-blog:setup
 php artisan db:seed --path="database\seeds\blog"
 ```
 
-- Add the plugins to your `MIX_BADASO_PLUGINS` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
+- Add the plugins to your `MIX_BADASO_MODULES` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
 
 ```
-MIX_BADASO_PLUGINS=badaso-blog-module
+MIX_BADASO_MODULES=badaso-blog-module
 ```
 
 - Add the plugins menu to your `MIX_BADASO_MENU` to `.env`. If you have another menu, include them using delimiter comma (,).

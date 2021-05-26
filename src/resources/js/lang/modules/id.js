@@ -64,6 +64,7 @@ export default {
       title: "Post Konten",
       publish: "Pengaturan Publikasi",
       categoryAndTags: "Kategori & Tag",
+      featuredImage: "Featured Image",
       seo: "SEO",
       button: "Simpan",
       field: {
@@ -103,15 +104,20 @@ export default {
           title: "Publikasi",
           placeholder: "Publikasi"
         },
+        featured: {
+          title: "Thumbnail",
+          placeholder: "Thumbnail",
+        }
       }
     },
     detail: {
-      title: "Detail Kategori",
+      title: "Detail Post",
       header: {
         title: "Judul",
         author: "Penulis",
         slug: "Slug",
-        content: "Deskripsi",
+        content: "Konten",
+        thumbnail: "Thumbnail",
         metaTitle: "Judul Meta",
         metaDescription: "Deskripsi Meta",
         summary: "Ringkasan",

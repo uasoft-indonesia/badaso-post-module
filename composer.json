@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-alpha.1",
+    "version": "1.0.0-alpha.2",
     "name": "uasoft-indonesia/badaso-blog-module",
     "description": "Zero development for blog system on badaso",
     "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator", "blog", "badaso"],
@@ -12,7 +12,9 @@
     },
     "type": "library",
     "require": {
-        "symfony/var-exporter": "^5.2"
+        "symfony/var-exporter": "^5.2",
+        "google/apiclient": "^2.9",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "authors": [{
         "name": "UASOFT",
