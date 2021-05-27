@@ -189,8 +189,8 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.selected = [];
-          this.data = response.data.posts;
-          this.posts = response.data.posts.data;
+          this.data = response.data;
+          this.posts = response.data.data;
         })
         .catch((error) => {
           this.$closeLoader();

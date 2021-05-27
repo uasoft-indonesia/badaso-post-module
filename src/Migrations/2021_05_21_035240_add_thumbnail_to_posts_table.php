@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddThumbnailToPostsTable extends Migration
 {
@@ -14,7 +14,7 @@ class AddThumbnailToPostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            if (!Schema::hasColumn('posts', 'thumbnail')) {
+            if (! Schema::hasColumn('posts', 'thumbnail')) {
                 $table->string('thumbnail')->nullable()->after('content');
             }
         });

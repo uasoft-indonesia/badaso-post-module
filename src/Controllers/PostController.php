@@ -45,11 +45,7 @@ class PostController extends Controller
                     });
                 })
                 ->when($search, function ($query, $search) {
-                    if ($search === 'newest') {
-                        return $query;
-                    }
-                    
-                    return $query->where('title', 'LIKE', '%' . $search . '%')
+                    return $query->where('title', 'LIKE', '%'.$search.'%')
                         ->orWhereHas('tags', function ($q) use ($search) {
                             $q->where('slug', $search)->orWhere('title', $search);
                         });
@@ -58,7 +54,7 @@ class PostController extends Controller
                 ->paginate($request->limit ?? 10);
 
             $data['posts'] = $posts->toArray();
-            
+
             $doc = new \DOMDocument();
 
             foreach ($data['posts']['data'] as $key => $post) {
@@ -101,6 +97,36 @@ class PostController extends Controller
         }
     }
 
+    public function browseMostPopularPost(Request $request)
+    {
+        try {
+            $request->validate([
+                'page'     => 'sometimes|required|integer',
+                'limit' => 'sometimes|required|integer',
+            ]);
+
+            $oldest = Post::oldest()->first();
+            $data['posts'] = GetData::getPopularPosts(new Post, $request, ['category.parent', 'tags', 'user:id,name'], $oldest);
+
+            $doc = new \DOMDocument();
+
+            foreach ($data['posts'] as $key => $post) {
+                if ($post['thumbnail'] === null) {
+                    @$doc->loadHTML($post['content']);
+                    $xpath = new \DOMXPath($doc);
+                    $src = $xpath->evaluate('string(//img/@src)');
+                    $post['thumbnail'] = $src === '' ? null : $src;
+                }
+
+                $data['posts'][$key] = $post;
+            }
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function add(Request $request)
     {
         DB::beginTransaction();
@@ -124,8 +150,8 @@ class PostController extends Controller
 
             $thumbnail = null;
 
-            if (!empty($request->thumbnail)) {
-                $thumbnail = '/storage/' . $this->handleUploadFiles([$request->thumbnail])[0];
+            if (! empty($request->thumbnail)) {
+                $thumbnail = '/storage/'.$this->handleUploadFiles([$request->thumbnail])[0];
             }
 
             $post = Post::create([
