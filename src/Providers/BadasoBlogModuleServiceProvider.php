@@ -30,7 +30,7 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Config/badaso-blog.php' => config_path('badaso-blog.php'),
-            __DIR__.'/../Seeder/Configurations'  => database_path('seeds/blog'),
+            __DIR__.'/../Seeder/Configurations' => database_path('seeds/Badaso/Blog'),
         ], 'BadasoBlogModule');
 
         $this->publishes([
