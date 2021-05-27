@@ -50,11 +50,11 @@ class BadasoBlogSetup extends Command
 
     protected function updateBadasoConfigHiddenTables()
     {
-        $hidden_tables = config('hidden-tables');
+        $hidden_tables = config('badaso-hidden-tables');
         $blog_tables = BadasoBlogModule::getProtectedTables();
 
         foreach ($blog_tables as $key => $table) {
-            if (! in_array($table, $hidden_tables)) {
+            if (!in_array($table, $hidden_tables)) {
                 array_push($hidden_tables, $table);
             }
         }
