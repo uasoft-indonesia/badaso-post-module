@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Uasoft\Badaso\Module\Blog\BadasoBlogModule;
 use Uasoft\Badaso\Module\Blog\Commands\BadasoBlogSetup;
+use Uasoft\Badaso\Module\Blog\Commands\BadasoBlogSeed;
 use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule as FacadesBadasoBlog;
 
 class BadasoBlogModuleServiceProvider extends ServiceProvider
@@ -30,7 +31,7 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Config/badaso-blog.php' => config_path('badaso-blog.php'),
-            __DIR__.'/../Seeder/Configurations' => database_path('seeds/Badaso/Blog'),
+            __DIR__.'/../Seeder' => database_path('seeds/Badaso/Blog'),
         ], 'BadasoBlogModule');
 
         $this->publishes([
@@ -54,5 +55,6 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(BadasoBlogSetup::class);
+        $this->commands(BadasoBlogSeed::class);
     }
 }
