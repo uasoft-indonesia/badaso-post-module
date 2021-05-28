@@ -16,8 +16,6 @@ php artisan badaso-blog:setup
 php artisan badaso-blog:seed
 ```
 
-- If you want to run the seeds on `database/seeds/Badaso/Blog/`, you need to run `composer dump-autoload`.
-
 - Add the plugins to your `MIX_BADASO_MODULES` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
 
 ```
