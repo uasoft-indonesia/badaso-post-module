@@ -140,8 +140,8 @@ class PostController extends Controller
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'required|array|exists:tags,id',
-                'category'         => 'required|exists:categories,id',
+                'tags'             => 'nullable|array|exists:tags,id',
+                'category'         => 'nullable|exists:categories,id',
                 'commentCount'     => 'required|integer',
                 'thumbnail'        => 'nullable',
             ]);
@@ -238,8 +238,8 @@ class PostController extends Controller
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'required|array|exists:tags,id',
-                'category'         => 'required|exists:categories,id',
+                'tags'             => 'nullable|array|exists:tags,id',
+                'category'         => 'nullable|exists:categories,id',
                 'commentCount'     => 'required|integer',
             ]);
 
