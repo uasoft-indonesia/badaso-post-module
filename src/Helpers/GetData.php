@@ -202,10 +202,10 @@ class GetData
     {
         $credential_path = storage_path('app/analytics/service-account-credentials.json');
 
-        if (!file_exists($credential_path)) {
+        if (! file_exists($credential_path)) {
             throw new SingleException(__('badaso_blog::validation.analytics.no_service_account'));
         }
-        
+
         $client = new \Google\Client();
         $client->setAuthConfig($credential_path);
 
