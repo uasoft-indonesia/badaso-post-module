@@ -86,7 +86,7 @@ class CommentController extends Controller
 
                 return ApiResponse::success($comment_with_user);
             } else {
-                return ApiResponse::failed(__('badaso-blog::validation.auth.user_not_logged_in'));
+                return ApiResponse::failed(__('badaso_blog::validation.auth.user_not_logged_in'));
             }
         } catch (Exception $e) {
             DB::rollback();
