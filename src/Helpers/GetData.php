@@ -4,6 +4,7 @@ namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
+use Uasoft\Badaso\Exceptions\SingleException;
 
 class GetData
 {
@@ -200,6 +201,11 @@ class GetData
     private static function getToken()
     {
         $credential_path = storage_path('app/analytics/service-account-credentials.json');
+
+        if (!file_exists($credential_path)) {
+            throw new SingleException(__('badaso_blog::validation.analytics.no_service_account'));
+        }
+        
         $client = new \Google\Client();
         $client->setAuthConfig($credential_path);
 

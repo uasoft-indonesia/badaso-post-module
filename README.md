@@ -64,7 +64,16 @@ MIX_BADASO_MENU=admin,badaso-blog-module
 8. Select **KEYS** menu from the tab. Click Add Key and select **Create new key**. After that, select JSON and click **Create** button.
 ![Imgur](https://i.imgur.com/oexLid9.png)
 
-9. After you create the key, it'll automatically download the key. Store your key in the safe place.
+9. After you create the key, it'll automatically download the key.
+10. Place your .json key to storage directory like below.
+
+```php
+📦 Your Project
+ ┣ 📂 storage
+ ┃ ┣ 📂 app
+ ┃ ┃ ┣ 📂 analytics // If the directory doesn't exists, just create it
+ ┃ ┃ ┃ ┗ 📜 service-account-credentials.json // Filename must be the same
+```
 
 ## Granting permissions to your Analytics property
 
