@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
-use Uasoft\Badaso\Exceptions\SingleException;
 
 class GetData
 {
@@ -76,6 +75,11 @@ class GetData
     {
         $prefix = config('badaso-blog.blog_post_url_prefix') ? '/'.config('badaso-blog.blog_post_url_prefix') : '';
         $token = self::getToken();
+
+        if (! isset($token)) {
+            return $data;
+        }
+
         $url = [];
 
         if (gettype($oldest) !== 'array' && ! empty($oldest)) {
@@ -119,6 +123,18 @@ class GetData
         $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
         $token = self::getToken();
 
+        if (count($relations) > 0) {
+            foreach ($relations as $key => $relation) {
+                $query->with($relation);
+            }
+        }
+
+        $query->skip(0)->take($request->limit)->get()->toArray();
+
+        if (! isset($token)) {
+            return $query->get()->toArray();
+        }
+
         $client = new \GuzzleHttp\Client();
         $params = [
             'query' => [
@@ -149,13 +165,7 @@ class GetData
             }
         }
 
-        if (count($relations) > 0) {
-            foreach ($relations as $key => $relation) {
-                $query->with($relation);
-            }
-        }
-
-        $posts = $query->whereIn('slug', array_keys($filteredResult))->skip(0)->take($request->limit)->get()->toArray();
+        $posts = $query->whereIn('slug', array_keys($filteredResult))->get()->toArray();
 
         foreach ($posts as $key => $post) {
             $posts[$key]['view_count'] = $filteredResult[$post['slug']];
@@ -203,7 +213,7 @@ class GetData
         $credential_path = storage_path('app/analytics/service-account-credentials.json');
 
         if (! file_exists($credential_path)) {
-            throw new SingleException(__('badaso_blog::validation.analytics.no_service_account'));
+            return;
         }
 
         $client = new \Google\Client();
