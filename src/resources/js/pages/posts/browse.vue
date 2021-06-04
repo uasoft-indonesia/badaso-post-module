@@ -56,7 +56,7 @@
                     {{ post.title }}
                     <br />
                     <span style="font-size: 12px">
-                      <vs-icon icon="visibility" color="gray" size="16px"></vs-icon> {{ post.viewCount }}
+                      <template v-if="post.viewCount >= 0"><vs-icon icon="visibility" color="gray" size="16px"></vs-icon> {{ post.viewCount }}</template>
                       <vs-icon icon="chat_bubble" color="gray" size="16px" class="ml-2"></vs-icon> {{ post.commentCount }}
                     </span>
                   </vs-td>
