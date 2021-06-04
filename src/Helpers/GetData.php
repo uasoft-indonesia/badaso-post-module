@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
-use Uasoft\Badaso\Exceptions\SingleException;
 
 class GetData
 {
@@ -135,7 +134,6 @@ class GetData
         if (! isset($token)) {
             return $query->get()->toArray();
         }
-        
 
         $client = new \GuzzleHttp\Client();
         $params = [
