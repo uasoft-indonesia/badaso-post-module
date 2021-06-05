@@ -55,10 +55,12 @@
                   <vs-td :data="post.title">
                     {{ post.title }}
                     <br />
-                    <span style="font-size: 12px">
-                      <template v-if="post.viewCount >= 0"><vs-icon icon="visibility" color="gray" size="16px"></vs-icon> {{ post.viewCount }}</template>
-                      <vs-icon icon="chat_bubble" color="gray" size="16px" class="ml-2"></vs-icon> {{ post.commentCount }}
-                    </span>
+                    <div style="font-size: 12px; display: inline-flex">
+                      <div v-if="post.viewCount >= 0" class="mr-2"><vs-icon icon="visibility" color="gray" size="16px"></vs-icon> {{ post.viewCount }}</div>
+                      <div>
+                        <vs-icon icon="chat_bubble" color="gray" size="16px"></vs-icon> {{ post.commentCount }}
+                      </div>
+                    </div>
                   </vs-td>
                   <vs-td :data="post.user.name">
                     {{ post.user.name }}
@@ -108,7 +110,7 @@
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
                           icon="poll"
-                          v-if="$helper.isAllowed('browse_posts')"
+                          v-if="$helper.isAllowed('browse_posts') && post.viewCount >= 0"
                         >
                           <a :href="getAnalyticsLink(post.slug)" target="_blank" style="color: inherit;">Detail Analytic</a>
                         </badaso-dropdown-item>
