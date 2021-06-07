@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Module\Blog\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Uasoft\Badaso\Module\Blog\BadasoBlogModule;
-use Uasoft\Badaso\Module\Blog\Commands\BadasoBlogSeed;
 use Uasoft\Badaso\Module\Blog\Commands\BadasoBlogSetup;
 use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule as FacadesBadasoBlog;
 
@@ -55,6 +54,5 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(BadasoBlogSetup::class);
-        $this->commands(BadasoBlogSeed::class);
     }
 }

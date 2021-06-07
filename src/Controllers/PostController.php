@@ -189,9 +189,18 @@ class PostController extends Controller
                 'id' => 'required|string|size:36|exists:posts',
             ]);
 
-            $posts = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
+            $post = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
 
-            $data['posts'] = $posts->toArray();
+            if (! isset($post['thumbnail'])) {
+                $doc = new \DOMDocument();
+                $content = $post->content;
+                @$doc->loadHTML($content);
+                $xpath = new \DOMXPath($doc);
+                $src = $xpath->evaluate('string(//img/@src)');
+                $post['thumbnail'] = $src === '' ? null : $src;
+            }
+
+            $data['posts'] = $post->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -208,13 +217,15 @@ class PostController extends Controller
 
             $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
 
-            $doc = new \DOMDocument();
-
-            $content = $post->content;
-            @$doc->loadHTML($content);
-            $xpath = new \DOMXPath($doc);
-            $src = $xpath->evaluate('string(//img/@src)');
-            $post['thumbnail'] = $src === '' ? null : $src;
+            
+            if (! isset($post['thumbnail'])) {
+                $doc = new \DOMDocument();
+                $content = $post->content;
+                @$doc->loadHTML($content);
+                $xpath = new \DOMXPath($doc);
+                $src = $xpath->evaluate('string(//img/@src)');
+                $post['thumbnail'] = $src === '' ? null : $src;
+            }
 
             $data['post'] = $post->toArray();
 
