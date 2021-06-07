@@ -217,7 +217,6 @@ class PostController extends Controller
 
             $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
 
-            
             if (! isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
