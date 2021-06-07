@@ -1,7 +1,5 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Seeder;
-
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Role;
 

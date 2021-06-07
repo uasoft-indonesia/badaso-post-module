@@ -1,7 +1,5 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Seeder;
-
 use Illuminate\Database\Seeder;
 
 class BadasoModuleBlogSeeder extends Seeder

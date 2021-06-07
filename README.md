@@ -12,8 +12,10 @@ composer require uasoft-indonesia/badaso-blog-module:^1.0@alpha
 - Run the following command.
 
 ```
+php artisan migrate
 php artisan badaso-blog:setup
-php artisan badaso-blog:seed
+composer dump-autoload
+php artisan db:seed --class=BadasoModuleBlogSeed
 ```
 
 - Add the plugins to your `MIX_BADASO_MODULES` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
@@ -29,6 +31,15 @@ MIX_BADASO_MENU=admin,badaso-blog-module
 ```
 
 - Fill the other variables in `.env` file.
+  - `MIX_BLOG_POST_URL_PREFIX=post`
+    Prefix for accessing post | optional
+  - `MIX_ANALYTICS_ACCOUNT_ID=`
+    Account id from google analytics | optional
+  - `MIX_ANALYTICS_WEBPROPERTY_ID=`
+    Web property id from google analytics | optional
+  - `MIX_ANALYTICS_VIEW_ID=`
+    View id from google analytics | optional
+
 
 # Obtain Analytics Credential JSON to communicate with Google Analytics
 
