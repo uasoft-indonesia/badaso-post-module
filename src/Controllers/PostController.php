@@ -148,12 +148,6 @@ class PostController extends Controller
 
             $doc = new \DOMDocument();
 
-            $thumbnail = null;
-
-            if (! empty($request->thumbnail)) {
-                $thumbnail = '/storage/'.$this->handleUploadFiles([$request->thumbnail])[0];
-            }
-
             $post = Post::create([
                 'user_id'          => auth()->user()->id,
                 'parent_id'        => $request->parent ?? null,
@@ -164,7 +158,7 @@ class PostController extends Controller
                 'slug'             => $request->slug,
                 'summary'          => $request->summary,
                 'content'          => $request->content,
-                'thumbnail'        => $thumbnail,
+                'thumbnail'        => $request->thumbnail,
                 'published'        => $request->published,
                 'comment_count'    => $request->comment_count,
                 'published_at'     => $request->published ? (string) now() : null,
@@ -251,6 +245,7 @@ class PostController extends Controller
                 'tags'             => 'nullable|array|exists:tags,id',
                 'category'         => 'nullable|exists:categories,id',
                 'commentCount'     => 'required|integer',
+                'thumbnail'        => 'nullable'
             ]);
 
             $post = Post::findOrFail($request->id);
@@ -265,6 +260,7 @@ class PostController extends Controller
             $post->summary = $request->summary;
             $post->content = $request->content;
             $post->published = $request->published;
+            $post->thumbnail = $request->thumbnail;
             $post->comment_count = $request->comment_count;
             $post->published_at = $request->published ? (string) now() : null;
             $post->update();
