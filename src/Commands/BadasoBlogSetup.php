@@ -46,6 +46,12 @@ class BadasoBlogSetup extends Command
         $this->publishBadasoProvider();
         $this->updateBadasoConfigHiddenTables();
         $this->linkStorage();
+        $this->generateSwagger();
+    }
+
+    protected function generateSwagger()
+    {
+        $this->call('l5-swagger:generate');
     }
 
     protected function updateBadasoConfigHiddenTables()
