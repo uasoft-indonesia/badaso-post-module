@@ -245,7 +245,7 @@ class PostController extends Controller
                 'tags'             => 'nullable|array|exists:tags,id',
                 'category'         => 'nullable|exists:categories,id',
                 'commentCount'     => 'required|integer',
-                'thumbnail'        => 'nullable'
+                'thumbnail'        => 'nullable',
             ]);
 
             $post = Post::findOrFail($request->id);
