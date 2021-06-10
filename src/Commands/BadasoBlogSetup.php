@@ -46,6 +46,12 @@ class BadasoBlogSetup extends Command
         $this->publishBadasoProvider();
         $this->updateBadasoConfigHiddenTables();
         $this->linkStorage();
+        $this->generateSwagger();
+    }
+
+    protected function generateSwagger()
+    {
+        $this->call('l5-swagger:generate');
     }
 
     protected function updateBadasoConfigHiddenTables()
@@ -54,7 +60,7 @@ class BadasoBlogSetup extends Command
         $blog_tables = BadasoBlogModule::getProtectedTables();
 
         foreach ($blog_tables as $key => $table) {
-            if (! in_array($table, $hidden_tables)) {
+            if (!in_array($table, $hidden_tables)) {
                 array_push($hidden_tables, $table);
             }
         }
