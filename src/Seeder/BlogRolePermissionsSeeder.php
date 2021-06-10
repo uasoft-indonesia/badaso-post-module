@@ -26,12 +26,12 @@ class BlogRolePermissionsSeeder extends Seeder
             $permission = ['posts', 'categories', 'tags'];
 
             $permissions = Permission::where(function ($query) use ($permission) {
-                for ($i = 0; $i < count($permission); ++$i) {
+                for ($i = 0; $i < count($permission); $i++) {
                     $query->orWhere('key', 'like', '%'.$permission[$i]);
                 }
             })->get();
 
-            if (!is_null($editor)) {
+            if (! is_null($editor)) {
                 foreach ($permissions as $row) {
                     $role_permission = RolePermission::where('role_id', $editor->id)
                             ->where('permission_id', $row->id)
