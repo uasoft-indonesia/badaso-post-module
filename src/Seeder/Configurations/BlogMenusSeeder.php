@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class BlogMenusSeeder extends Seeder
@@ -18,10 +20,10 @@ class BlogMenusSeeder extends Seeder
         try {
             $menus = [
                 0 => [
-                    'key'          => 'badaso-blog-module',
+                    'key' => 'badaso-blog-module',
                     'display_name' => 'Blogger Menu',
-                    'created_at'   => '2021-01-01 15:26:06',
-                    'updated_at'   => '2021-01-01 15:26:06',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
