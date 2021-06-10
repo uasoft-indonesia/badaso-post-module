@@ -185,7 +185,7 @@ class PostController extends Controller
 
             $post = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
 
-            if (!isset($post['thumbnail'])) {
+            if (! isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
                 @$doc->loadHTML($content);
@@ -211,7 +211,7 @@ class PostController extends Controller
 
             $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
 
-            if (!isset($post['thumbnail'])) {
+            if (! isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
                 @$doc->loadHTML($content);
