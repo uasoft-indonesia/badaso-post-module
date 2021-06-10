@@ -140,19 +140,13 @@ class PostController extends Controller
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'required|array|exists:tags,id',
-                'category'         => 'required|exists:categories,id',
+                'tags'             => 'nullable|array|exists:tags,id',
+                'category'         => 'nullable|exists:categories,id',
                 'commentCount'     => 'required|integer',
                 'thumbnail'        => 'nullable',
             ]);
 
             $doc = new \DOMDocument();
-
-            $thumbnail = null;
-
-            if (! empty($request->thumbnail)) {
-                $thumbnail = '/storage/'.$this->handleUploadFiles([$request->thumbnail])[0];
-            }
 
             $post = Post::create([
                 'user_id'          => auth()->user()->id,
@@ -164,7 +158,7 @@ class PostController extends Controller
                 'slug'             => $request->slug,
                 'summary'          => $request->summary,
                 'content'          => $request->content,
-                'thumbnail'        => $thumbnail,
+                'thumbnail'        => $request->thumbnail,
                 'published'        => $request->published,
                 'comment_count'    => $request->comment_count,
                 'published_at'     => $request->published ? (string) now() : null,
@@ -189,9 +183,18 @@ class PostController extends Controller
                 'id' => 'required|string|size:36|exists:posts',
             ]);
 
-            $posts = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
+            $post = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
 
-            $data['posts'] = $posts->toArray();
+            if (! isset($post['thumbnail'])) {
+                $doc = new \DOMDocument();
+                $content = $post->content;
+                @$doc->loadHTML($content);
+                $xpath = new \DOMXPath($doc);
+                $src = $xpath->evaluate('string(//img/@src)');
+                $post['thumbnail'] = $src === '' ? null : $src;
+            }
+
+            $data['posts'] = $post->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -208,13 +211,14 @@ class PostController extends Controller
 
             $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
 
-            $doc = new \DOMDocument();
-
-            $content = $post->content;
-            @$doc->loadHTML($content);
-            $xpath = new \DOMXPath($doc);
-            $src = $xpath->evaluate('string(//img/@src)');
-            $post['thumbnail'] = $src === '' ? null : $src;
+            if (! isset($post['thumbnail'])) {
+                $doc = new \DOMDocument();
+                $content = $post->content;
+                @$doc->loadHTML($content);
+                $xpath = new \DOMXPath($doc);
+                $src = $xpath->evaluate('string(//img/@src)');
+                $post['thumbnail'] = $src === '' ? null : $src;
+            }
 
             $data['post'] = $post->toArray();
 
@@ -238,9 +242,10 @@ class PostController extends Controller
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'required|array|exists:tags,id',
-                'category'         => 'required|exists:categories,id',
+                'tags'             => 'nullable|array|exists:tags,id',
+                'category'         => 'nullable|exists:categories,id',
                 'commentCount'     => 'required|integer',
+                'thumbnail'        => 'nullable',
             ]);
 
             $post = Post::findOrFail($request->id);
@@ -255,6 +260,7 @@ class PostController extends Controller
             $post->summary = $request->summary;
             $post->content = $request->content;
             $post->published = $request->published;
+            $post->thumbnail = $request->thumbnail;
             $post->comment_count = $request->comment_count;
             $post->published_at = $request->published ? (string) now() : null;
             $post->update();

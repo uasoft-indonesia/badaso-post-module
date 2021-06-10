@@ -26,7 +26,7 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'badaso-blog');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'badaso_blog');
 
         $this->publishes([
             __DIR__.'/../Config/badaso-blog.php' => config_path('badaso-blog.php'),
