@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Role;
 
@@ -18,10 +20,10 @@ class BlogRolesSeeder extends Seeder
 
         try {
             $roles = [
-                'name'         => 'editor',
+                'name' => 'editor',
                 'display_name' => 'Editor',
-                'created_at'   => '2021-01-01 15:26:06',
-                'updated_at'   => '2021-01-01 15:26:06',
+                'created_at' => '2021-01-01 15:26:06',
+                'updated_at' => '2021-01-01 15:26:06',
             ];
 
             Role::firstOrCreate($roles);

@@ -19,13 +19,13 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'order_field'       => 'nullable|string',
-                'order_direction'   => 'nullable|string|in:desc,asc',
-                'category'          => 'nullable|exists:categories,slug',
-                'tag'               => 'nullable|exists:tags,slug',
-                'page'              => 'sometimes|required|integer',
-                'limit'             => 'sometimes|required|integer',
-                'search'            => 'nullable|string',
+                'order_field' => 'nullable|string',
+                'order_direction' => 'nullable|string|in:desc,asc',
+                'category' => 'nullable|exists:categories,slug',
+                'tag' => 'nullable|exists:tags,slug',
+                'page' => 'sometimes|required|integer',
+                'limit' => 'sometimes|required|integer',
+                'search' => 'nullable|string',
             ]);
 
             $data['posts'] = [];
@@ -81,14 +81,14 @@ class PostController extends Controller
                 'order_field' => 'nullable|string',
                 'order_direction' => 'nullable|string',
                 'category' => 'nullable|exists:categories,slug',
-                'tag'      => 'nullable|exists:tags,slug',
-                'page'     => 'sometimes|required|integer',
+                'tag' => 'nullable|exists:tags,slug',
+                'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
-                'search'   => 'nullable|string',
+                'search' => 'nullable|string',
             ]);
 
             $oldest = Post::oldest()->first();
-            $data = GetData::getData(new Post, $request->all(), ['category.parent', 'tags', 'user:id,name']);
+            $data = GetData::getData(new Post(), $request->all(), ['category.parent', 'tags', 'user:id,name']);
             $data = GetData::getAnalytics($data, $oldest);
 
             return ApiResponse::success($data);
@@ -101,12 +101,12 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'page'     => 'sometimes|required|integer',
+                'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
             ]);
 
             $oldest = Post::oldest()->first();
-            $data['posts'] = GetData::getPopularPosts(new Post, $request, ['category.parent', 'tags', 'user:id,name'], $oldest);
+            $data['posts'] = GetData::getPopularPosts(new Post(), $request, ['category.parent', 'tags', 'user:id,name'], $oldest);
 
             $doc = new \DOMDocument();
 
@@ -133,35 +133,35 @@ class PostController extends Controller
 
         try {
             $request->validate([
-                'title'            => 'required|string',
-                'slug'             => 'required|string|max:255|unique:posts',
-                'content'          => 'required|string',
-                'meta_title'       => 'nullable|string',
+                'title' => 'required|string',
+                'slug' => 'required|string|max:255|unique:posts',
+                'content' => 'required|string',
+                'meta_title' => 'nullable|string',
                 'meta_description' => 'nullable|string',
-                'summary'          => 'nullable|string',
-                'published'        => 'required|boolean',
-                'tags'             => 'nullable|array|exists:tags,id',
-                'category'         => 'nullable|exists:categories,id',
-                'commentCount'     => 'required|integer',
-                'thumbnail'        => 'nullable',
+                'summary' => 'nullable|string',
+                'published' => 'required|boolean',
+                'tags' => 'nullable|array|exists:tags,id',
+                'category' => 'nullable|exists:categories,id',
+                'commentCount' => 'required|integer',
+                'thumbnail' => 'nullable',
             ]);
 
             $doc = new \DOMDocument();
 
             $post = Post::create([
-                'user_id'          => auth()->user()->id,
-                'parent_id'        => $request->parent ?? null,
-                'category_id'      => $request->category,
-                'title'            => $request->title,
-                'meta_title'       => $request->meta_title,
+                'user_id' => auth()->user()->id,
+                'parent_id' => $request->parent ?? null,
+                'category_id' => $request->category,
+                'title' => $request->title,
+                'meta_title' => $request->meta_title,
                 'meta_description' => $request->meta_description,
-                'slug'             => $request->slug,
-                'summary'          => $request->summary,
-                'content'          => $request->content,
-                'thumbnail'        => $request->thumbnail,
-                'published'        => $request->published,
-                'comment_count'    => $request->comment_count,
-                'published_at'     => $request->published ? (string) now() : null,
+                'slug' => $request->slug,
+                'summary' => $request->summary,
+                'content' => $request->content,
+                'thumbnail' => $request->thumbnail,
+                'published' => $request->published,
+                'comment_count' => $request->comment_count,
+                'published_at' => $request->published ? (string) now() : null,
             ]);
 
             $post->tags()->attach($request->tags);
@@ -234,18 +234,18 @@ class PostController extends Controller
 
         try {
             $request->validate([
-                'id'               => 'required|exists:posts',
-                'title'            => 'required|string',
-                'slug'             => 'required|string|max:255|exists:posts,slug',
-                'content'          => 'required|string',
-                'meta_title'       => 'nullable|string',
+                'id' => 'required|exists:posts',
+                'title' => 'required|string',
+                'slug' => 'required|string|max:255|exists:posts,slug',
+                'content' => 'required|string',
+                'meta_title' => 'nullable|string',
                 'meta_description' => 'nullable|string',
-                'summary'          => 'nullable|string',
-                'published'        => 'required|boolean',
-                'tags'             => 'nullable|array|exists:tags,id',
-                'category'         => 'nullable|exists:categories,id',
-                'commentCount'     => 'required|integer',
-                'thumbnail'        => 'nullable',
+                'summary' => 'nullable|string',
+                'published' => 'required|boolean',
+                'tags' => 'nullable|array|exists:tags,id',
+                'category' => 'nullable|exists:categories,id',
+                'commentCount' => 'required|integer',
+                'thumbnail' => 'nullable',
             ]);
 
             $post = Post::findOrFail($request->id);
