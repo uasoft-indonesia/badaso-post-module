@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Badaso\Blog;
 
 use Illuminate\Database\Seeder;
 
