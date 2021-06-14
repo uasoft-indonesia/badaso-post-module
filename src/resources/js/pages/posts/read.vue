@@ -40,7 +40,7 @@
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.thumbnail") }}</th>
-              <td><img class="thumbnail" :src="posts.thumbnail"></td>
+              <td><img class="thumbnail" :src="$storage.view(posts.thumbnail)"></td>
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.metaTitle") }}</th>
