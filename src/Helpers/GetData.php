@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Carbon\Carbon;
-use Spatie\Analytics\Period;
 
 class GetData
 {
@@ -129,7 +128,7 @@ class GetData
             }
         }
 
-        $query->skip(0)->take($request->limit)->get()->toArray();
+        $query->skip(0)->take($request->limit ?? 10)->get()->toArray();
 
         if (! isset($token)) {
             return $query->get()->toArray();
