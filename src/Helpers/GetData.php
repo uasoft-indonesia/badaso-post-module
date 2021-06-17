@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Module\Blog\Helpers;
 
 use Carbon\Carbon;
-use Uasoft\Badaso\Module\Blog\Helpers\Period;
 
 class GetData
 {
