@@ -128,7 +128,7 @@ class GetData
             }
         }
 
-        $query->skip(0)->take($request->limit)->get()->toArray();
+        $query->skip(0)->take($request->limit ?? 10)->get()->toArray();
 
         if (! isset($token)) {
             return $query->get()->toArray();
