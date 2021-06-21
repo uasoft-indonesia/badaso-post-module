@@ -45,6 +45,7 @@ class BadasoBlogSetup extends Command
         $this->addingBadasoEnv();
         $this->publishBadasoProvider();
         $this->updateBadasoConfigHiddenTables();
+        $this->addBlogTablesToHiddenTables();
         $this->linkStorage();
         $this->generateSwagger();
     }
@@ -129,6 +130,31 @@ class BadasoBlogSetup extends Command
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
             $this->error('Failed adding badaso env '.$e->getMessage());
+        }
+    }
+
+    protected function addBlogTablesToHiddenTables()
+    {
+        try {
+            $config_path = config_path('badaso-hidden-tables.php');
+            $config_hidden_tables = require $config_path;
+            $tables = ['posts', 'categories', 'comments', 'tags', 'post_tag'];
+
+            foreach ($tables as $key => $value) {
+                if (!in_array($value, $config_hidden_tables)) {
+                    array_push($config_hidden_tables, $value);
+                }
+            }
+
+            $exported_config = VarExporter::export($config_hidden_tables);
+            $exported_config = <<<PHP
+                <?php 
+                return {$exported_config} ;
+                PHP;
+            file_put_contents($config_path, $exported_config);
+            $this->info('Adding badaso hidden tables config');
+        } catch (\Exception $e) {
+            $this->error('Failed adding badaso hidden tables config ', $e->getMessage());
         }
     }
 }
