@@ -236,11 +236,17 @@ class PostController extends Controller
 
             $data['post'] = $post->toArray();
 
-            if ($previous) $data['previous'] = $previous->toArray();
-            else $data['previous'] = null;
+            if ($previous) {
+                $data['previous'] = $previous->toArray();
+            } else {
+                $data['previous'] = null;
+            }
 
-            if ($next) $data['next'] = $next->toArray();
-            else $data['next'] = null;
+            if ($next) {
+                $data['next'] = $next->toArray();
+            } else {
+                $data['next'] = null;
+            }
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
