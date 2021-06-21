@@ -123,7 +123,7 @@ class BadasoBlogSetup extends Command
             $tables = BadasoBlogModule::getProtectedTables();
 
             foreach ($tables as $key => $value) {
-                if (!in_array($value, $config_hidden_tables)) {
+                if (! in_array($value, $config_hidden_tables)) {
                     array_push($config_hidden_tables, $value);
                 }
             }
