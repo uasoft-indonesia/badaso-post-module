@@ -44,25 +44,33 @@ class BadasoBlogSetup extends Command
     {
         $this->addingBadasoEnv();
         $this->publishBadasoProvider();
-        $this->updateBadasoConfigHiddenTables();
+        $this->addBlogTablesToHiddenTables();
         $this->linkStorage();
     }
 
-    protected function updateBadasoConfigHiddenTables()
+    protected function addBlogTablesToHiddenTables()
     {
-        $hidden_tables = config('badaso-hidden-tables');
-        $blog_tables = BadasoBlogModule::getProtectedTables();
+        try {
+            $config_path = config_path('badaso-hidden-tables.php');
+            $config_hidden_tables = require $config_path;
+            $tables = BadasoBlogModule::getProtectedTables();
 
-        foreach ($blog_tables as $key => $table) {
-            if (! in_array($table, $hidden_tables)) {
-                array_push($hidden_tables, $table);
+            foreach ($tables as $key => $value) {
+                if (! in_array($value, $config_hidden_tables)) {
+                    array_push($config_hidden_tables, $value);
+                }
             }
+
+            $exported_config = VarExporter::export($config_hidden_tables);
+            $exported_config = <<<PHP
+                <?php 
+                return {$exported_config} ;
+                PHP;
+            file_put_contents($config_path, $exported_config);
+            $this->info('Adding badaso hidden tables config');
+        } catch (\Exception $e) {
+            $this->error('Failed adding badaso hidden tables config ', $e->getMessage());
         }
-
-        $hidden_tables = json_decode(json_encode($hidden_tables));
-
-        \File::put(config_path('hidden-tables.php'), "<?php\n return ".VarExporter::export($hidden_tables).' ;');
-        $this->info('badaso.php configuration updated');
     }
 
     protected function publishBadasoProvider()
