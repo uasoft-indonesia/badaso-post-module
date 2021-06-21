@@ -194,7 +194,18 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
-            $data['posts'] = $post->toArray();
+            $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
+            $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
+
+            $data['post'] = $post->toArray();
+
+            if ($previous) {
+                $data['previous'] = $previous->toArray();
+            }
+
+            if ($next) {
+                $data['next'] = $next->toArray();
+            }
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -220,7 +231,16 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
+            $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
+            $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
+
             $data['post'] = $post->toArray();
+
+            if ($previous) $data['previous'] = $previous->toArray();
+            else $data['previous'] = null;
+
+            if ($next) $data['next'] = $next->toArray();
+            else $data['next'] = null;
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
