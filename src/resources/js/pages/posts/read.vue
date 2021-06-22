@@ -40,7 +40,7 @@
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.thumbnail") }}</th>
-              <td><img class="thumbnail" :src="$storage.view(posts.thumbnail)"></td>
+              <td><img class="thumbnail" :src="meta.mediaBaseUrl + posts.thumbnail"></td>
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.metaTitle") }}</th>
@@ -94,6 +94,7 @@ export default {
       },
       tags: []
     },
+    meta: {},
   }),
   mounted() {
     this.getPostsDetail();
@@ -107,7 +108,8 @@ export default {
         })
         .then((response) => {
           this.$closeLoader();
-          this.posts = response.data.posts;
+          this.posts = response.data.post;
+          this.meta = response.meta
         })
         .catch((error) => {
           this.$closeLoader();
