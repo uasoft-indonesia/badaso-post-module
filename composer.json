@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-rc.3",
+    "version": "1.0.0-rc.4",
     "name": "uasoft-indonesia/badaso-blog-module",
     "description": "Zero development for blog system on badaso",
     "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator", "blog", "badaso"],
