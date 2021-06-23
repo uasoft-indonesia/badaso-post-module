@@ -147,7 +147,8 @@ export default {
       thumbnail: ""
     },
     categories: [],
-    tags: []
+    tags: [],
+    meta: {}
   }),
   mounted() {
     this.getPosts();
@@ -167,11 +168,11 @@ export default {
         })
         .then((response) => {
           this.$closeLoader();
-          this.post = response.data.posts;
-          this.post.published = response.data.posts.published === 1 ? true : false;
-          this.post.category = response.data.posts.category ? response.data.posts.category.id : "";
-          if (response.data.posts.tags && response.data.posts.tags.length > 0) {
-            this.post.tags = response.data.posts.tags.map((tag, index) => {
+          this.post = response.data.post;
+          this.post.published = response.data.post.published === 1 ? true : false;
+          this.post.category = response.data.post.category ? response.data.post.category.id : "";
+          if (response.data.post.tags && response.data.post.tags.length > 0) {
+            this.post.tags = response.data.post.tags.map((tag, index) => {
               return tag.id;
             })
           }
