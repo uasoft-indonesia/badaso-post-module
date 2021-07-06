@@ -1,14 +1,14 @@
 {
+    "name": "badaso/post-module",
     "version": "1.0.0-rc.4",
-    "name": "uasoft-indonesia/badaso-blog-module",
-    "description": "Zero development for blog system on badaso",
-    "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator", "blog", "badaso"],
+    "description": "Zero development for post system on badaso, create blog & news site faster",
+    "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator", "blog", "badaso", "post", "news"],
     "license": "proprietary",
     "homepage": "https://badaso.uatech.co.id/",
     "support": {
-        "issues": "https://github.com/uasoft-indonesia/badaso-blog-module/issues",
-        "discussion": "https://github.com/uasoft-indonesia/badaso-blog-module/discussions",
-        "source": "https://github.com/uasoft-indonesia/badaso-blog-module"
+        "issues": "https://github.com/uasoft-indonesia/badaso-post-module/issues",
+        "discussion": "https://github.com/uasoft-indonesia/badaso-post-module/discussions",
+        "source": "https://github.com/uasoft-indonesia/badaso-post-module"
     },
     "type": "library",
     "require": {
@@ -23,13 +23,13 @@
     "minimum-stability": "alpha",
     "autoload": {
         "psr-4": {
-            "Uasoft\\Badaso\\Module\\Blog\\": "src/"
+            "Uasoft\\Badaso\\Module\\Post\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Uasoft\\Badaso\\Module\\Blog\\Providers\\BadasoBlogModuleServiceProvider"
+                "Uasoft\\Badaso\\Module\\Post\\Providers\\BadasoPostModuleServiceProvider"
             ]
         }
     }
