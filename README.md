@@ -37,7 +37,7 @@ MIX_BADASO_MENU=admin,post-module
 ```
 
 - Fill the other variables in `.env` file.
-  - `MIX_POST_POST_URL_PREFIX=post`
+  - `MIX_POST_URL_PREFIX=post`
     Prefix for accessing post | optional
   - `MIX_ANALYTICS_ACCOUNT_ID=`
     Account id from google analytics | optional
