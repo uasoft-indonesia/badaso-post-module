@@ -1,37 +1,43 @@
-# @badaso/blog
-Zero development for blog system on badaso
+# badaso/post-module
+Zero development for post system on badaso, create blog site & news site faster.
 
 # Installation
 
 - Install badaso first. After that, you can include the Badaso package with the following command.
 
+For badaso v2.x (Laravel 8)
 ```
-composer require uasoft-indonesia/badaso-blog-module:^1.0@alpha
+composer require badaso/post-module
+```
+
+For badaso v1.x (Laravel 5,6,7)
+```
+composer require badaso/post-module:^1.0
 ```
 
 - Run the following command.
 
 ```
 php artisan migrate
-php artisan badaso-blog:setup
+php artisan badaso-post:setup
 composer dump-autoload
-php artisan db:seed --class=BadasoModuleBlogSeed
+php artisan db:seed --class=BadasoPostModuleSeed
 ```
 
 - Add the plugins to your `MIX_BADASO_MODULES` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
 
 ```
-MIX_BADASO_MODULES=badaso-blog-module
+MIX_BADASO_MODULES=post-module
 ```
 
 - Add the plugins menu to your `MIX_BADASO_MENU` to `.env`. If you have another menu, include them using delimiter comma (,).
 
 ```
-MIX_BADASO_MENU=admin,badaso-blog-module
+MIX_BADASO_MENU=admin,post-module
 ```
 
 - Fill the other variables in `.env` file.
-  - `MIX_BLOG_POST_URL_PREFIX=post`
+  - `MIX_POST_POST_URL_PREFIX=post`
     Prefix for accessing post | optional
   - `MIX_ANALYTICS_ACCOUNT_ID=`
     Account id from google analytics | optional
