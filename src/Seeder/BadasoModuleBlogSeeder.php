@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class BadasoModuleBlogSeeder extends Seeder
+class BadasoPostModuleSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,10 +11,10 @@ class BadasoModuleBlogSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(BlogMenusSeeder::class);
-        $this->call(BlogFixedMenuItemSeeder::class);
-        $this->call(BlogRolesSeeder::class);
-        $this->call(BlogPermissionsSeeder::class);
-        $this->call(BlogRolePermissionsSeeder::class);
+        $this->call(PostMenusSeeder::class);
+        $this->call(PostFixedMenuItemSeeder::class);
+        $this->call(PostRolesSeeder::class);
+        $this->call(PostPermissionsSeeder::class);
+        $this->call(PostRolePermissionsSeeder::class);
     }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class BlogFixedMenuItemSeeder extends Seeder
+class PostFixedMenuItemSeeder extends Seeder
 {
     /**
      * Auto generated seed file.
@@ -16,7 +16,7 @@ class BlogFixedMenuItemSeeder extends Seeder
         \DB::beginTransaction();
 
         try {
-            $menu_id = \DB::table('menus')->where('key', 'badaso-blog-module')->first()->id;
+            $menu_id = \DB::table('menus')->where('key', 'post-module')->first()->id;
 
             $menu_items = [
                 0 => [

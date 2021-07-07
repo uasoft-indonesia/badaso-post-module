@@ -1,6 +1,6 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Models;
+namespace Uasoft\Badaso\Module\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

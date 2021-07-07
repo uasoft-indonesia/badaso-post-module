@@ -1,13 +1,13 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Commands;
+namespace Uasoft\Badaso\Module\Post\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\VarExporter\VarExporter;
-use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule;
+use Uasoft\Badaso\Module\Post\Facades\BadasoPostModule;
 
-class BadasoBlogSetup extends Command
+class BadasoPostSetup extends Command
 {
     protected $file;
     /**
@@ -15,14 +15,14 @@ class BadasoBlogSetup extends Command
      *
      * @var string
      */
-    protected $name = 'badaso-blog:setup';
+    protected $name = 'badaso-post:setup';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Setup Badaso Modules For Blog';
+    protected $description = 'Setup Badaso Modules For Post';
 
     /**
      * Create a new command instance.
@@ -44,16 +44,16 @@ class BadasoBlogSetup extends Command
     {
         $this->addingBadasoEnv();
         $this->publishBadasoProvider();
-        $this->addBlogTablesToHiddenTables();
+        $this->addPostTablesToHiddenTables();
         $this->linkStorage();
     }
 
-    protected function addBlogTablesToHiddenTables()
+    protected function addPostTablesToHiddenTables()
     {
         try {
             $config_path = config_path('badaso-hidden-tables.php');
             $config_hidden_tables = require $config_path;
-            $tables = BadasoBlogModule::getProtectedTables();
+            $tables = BadasoPostModule::getProtectedTables();
 
             foreach ($tables as $key => $value) {
                 if (! in_array($value, $config_hidden_tables)) {
@@ -75,10 +75,10 @@ class BadasoBlogSetup extends Command
 
     protected function publishBadasoProvider()
     {
-        Artisan::call('vendor:publish', ['--tag' => 'BadasoBlogModule']);
-        Artisan::call('vendor:publish', ['--tag' => 'BadasoBlogSwagger', '--force' => true]);
+        Artisan::call('vendor:publish', ['--tag' => 'BadasoPostModule']);
+        Artisan::call('vendor:publish', ['--tag' => 'BadasoPostSwagger', '--force' => true]);
 
-        $this->info('Badaso blog provider published');
+        $this->info('Badaso post provider published');
     }
 
     protected function linkStorage()
@@ -89,7 +89,7 @@ class BadasoBlogSetup extends Command
     protected function envListUpload()
     {
         return [
-            'MIX_BLOG_POST_URL_PREFIX' => '',
+            'MIX_POST_URL_PREFIX' => '',
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',

@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Permission;
 
-class BlogPermissionsSeeder extends Seeder
+class PostPermissionsSeeder extends Seeder
 {
     /**
      * Auto generated seed file.

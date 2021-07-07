@@ -2,7 +2,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/tag",
+ *      path="/module/post/v1/tag",
  *      operationId="browseTag",
  *      tags={"tag"},
  *      summary="Browse Tag",
@@ -16,7 +16,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/tag/read",
+ *      path="/module/post/v1/tag/read",
  *      operationId="readTag",
  *      tags={"tag"},
  *      summary="Get Tag based on id",
@@ -38,7 +38,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/tag/read-slug",
+ *      path="/module/post/v1/tag/read-slug",
  *      operationId="readTagBySlug",
  *      tags={"tag"},
  *      summary="Get Tag based on slug",
@@ -61,7 +61,7 @@
 
 /**
  * @OA\Post(
- *      path="/module/blog/v1/tag/add",
+ *      path="/module/post/v1/tag/add",
  *      operationId="addTag",
  *      tags={"tag"},
  *      summary="Insert new Tag",
@@ -105,7 +105,7 @@
 
 /**
  * @OA\Put(
- *      path="/module/blog/v1/tag/edit",
+ *      path="/module/post/v1/tag/edit",
  *      operationId="editTag",
  *      tags={"tag"},
  *      summary="Edit an existing Tag",
@@ -154,7 +154,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/tag/delete",
+ *      path="/module/post/v1/tag/delete",
  *      operationId="deleteTag",
  *      tags={"tag"},
  *      summary="Delete one record of Tag",
@@ -183,7 +183,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/tag/delete-multiple",
+ *      path="/module/post/v1/tag/delete-multiple",
  *      operationId="deleteMultipleTag",
  *      tags={"tag"},
  *      summary="Delete multiple record of Tag",

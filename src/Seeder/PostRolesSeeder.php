@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Role;
 
-class BlogRolesSeeder extends Seeder
+class PostRolesSeeder extends Seeder
 {
     /**
      * Auto generated seed file.
