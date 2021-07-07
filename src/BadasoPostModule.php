@@ -1,8 +1,8 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog;
+namespace Uasoft\Badaso\Module\Post;
 
-class BadasoBlogModule
+class BadasoPostModule
 {
     protected $protected_tables = [
         'categories',

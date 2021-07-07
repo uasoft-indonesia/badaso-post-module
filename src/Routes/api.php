@@ -6,7 +6,7 @@ use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
 $api_route_prefix = \config('badaso.api_route_prefix');
 
 Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Module\Blog\Controllers', 'as' => 'badaso.', 'middleware' => [ApiRequest::class]], function () {
-    Route::group(['prefix' => 'module/blog/v1'], function () {
+    Route::group(['prefix' => 'module/post/v1'], function () {
         Route::group(['prefix' => 'post'], function () {
             Route::get('/', 'PostController@browse');
             Route::get('/browse-analytics', 'PostController@browseWithAnalytics')->middleware(BadasoCheckPermissions::class.':browse_posts');

@@ -1,14 +1,14 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Providers;
+namespace Uasoft\Badaso\Module\Post\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Uasoft\Badaso\Module\Blog\BadasoBlogModule;
-use Uasoft\Badaso\Module\Blog\Commands\BadasoBlogSetup;
-use Uasoft\Badaso\Module\Blog\Facades\BadasoBlogModule as FacadesBadasoBlog;
+use Uasoft\Badaso\Module\Post\BadasoPostModule;
+use Uasoft\Badaso\Module\Post\Commands\BadasoPostSetup;
+use Uasoft\Badaso\Module\Post\Facades\BadasoPostModule as FacadesBadasoPost;
 
-class BadasoBlogModuleServiceProvider extends ServiceProvider
+class BadasoPostModuleServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -18,24 +18,24 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
     public function boot()
     {
         $loader = AliasLoader::getInstance();
-        $loader->alias('BadasoBlogModule', FacadesBadasoBlog::class);
+        $loader->alias('BadasoPostModule', FacadesBadasoPost::class);
 
-        $this->app->singleton('badaso-blog-module', function () {
-            return new BadasoBlogModule();
+        $this->app->singleton('badaso-post-module', function () {
+            return new BadasoPostModule();
         });
 
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'badaso_blog');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'badaso_post');
 
         $this->publishes([
-            __DIR__.'/../Config/badaso-blog.php' => config_path('badaso-blog.php'),
-            __DIR__.'/../Seeder' => database_path('seeders/Badaso/Blog'),
-        ], 'BadasoBlogModule');
+            __DIR__.'/../Config/badaso-post.php' => config_path('badaso-post.php'),
+            __DIR__.'/../Seeder' => database_path('seeders/Badaso/Post'),
+        ], 'BadasoPostModule');
 
         $this->publishes([
             __DIR__.'/../Swagger' => app_path('Http/Swagger/swagger_models'),
-        ], 'BadasoBlogSwagger');
+        ], 'BadasoPostSwagger');
     }
 
     /**
@@ -53,6 +53,6 @@ class BadasoBlogModuleServiceProvider extends ServiceProvider
      */
     private function registerConsoleCommands()
     {
-        $this->commands(BadasoBlogSetup::class);
+        $this->commands(BadasoPostSetup::class);
     }
 }

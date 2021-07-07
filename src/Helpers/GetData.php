@@ -1,6 +1,6 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Helpers;
+namespace Uasoft\Badaso\Module\Post\Helpers;
 
 use Carbon\Carbon;
 
@@ -72,7 +72,7 @@ class GetData
 
     public static function getAnalytics($data, $oldest = null)
     {
-        $prefix = config('badaso-blog.blog_post_url_prefix') ? '/'.config('badaso-blog.blog_post_url_prefix') : '';
+        $prefix = config('badaso-post.post_url_prefix') ? '/'.config('badaso-post.post_url_prefix') : '';
         $token = self::getToken();
 
         if (! isset($token)) {
@@ -112,7 +112,7 @@ class GetData
 
     public static function getPopularPosts($model, $request, $relations, $oldest)
     {
-        $prefix = config('badaso-blog.blog_post_url_prefix') ? '/'.config('badaso-blog.blog_post_url_prefix') : '';
+        $prefix = config('badaso-post.post_url_prefix') ? '/'.config('badaso-post.post_url_prefix') : '';
         $posts = [];
         $result = [];
         $filteredResult = [];

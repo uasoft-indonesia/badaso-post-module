@@ -44,7 +44,7 @@ export default {
     CommentRead,
     CommentEdit
   },
-  name: "BlogEntryIndex",
+  name: "PostEntryIndex",
   data: () => ({
     globalComponentList: {},
     defaultComponent: null,

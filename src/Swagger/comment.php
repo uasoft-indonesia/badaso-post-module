@@ -2,7 +2,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/comment",
+ *      path="/module/post/v1/comment",
  *      operationId="browseComment",
  *      tags={"comment"},
  *      summary="Browse Comment",
@@ -19,7 +19,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/comment/post",
+ *      path="/module/post/v1/comment/post",
  *      operationId="readTagByPostSlug",
  *      tags={"comment"},
  *      summary="Get Comment based on post slug",
@@ -45,7 +45,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/comment/read",
+ *      path="/module/post/v1/comment/read",
  *      operationId="readTag",
  *      tags={"comment"},
  *      summary="Get Comment based on id",
@@ -70,7 +70,7 @@
 
 /**
  * @OA\Post(
- *      path="/module/blog/v1/comment/add",
+ *      path="/module/post/v1/comment/add",
  *      operationId="addTag",
  *      tags={"comment"},
  *      summary="Insert new Comment",
@@ -101,7 +101,7 @@
 
 /**
  * @OA\Put(
- *      path="/module/blog/v1/comment/edit",
+ *      path="/module/post/v1/comment/edit",
  *      operationId="editTag",
  *      tags={"comment"},
  *      summary="Edit an existing Comment",
@@ -135,7 +135,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/comment/delete",
+ *      path="/module/post/v1/comment/delete",
  *      operationId="deleteTag",
  *      tags={"comment"},
  *      summary="Delete one record of Comment",
@@ -164,7 +164,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/comment/delete-multiple",
+ *      path="/module/post/v1/comment/delete-multiple",
  *      operationId="deleteMultipleTag",
  *      tags={"comment"},
  *      summary="Delete multiple record of Comment",
