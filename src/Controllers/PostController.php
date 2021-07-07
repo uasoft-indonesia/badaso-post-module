@@ -1,14 +1,14 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Controllers;
+namespace Uasoft\Badaso\Module\Post\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Module\Blog\Helpers\GetData;
-use Uasoft\Badaso\Module\Blog\Models\Post;
+use Uasoft\Badaso\Module\Post\Helpers\GetData;
+use Uasoft\Badaso\Module\Post\Models\Post;
 use Uasoft\Badaso\Traits\FileHandler;
 
 class PostController extends Controller

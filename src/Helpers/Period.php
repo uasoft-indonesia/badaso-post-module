@@ -1,10 +1,10 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Helpers;
+namespace Uasoft\Badaso\Module\Post\Helpers;
 
 use Carbon\Carbon;
 use DateTimeInterface;
-use Uasoft\Badaso\Module\Blog\Exceptions\InvalidPeriod;
+use Uasoft\Badaso\Module\Post\Exceptions\InvalidPeriod;
 
 class Period
 {

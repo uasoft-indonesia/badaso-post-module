@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class BlogMenusSeeder extends Seeder
+class PostMenusSeeder extends Seeder
 {
     /**
      * Auto generated seed file.
@@ -18,8 +18,8 @@ class BlogMenusSeeder extends Seeder
         try {
             $menus = [
                 0 => [
-                    'key'          => 'badaso-blog-module',
-                    'display_name' => 'Blogger Menu',
+                    'key'          => 'post-module',
+                    'display_name' => 'Post Menu',
                     'created_at'   => '2021-01-01 15:26:06',
                     'updated_at'   => '2021-01-01 15:26:06',
                 ],

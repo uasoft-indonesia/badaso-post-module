@@ -5,7 +5,7 @@ use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\RolePermission;
 
-class BlogRolePermissionsSeeder extends Seeder
+class PostRolePermissionsSeeder extends Seeder
 {
     /**
      * Auto generated seed file.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Exceptions;
+namespace Uasoft\Badaso\Module\Post\Exceptions;
 
 use DateTimeInterface;
 use Exception;
