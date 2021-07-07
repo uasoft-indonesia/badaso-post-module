@@ -2,7 +2,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post",
+ *      path="/module/post/v1/post",
  *      operationId="browsePost",
  *      tags={"post"},
  *      summary="Browse Post",
@@ -84,7 +84,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post/browse-analytics",
+ *      path="/module/post/v1/post/browse-analytics",
  *      operationId="browsePost",
  *      tags={"post"},
  *      summary="Browse Post",
@@ -169,7 +169,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post/read",
+ *      path="/module/post/v1/post/read",
  *      operationId="readPost",
  *      tags={"post"},
  *      summary="Get Post based on id",
@@ -194,7 +194,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/post/read-slug",
+ *      path="/module/post/v1/post/read-slug",
  *      operationId="readPostBySlug",
  *      tags={"post"},
  *      summary="Get Post based on slug",
@@ -217,7 +217,7 @@
 
 /**
  * @OA\Post(
- *      path="/module/blog/v1/post/add",
+ *      path="/module/post/v1/post/add",
  *      operationId="addPost",
  *      tags={"post"},
  *      summary="Insert new Post",
@@ -294,7 +294,7 @@
 
 /**
  * @OA\Put(
- *      path="/module/blog/v1/post/edit",
+ *      path="/module/post/v1/post/edit",
  *      operationId="editPost",
  *      tags={"post"},
  *      summary="Edit an existing Post",
@@ -376,7 +376,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/post/delete",
+ *      path="/module/post/v1/post/delete",
  *      operationId="deletePost",
  *      tags={"post"},
  *      summary="Delete one record of Post",
@@ -405,7 +405,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/post/delete-multiple",
+ *      path="/module/post/v1/post/delete-multiple",
  *      operationId="deleteMultiplePost",
  *      tags={"post"},
  *      summary="Delete multiple record of Post",

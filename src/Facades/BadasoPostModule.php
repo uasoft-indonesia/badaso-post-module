@@ -1,10 +1,10 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Facades;
+namespace Uasoft\Badaso\Module\Post\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class BadasoBlogModule extends Facade
+class BadasoPostModule extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class BadasoBlogModule extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'badaso-blog-module';
+        return 'badaso-post-module';
     }
 }
