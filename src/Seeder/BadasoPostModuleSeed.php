@@ -4,7 +4,7 @@ namespace Database\Seeders\Badaso\Post;
 
 use Illuminate\Database\Seeder;
 
-class BadasoModulePostSeeder extends Seeder
+class BadasoPostModuleSeed extends Seeder
 {
     /**
      * Run the database seeds.
