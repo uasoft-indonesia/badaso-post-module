@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Seeders\Badaso\Blog;
+namespace Database\Seeders\Badaso\Post;
 
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\RolePermission;
 
-class BlogRolePermissionsSeeder extends Seeder
+class PostRolePermissionsSeeder extends Seeder
 {
     /**
      * Auto generated seed file.

@@ -2,7 +2,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/category",
+ *      path="/module/post/v1/category",
  *      operationId="browseCategory",
  *      tags={"category"},
  *      summary="Browse Category",
@@ -16,7 +16,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/category/read",
+ *      path="/module/post/v1/category/read",
  *      operationId="readCategory",
  *      tags={"category"},
  *      summary="Get Category based on id",
@@ -47,7 +47,7 @@
 
 /**
  * @OA\Get(
- *      path="/module/blog/v1/category/read-slug",
+ *      path="/module/post/v1/category/read-slug",
  *      operationId="readCategoryBySlug",
  *      tags={"category"},
  *      summary="Get Category based on slug",
@@ -79,7 +79,7 @@
 
 /**
  * @OA\Post(
- *      path="/module/blog/v1/category/add",
+ *      path="/module/post/v1/category/add",
  *      operationId="addCategory",
  *      tags={"category"},
  *      summary="Insert new Category",
@@ -128,7 +128,7 @@
 
 /**
  * @OA\Put(
- *      path="/module/blog/v1/category/edit",
+ *      path="/module/post/v1/category/edit",
  *      operationId="editCategory",
  *      tags={"category"},
  *      summary="Edit an existing Category",
@@ -182,7 +182,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/category/delete",
+ *      path="/module/post/v1/category/delete",
  *      operationId="deleteCategory",
  *      tags={"category"},
  *      summary="Delete one record of Category",
@@ -211,7 +211,7 @@
 
 /**
  * @OA\Delete(
- *      path="/module/blog/v1/category/delete-multiple",
+ *      path="/module/post/v1/category/delete-multiple",
  *      operationId="deleteMultipleCategory",
  *      tags={"category"},
  *      summary="Delete multiple record of Category",

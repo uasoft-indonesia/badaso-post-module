@@ -1,6 +1,6 @@
 <?php
 
-namespace Uasoft\Badaso\Module\Blog\Controllers;
+namespace Uasoft\Badaso\Module\Post\Controllers;
 
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Module\Blog\Models\Comment;
-use Uasoft\Badaso\Module\Blog\Models\Post;
+use Uasoft\Badaso\Module\Post\Models\Comment;
+use Uasoft\Badaso\Module\Post\Models\Post;
 
 class CommentController extends Controller
 {
@@ -86,7 +86,7 @@ class CommentController extends Controller
 
                 return ApiResponse::success($comment_with_user);
             } else {
-                return ApiResponse::failed(__('badaso_blog::validation.auth.user_not_logged_in'));
+                return ApiResponse::failed(__('badaso_post::validation.auth.user_not_logged_in'));
             }
         } catch (Exception $e) {
             DB::rollback();
