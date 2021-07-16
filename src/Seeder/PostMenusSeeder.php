@@ -3,6 +3,7 @@
 namespace Database\Seeders\Badaso\Post;
 
 use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Models\Menu;
 
 class PostMenusSeeder extends Seeder
 {
@@ -22,24 +23,18 @@ class PostMenusSeeder extends Seeder
                 0 => [
                     'key' => 'post-module',
                     'display_name' => 'Post Menu',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
             $new_menus = [];
             foreach ($menus as $key => $value) {
-                $menu = \DB::table('menus')
-                        ->where('key', $value['key'])
-                        ->first();
+                $menu = Menu::where('key', $value['key'])->first();
 
                 if (isset($menu)) {
                     continue;
                 }
-                $new_menus[] = $value;
+                Menu::create($value);
             }
-
-            \DB::table('menus')->insert($new_menus);
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
             \DB::rollBack();
