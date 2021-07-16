@@ -13,9 +13,9 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('parent_id')->nullable();
+        Schema::create(config('badaso.database.prefix').'categories', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('parent_id');
             $table->string('title', 255);
             $table->string('meta_title', 255)->nullable();
             $table->string('slug', 255)->unique();
@@ -23,8 +23,8 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('categories', function (Blueprint $table) {
-            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+        Schema::table(config('badaso.database.prefix').'categories', function (Blueprint $table) {
+            $table->foreign('parent_id')->references('id')->on(config('badaso.database.prefix').'categories')->onDelete('cascade');
         });
     }
 
@@ -35,6 +35,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists(config('badaso.database.prefix').'categories');
     }
 }

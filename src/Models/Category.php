@@ -3,11 +3,20 @@
 namespace Uasoft\Badaso\Module\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Category extends Model
 {
-    protected $table = 'categories';
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'categories';
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
         'id',
@@ -17,18 +26,6 @@ class Category extends Model
         'slug',
         'content',
     ];
-
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), (string) Str::uuid());
-        });
-    }
 
     public function children()
     {

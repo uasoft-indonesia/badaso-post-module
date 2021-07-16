@@ -85,10 +85,10 @@
 /**
  * @OA\Get(
  *      path="/module/post/v1/post/browse-analytics",
- *      operationId="browsePost",
+ *      operationId="browseAnalytics",
  *      tags={"post"},
- *      summary="Browse Post",
- *      description="Returns list of Post",
+ *      summary="Browse Post with Analytics Parameter",
+ *      description="Returns list of Post with total view count",
  *      @OA\Parameter(
  *          name="order_field",
  *          required=false,
@@ -167,6 +167,38 @@
  * )
  */
 
+ /**
+  * @OA\Get(
+  *      path="/module/post/v1/post/popular",
+  *      operationId="browsePopular",
+  *      tags={"post"},
+  *      summary="Browse Popular Post",
+  *      description="Returns list of Popular Post",
+  *      @OA\Parameter(
+  *          name="page",
+  *          required=true,
+  *          example="1",
+  *          in="query",
+  *          @OA\Schema(
+  *              type="integer"
+  *          )
+  *      ),
+  *      @OA\Parameter(
+  *          name="limit",
+  *          required=true,
+  *          example="10",
+  *          in="query",
+  *          @OA\Schema(
+  *              type="integer"
+  *          )
+  *      ),
+  *      @OA\Response(response=200, description="Successful operation"),
+  *      @OA\Response(response=400, description="Bad request"),
+  *      @OA\Response(response=401, description="Unauthorized"),
+  *      @OA\Response(response=402, description="Payment Required"),
+  * )
+  */
+
 /**
  * @OA\Get(
  *      path="/module/post/v1/post/read",
@@ -179,7 +211,7 @@
  *          required=true,
  *          in="query",
  *          @OA\Schema(
- *              type="string"
+ *              type="integer"
  *          )
  *      ),
  *      @OA\Response(response=200, description="Successful operation"),
@@ -266,18 +298,18 @@
  *                     type="array",
  *                     @OA\Items(
  *                         type="string",
- *                         example="4568ae72-a8c8-4a51-8d93-5e5638e75747"
+ *                         example="1"
  *                     ),
  *                 ),
  *                 @OA\Property(
  *                     property="category",
  *                     type="string",
- *                     example="40781427-6a29-4571-847e-076d05839db2"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
- *                     property="commentCount",
- *                     type="number",
- *                     example="0"
+ *                     property="thumbnail",
+ *                     type="string",
+ *                     example="files/shares/logo.png"
  *                 ),
  *             )
  *         )
@@ -306,7 +338,7 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="string",
- *                     example="b601cfbe-9ce7-4257-bc6f-c1b8a7323873"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="title",
@@ -348,18 +380,18 @@
  *                     type="array",
  *                     @OA\Items(
  *                         type="string",
- *                         example="4568ae72-a8c8-4a51-8d93-5e5638e75747"
+ *                         example="1"
  *                     ),
  *                 ),
  *                 @OA\Property(
  *                     property="category",
  *                     type="string",
- *                     example="40781427-6a29-4571-847e-076d05839db2"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
- *                     property="commentCount",
- *                     type="number",
- *                     example="0"
+ *                     property="thumbnail",
+ *                     type="string",
+ *                     example="files/shares/logo.png"
  *                 ),
  *             )
  *         )
@@ -388,7 +420,7 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
- *                     example="b601cfbe-9ce7-4257-bc6f-c1b8a7323873"
+ *                     example="1"
  *                 ),
  *             )
  *         )
@@ -417,7 +449,7 @@
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
- *                     example="5733880e-c272-4608-b3bb-36efab1237ec,3a03f833-3e8e-4c16-b215-a0cf4957a016,..."
+ *                     example="1,2,3,..."
  *                 ),
  *             )
  *         )

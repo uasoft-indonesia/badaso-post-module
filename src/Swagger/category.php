@@ -26,14 +26,14 @@
  *          required=true,
  *          in="query",
  *          @OA\Schema(
- *              type="string"
+ *              type="integer"
  *          )
  *      ),
  *      @OA\Parameter(
  *          name="except",
  *          required=false,
  *          in="query",
- *          description="Get all categories except category on the parameter.",
+ *          description="Get the rest of categories.",
  *          @OA\Schema(
  *              type="boolean"
  *          )
@@ -65,7 +65,7 @@
  *          name="except",
  *          required=false,
  *          in="query",
- *          description="Get all categories except category on the parameter.",
+ *          description="Get the rest of categories.",
  *          @OA\Schema(
  *              type="boolean"
  *          )
@@ -91,12 +91,12 @@
  *                 @OA\Property(
  *                     property="title",
  *                     type="object",
- *                     example="example"
+ *                     example="Example Category"
  *                 ),
  *                 @OA\Property(
  *                     property="parentId",
  *                     type="object",
- *                     example="baccbc08-cd44-468c-9f91-e428615bd7d9"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="metaTitle",
@@ -140,17 +140,17 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
- *                     example="79b6e6ed-b54d-430e-9f2e-761b89033aad"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="title",
  *                     type="object",
- *                     example="example"
+ *                     example="Example Category Edit"
  *                 ),
  *                 @OA\Property(
  *                     property="parentId",
  *                     type="object",
- *                     example="baccbc08-cd44-468c-9f91-e428615bd7d9"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="metaTitle",
@@ -194,7 +194,7 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
- *                     example="79b6e6ed-b54d-430e-9f2e-761b89033aad"
+ *                     example="1"
  *                 ),
  *             )
  *         )
@@ -223,7 +223,7 @@
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
- *                     example="5733880e-c272-4608-b3bb-36efab1237ec,3a03f833-3e8e-4c16-b215-a0cf4957a016,..."
+ *                     example="1,2,3,..."
  *                 ),
  *             )
  *         )

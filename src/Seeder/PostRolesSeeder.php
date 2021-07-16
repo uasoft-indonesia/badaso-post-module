@@ -20,8 +20,6 @@ class PostRolesSeeder extends Seeder
             $roles = [
                 'name'         => 'editor',
                 'display_name' => 'Editor',
-                'created_at'   => '2021-01-01 15:26:06',
-                'updated_at'   => '2021-01-01 15:26:06',
             ];
 
             Role::firstOrCreate($roles);

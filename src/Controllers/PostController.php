@@ -21,8 +21,8 @@ class PostController extends Controller
             $request->validate([
                 'order_field'       => 'nullable|string',
                 'order_direction'   => 'nullable|string|in:desc,asc',
-                'category'          => 'nullable|exists:categories,slug',
-                'tag'               => 'nullable|exists:tags,slug',
+                'category'          => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
+                'tag'               => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
                 'page'              => 'sometimes|required|integer',
                 'limit'             => 'sometimes|required|integer',
                 'search'            => 'nullable|string',
@@ -78,13 +78,13 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'order_field' => 'nullable|string',
-                'order_direction' => 'nullable|string',
-                'category' => 'nullable|exists:categories,slug',
-                'tag'      => 'nullable|exists:tags,slug',
-                'page'     => 'sometimes|required|integer',
-                'limit' => 'sometimes|required|integer',
-                'search'   => 'nullable|string',
+                'order_field'       => 'nullable|string',
+                'order_direction'   => 'nullable|string|in:desc,asc',
+                'category'          => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
+                'tag'               => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
+                'page'              => 'sometimes|required|integer',
+                'limit'             => 'sometimes|required|integer',
+                'search'            => 'nullable|string',
             ]);
 
             $oldest = Post::oldest()->first();
@@ -134,15 +134,14 @@ class PostController extends Controller
         try {
             $request->validate([
                 'title'            => 'required|string',
-                'slug'             => 'required|string|max:255|unique:posts',
+                'slug'             => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Post',
                 'content'          => 'required|string',
                 'meta_title'       => 'nullable|string',
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'nullable|array|exists:tags,id',
-                'category'         => 'nullable|exists:categories,id',
-                'commentCount'     => 'required|integer',
+                'tags'             => 'nullable|array|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
+                'category'         => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
                 'thumbnail'        => 'nullable',
             ]);
 
@@ -160,7 +159,7 @@ class PostController extends Controller
                 'content'          => $request->content,
                 'thumbnail'        => $request->thumbnail,
                 'published'        => $request->published,
-                'comment_count'    => $request->comment_count,
+                'comment_count'    => 0,
                 'published_at'     => $request->published ? (string) now() : null,
             ]);
 
@@ -180,7 +179,7 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:posts',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
             ]);
 
             $post = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
@@ -228,7 +227,7 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:posts',
+                'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
             ]);
 
             $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
@@ -278,17 +277,16 @@ class PostController extends Controller
 
         try {
             $request->validate([
-                'id'               => 'required|exists:posts',
+                'id'               => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
                 'title'            => 'required|string',
-                'slug'             => 'required|string|max:255|exists:posts,slug',
+                'slug'             => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Post,slug',
                 'content'          => 'required|string',
                 'meta_title'       => 'nullable|string',
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'nullable|array|exists:tags,id',
-                'category'         => 'nullable|exists:categories,id',
-                'commentCount'     => 'required|integer',
+                'tags'             => 'nullable|array|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
+                'category'         => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
                 'thumbnail'        => 'nullable',
             ]);
 
@@ -305,7 +303,6 @@ class PostController extends Controller
             $post->content = $request->content;
             $post->published = $request->published;
             $post->thumbnail = $request->thumbnail;
-            $post->comment_count = $request->comment_count;
             $post->published_at = $request->published ? (string) now() : null;
             $post->update();
             $post->tags()->sync($request->tags);
@@ -326,7 +323,7 @@ class PostController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:posts',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
             ]);
 
             $post = Post::findOrFail($request->id);
