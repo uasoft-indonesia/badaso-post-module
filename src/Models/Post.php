@@ -3,12 +3,21 @@
 namespace Uasoft\Badaso\Module\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
 
 class Post extends Model
 {
-    protected $table = 'posts';
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'posts';
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
         'id',
@@ -31,36 +40,24 @@ class Post extends Model
 
     protected $hidden = ['pivot'];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), (string) Str::uuid());
-        });
-    }
-
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'post_tag');
+        return $this->belongsToMany(Tag::class, config('badaso.database.prefix').'post_tag');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'post_id', 'id');
     }
 
     public function children()

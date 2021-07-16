@@ -32,7 +32,7 @@ class TagController extends Controller
             $request->validate([
                 'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|unique:tags',
+                'slug'       => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Tag',
                 'content'    => 'nullable|string',
             ]);
 
@@ -53,7 +53,7 @@ class TagController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:tags,id',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
             ]);
 
             $tags = Tag::findOrFail($request->id);
@@ -70,7 +70,7 @@ class TagController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:tags,slug',
+                'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
             ]);
 
             $tags = Tag::where('slug', $request->slug)->firstOrFail();
@@ -89,10 +89,10 @@ class TagController extends Controller
 
         try {
             $request->validate([
-                'id'         => 'required|string|size:36|exists:tags,id',
+                'id'         => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
                 'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|exists:tags,slug',
+                'slug'       => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
                 'content'    => 'nullable|string',
             ]);
 
@@ -115,7 +115,7 @@ class TagController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:tags|string',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag|string',
             ]);
 
             $tags = Tag::findOrFail($request->id);

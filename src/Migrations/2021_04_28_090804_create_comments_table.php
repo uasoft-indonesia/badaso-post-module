@@ -13,19 +13,19 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('post_id');
-            $table->uuid('parent_id')->nullable();
+        Schema::create(config('badaso.database.prefix').'comments', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->longText('content');
             $table->timestamps();
         });
 
-        Schema::table('comments', function (Blueprint $table) {
-            $table->foreign('post_id')->references('id')->on('posts');
-            $table->foreign('parent_id')->references('id')->on('comments')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users');
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
+            $table->foreign('post_id')->references('id')->on(config('badaso.database.prefix').'posts')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on(config('badaso.database.prefix').'comments')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users');
         });
     }
 
@@ -36,6 +36,6 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists(config('badaso.database.prefix').'comments');
     }
 }

@@ -3,12 +3,21 @@
 namespace Uasoft\Badaso\Module\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
 
 class Comment extends Model
 {
-    protected $table = 'comments';
+    protected $table = null;
+    
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'comments';
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
         'id',
@@ -17,18 +26,6 @@ class Comment extends Model
         'user_id',
         'content',
     ];
-
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), (string) Str::uuid());
-        });
-    }
 
     public function children()
     {
@@ -42,11 +39,11 @@ class Comment extends Model
 
     public function post()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class, 'post_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
