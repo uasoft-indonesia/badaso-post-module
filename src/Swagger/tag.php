@@ -117,7 +117,7 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
- *                     example="79b6e6ed-b54d-430e-9f2e-761b89033aad"
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="title",
@@ -166,7 +166,7 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
- *                     example="79b6e6ed-b54d-430e-9f2e-761b89033aad"
+ *                     example="1"
  *                 ),
  *             )
  *         )
@@ -195,7 +195,7 @@
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
- *                     example="5733880e-c272-4608-b3bb-36efab1237ec,3a03f833-3e8e-4c16-b215-a0cf4957a016,..."
+ *                     example="1,2,3,..."
  *                 ),
  *             )
  *         )

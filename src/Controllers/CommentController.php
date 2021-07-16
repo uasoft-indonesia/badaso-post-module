@@ -31,10 +31,10 @@ class CommentController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:posts,slug',
+                'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,slug',
                 'page' => 'required|integer',
                 'per_page' => 'nullable|integer',
-                'sort' => 'nullable|string',
+                'sort' => 'nullable|string|in:asc,desc',
             ]);
 
             $comments = Comment::with('user:id,name,avatar', 'children.user:id,name,avatar')
@@ -60,8 +60,8 @@ class CommentController extends Controller
         try {
             if (Auth::check()) {
                 $request->validate([
-                    'post_id'   => 'required|exists:posts,id',
-                    'parent_id' => 'nullable|exists:comments,id',
+                    'post_id'   => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
+                    'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
                     'content'   => 'required|string',
                 ]);
 
@@ -99,7 +99,7 @@ class CommentController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|string|size:36|exists:comments',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment',
             ]);
 
             $comment = Comment::with('post', 'user:id,name', 'parent', 'children')->first();
@@ -118,8 +118,9 @@ class CommentController extends Controller
 
         try {
             $request->validate([
-                'post_id'   => 'required|exists:posts,id',
-                'parent_id' => 'nullable|exists:comments,id',
+                'id'        => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
+                'post_id'   => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
+                'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
                 'content'   => 'required|string',
             ]);
 
@@ -148,7 +149,7 @@ class CommentController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:comments,id',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
             ]);
 
             $comment = Comment::findOrFail($request->id);

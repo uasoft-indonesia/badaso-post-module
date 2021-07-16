@@ -33,13 +33,41 @@
  *              type="string"
  *          )
  *      ),
+ *      @OA\Parameter(
+ *          name="page",
+ *          required=true,
+ *          in="query",
+ *          example="1",
+ *          @OA\Schema(
+ *              type="integer"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="per_page",
+ *          required=false,
+ *          in="query",
+ *          example="10",
+ *          @OA\Schema(
+ *              type="integer"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="sort",
+ *          required=false,
+ *          in="query",
+ *          @OA\Schema(
+ *              type="array",
+ *              @OA\Items(
+ *                   type="string",
+ *                   enum={"asc", "desc"},
+ *                   default="asc",
+ *              )
+ *          )
+ *      ),
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
- *      security={
- *          {"bearerAuth": {}}
- *      }
  * )
  */
 
@@ -55,7 +83,7 @@
  *          required=true,
  *          in="query",
  *          @OA\Schema(
- *              type="string"
+ *              type="integer"
  *          )
  *      ),
  *      @OA\Response(response=200, description="Successful operation"),
@@ -82,7 +110,12 @@
  *                 @OA\Property(
  *                     property="postId",
  *                     type="object",
- *                     example="798895fc-ba0b-4792-87f8-b78e7e4aa2d4"
+ *                     example="1"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="parentId",
+ *                     type="object",
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="content",
@@ -111,14 +144,24 @@
  *             mediaType="application/json",
  *             @OA\Schema(
  *                 @OA\Property(
+ *                     property="id",
+ *                     type="object",
+ *                     example="1"
+ *                 ),
+ *                 @OA\Property(
  *                     property="postId",
  *                     type="object",
- *                     example="798895fc-ba0b-4792-87f8-b78e7e4aa2d4"
+ *                     example="1"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="parentId",
+ *                     type="object",
+ *                     example="1"
  *                 ),
  *                 @OA\Property(
  *                     property="content",
  *                     type="object",
- *                     example="Lorem ipsum dolor sit amet"
+ *                     example="Lorem ipsum dolor sit amet Edit"
  *                 ),
  *             )
  *         )
@@ -147,7 +190,7 @@
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
- *                     example="79b6e6ed-b54d-430e-9f2e-761b89033aad"
+ *                     example="1"
  *                 ),
  *             )
  *         )
@@ -176,7 +219,7 @@
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
- *                     example="5733880e-c272-4608-b3bb-36efab1237ec,3a03f833-3e8e-4c16-b215-a0cf4957a016,..."
+ *                     example="1,2,3,..."
  *                 ),
  *             )
  *         )
