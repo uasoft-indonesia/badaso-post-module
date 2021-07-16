@@ -33,7 +33,7 @@
  *              type="string"
  *          )
  *      ),
-*      @OA\Parameter(
+ *      @OA\Parameter(
  *          name="page",
  *          required=true,
  *          in="query",
