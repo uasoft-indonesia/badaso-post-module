@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Module\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class PostTag extends Model
 {
     protected $table = null;
 
@@ -14,22 +14,13 @@ class Tag extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'tags';
+        $this->table = $prefix.'post_tag';
         parent::__construct($attributes);
     }
 
     protected $fillable = [
         'id',
-        'title',
-        'meta_title',
-        'slug',
-        'content',
+        'post_id',
+        'tag_id',
     ];
-
-    protected $hidden = ['pivot'];
-
-    public function posts()
-    {
-        return $this->belongsToMany(Post::class, config('badaso.database.prefix').'post_tag');
-    }
 }

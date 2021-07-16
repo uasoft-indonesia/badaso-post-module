@@ -13,8 +13,8 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+        Schema::create(config('badaso.database.prefix').'tags', function (Blueprint $table) {
+            $table->id();
             $table->string('title', 255);
             $table->string('meta_title', 255)->nullable();
             $table->string('slug', 255)->unique();
@@ -30,6 +30,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists(config('badaso.database.prefix').'tags');
     }
 }

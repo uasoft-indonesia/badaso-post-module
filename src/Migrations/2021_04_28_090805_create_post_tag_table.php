@@ -13,14 +13,15 @@ class CreatePostTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_tag', function (Blueprint $table) {
-            $table->uuid('post_id');
-            $table->uuid('tag_id');
+        Schema::create(config('badaso.database.prefix').'post_tag', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('post_id');
+            $table->foreignId('tag_id');
         });
 
-        Schema::table('post_tag', function (Blueprint $table) {
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+        Schema::table(config('badaso.database.prefix').'post_tag', function (Blueprint $table) {
+            $table->foreign('post_id')->references('id')->on(config('badaso.database.prefix').'posts')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on(config('badaso.database.prefix').'tags')->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,6 @@ class CreatePostTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_tag');
+        Schema::dropIfExists(config('badaso.database.prefix').'post_tag');
     }
 }
