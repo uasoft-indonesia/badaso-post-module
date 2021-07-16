@@ -168,36 +168,36 @@
  */
 
  /**
- * @OA\Get(
- *      path="/module/post/v1/post/popular",
- *      operationId="browsePopular",
- *      tags={"post"},
- *      summary="Browse Popular Post",
- *      description="Returns list of Popular Post",
- *      @OA\Parameter(
- *          name="page",
- *          required=true,
- *          example="1",
- *          in="query",
- *          @OA\Schema(
- *              type="integer"
- *          )
- *      ),
- *      @OA\Parameter(
- *          name="limit",
- *          required=true,
- *          example="10",
- *          in="query",
- *          @OA\Schema(
- *              type="integer"
- *          )
- *      ),
- *      @OA\Response(response=200, description="Successful operation"),
- *      @OA\Response(response=400, description="Bad request"),
- *      @OA\Response(response=401, description="Unauthorized"),
- *      @OA\Response(response=402, description="Payment Required"),
- * )
- */
+  * @OA\Get(
+  *      path="/module/post/v1/post/popular",
+  *      operationId="browsePopular",
+  *      tags={"post"},
+  *      summary="Browse Popular Post",
+  *      description="Returns list of Popular Post",
+  *      @OA\Parameter(
+  *          name="page",
+  *          required=true,
+  *          example="1",
+  *          in="query",
+  *          @OA\Schema(
+  *              type="integer"
+  *          )
+  *      ),
+  *      @OA\Parameter(
+  *          name="limit",
+  *          required=true,
+  *          example="10",
+  *          in="query",
+  *          @OA\Schema(
+  *              type="integer"
+  *          )
+  *      ),
+  *      @OA\Response(response=200, description="Successful operation"),
+  *      @OA\Response(response=400, description="Bad request"),
+  *      @OA\Response(response=401, description="Unauthorized"),
+  *      @OA\Response(response=402, description="Payment Required"),
+  * )
+  */
 
 /**
  * @OA\Get(

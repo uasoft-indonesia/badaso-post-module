@@ -8,7 +8,7 @@ use Uasoft\Badaso\Models\User;
 class Comment extends Model
 {
     protected $table = null;
-    
+
     /**
      * Constructor for setting the table name dynamically.
      */
