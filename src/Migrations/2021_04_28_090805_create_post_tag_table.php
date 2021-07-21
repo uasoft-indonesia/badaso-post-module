@@ -15,8 +15,8 @@ class CreatePostTagTable extends Migration
     {
         Schema::create(config('badaso.database.prefix').'post_tag', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('post_id');
-            $table->uuid('tag_id');
+            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('tag_id');
         });
 
         Schema::table(config('badaso.database.prefix').'post_tag', function (Blueprint $table) {
