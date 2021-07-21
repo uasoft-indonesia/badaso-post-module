@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Post\Models\Tag;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class TagController extends Controller
 {
@@ -32,7 +34,7 @@ class TagController extends Controller
             $request->validate([
                 'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Tag',
+                'slug'       => ['required', 'string', 'max:255', new UniqueModel(Tag::class, 'slug')],
                 'content'    => 'nullable|string',
             ]);
 
@@ -53,7 +55,7 @@ class TagController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
+                'id' => ['required', new ExistsModel(Tag::class, 'id')],
             ]);
 
             $tags = Tag::findOrFail($request->id);
@@ -70,7 +72,7 @@ class TagController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
+                'slug' => ['required', new ExistsModel(Tag::class, 'slug')],
             ]);
 
             $tags = Tag::where('slug', $request->slug)->firstOrFail();
@@ -89,10 +91,10 @@ class TagController extends Controller
 
         try {
             $request->validate([
-                'id'         => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
+                'id'         => ['required', new ExistsModel(Tag::class, 'id')],
                 'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
+                'slug'       => ['required', 'string', 'max:255', new ExistsModel(Tag::class, 'slug')],
                 'content'    => 'nullable|string',
             ]);
 
@@ -115,7 +117,7 @@ class TagController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag|string',
+                'id' => ['required', new ExistsModel(Tag::class, 'id')],
             ]);
 
             $tags = Tag::findOrFail($request->id);

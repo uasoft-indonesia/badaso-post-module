@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Post\Models\Category;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class CategoryController extends Controller
 {
@@ -32,9 +34,9 @@ class CategoryController extends Controller
             $request->validate([
                 'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Category',
+                'slug'       => ['required', 'string', 'max:255', new UniqueModel(Category::class, 'slug')],
                 'content'    => 'nullable|string',
-                'parent_id'  => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
+                'parent_id'  => ['nullable', new ExistsModel(Category::class, 'id')],
             ]);
 
             $category = Category::create($request->all());
@@ -54,7 +56,7 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'id'     => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
+                'id'     => ['required', new ExistsModel(Category::class, 'id')],
                 'except' => 'nullable|in:true,false',
             ]);
 
@@ -76,7 +78,7 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'slug'   => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
+                'slug'   => ['required', new ExistsModel(Category::class, 'slug')],
                 'except' => 'nullable|in:true,false',
             ]);
 
@@ -100,12 +102,12 @@ class CategoryController extends Controller
 
         try {
             $request->validate([
-                'id'         => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
+                'id'         => ['required', new ExistsModel(Category::class, 'id')],
                 'title'      => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
+                'slug'       => ['required', 'string', 'max:255', new ExistsModel(Category::class, 'slug')],
                 'content'    => 'nullable|string',
-                'parent_id'  => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
+                'parent_id'  => ['nullable', new ExistsModel(Category::class, 'id')],
             ]);
 
             $category = Category::findOrFail($request->id);
@@ -127,7 +129,7 @@ class CategoryController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category|string',
+                'id' => ['required', new ExistsModel(Category::class, 'id')],
             ]);
 
             $category = Category::findOrFail($request->id);
