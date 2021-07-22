@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create(config('badaso.database.prefix').'categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('title', 255);
             $table->string('meta_title', 255)->nullable();
             $table->string('slug', 255)->unique();

@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Post\Helpers\GetData;
+use Uasoft\Badaso\Module\Post\Models\Category;
 use Uasoft\Badaso\Module\Post\Models\Post;
+use Uasoft\Badaso\Module\Post\Models\Tag;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 use Uasoft\Badaso\Traits\FileHandler;
 
 class PostController extends Controller
@@ -21,8 +25,8 @@ class PostController extends Controller
             $request->validate([
                 'order_field'       => 'nullable|string',
                 'order_direction'   => 'nullable|string|in:desc,asc',
-                'category'          => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
-                'tag'               => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
+                'category'          => ['nullable', new ExistsModel(Category::class, 'slug')],
+                'tag'               => ['nullable', new ExistsModel(Tag::class, 'slug')],
                 'page'              => 'sometimes|required|integer',
                 'limit'             => 'sometimes|required|integer',
                 'search'            => 'nullable|string',
@@ -80,8 +84,8 @@ class PostController extends Controller
             $request->validate([
                 'order_field'       => 'nullable|string',
                 'order_direction'   => 'nullable|string|in:desc,asc',
-                'category'          => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
-                'tag'               => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
+                'category'          => ['nullable', new ExistsModel(Category::class, 'slug')],
+                'tag'               => ['nullable', new ExistsModel(Tag::class, 'slug')],
                 'page'              => 'sometimes|required|integer',
                 'limit'             => 'sometimes|required|integer',
                 'search'            => 'nullable|string',
@@ -134,14 +138,14 @@ class PostController extends Controller
         try {
             $request->validate([
                 'title'            => 'required|string',
-                'slug'             => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Post',
+                'slug'             => ['required', 'string', 'max:255', new UniqueModel(Post::class, 'slug')],
                 'content'          => 'required|string',
                 'meta_title'       => 'nullable|string',
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'nullable|array|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
-                'category'         => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
+                'tags'             => ['nullable', 'array', new ExistsModel(Tag::class, 'id')],
+                'category'         => ['nullable', new ExistsModel(Category::class, 'id')],
                 'thumbnail'        => 'nullable',
             ]);
 
@@ -179,7 +183,7 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
+                'id' => ['required', new ExistsModel(Post::class, 'id')],
             ]);
 
             $post = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
@@ -227,7 +231,7 @@ class PostController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
+                'slug' => ['required', new ExistsModel(Post::class, 'slug')],
             ]);
 
             $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
@@ -277,16 +281,16 @@ class PostController extends Controller
 
         try {
             $request->validate([
-                'id'               => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
+                'id'               => ['required', new ExistsModel(Post::class, 'id')],
                 'title'            => 'required|string',
-                'slug'             => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Post,slug',
+                'slug'             => ['required', 'string', 'max:255', new ExistsModel(Post::class, 'slug')],
                 'content'          => 'required|string',
                 'meta_title'       => 'nullable|string',
                 'meta_description' => 'nullable|string',
                 'summary'          => 'nullable|string',
                 'published'        => 'required|boolean',
-                'tags'             => 'nullable|array|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
-                'category'         => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
+                'tags'             => ['nullable', 'array', new ExistsModel(Tag::class, 'id')],
+                'category'         => ['nullable', new ExistsModel(Category::class, 'id')],
                 'thumbnail'        => 'nullable',
             ]);
 
@@ -323,7 +327,7 @@ class PostController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
+                'id' => ['required', new ExistsModel(Post::class, 'id')],
             ]);
 
             $post = Post::findOrFail($request->id);
