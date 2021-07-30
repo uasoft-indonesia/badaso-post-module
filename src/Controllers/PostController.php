@@ -195,7 +195,7 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
-            if (!empty($post->published_at)) {
+            if (! empty($post->published_at)) {
                 $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
                 $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
             }
