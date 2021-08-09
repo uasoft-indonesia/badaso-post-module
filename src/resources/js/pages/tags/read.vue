@@ -17,7 +17,7 @@
           <div slot="header">
             <h3>{{ $t("tags.detail.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr>
               <th>{{ $t("tags.detail.header.title") }}</th>
               <td>{{ tags.title }}</td>

@@ -17,7 +17,7 @@
           <div slot="header">
             <h3>{{ $t("posts.detail.title") }}</h3>
           </div>
-          <table class="table" v-if="posts">
+          <table class="badaso-table" v-if="posts">
             <tr>
               <th>{{ $t("posts.detail.header.title") }}</th>
               <td>{{ posts.title }}</td>
@@ -40,7 +40,7 @@
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.thumbnail") }}</th>
-              <td><img class="thumbnail" :src="meta.mediaBaseUrl + posts.thumbnail"></td>
+              <td><img class="thumbnail" :src="posts.thumbnail"></td>
             </tr>
             <tr>
               <th>{{ $t("posts.detail.header.metaTitle") }}</th>
