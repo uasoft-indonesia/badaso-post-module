@@ -183,6 +183,8 @@ class PostController extends Controller
             ]);
 
             $post = Post::with('category', 'tags', 'user:id,name')->where('id', $request->id)->first();
+            $previous = null;
+            $next = null;
 
             if (! isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
@@ -193,8 +195,10 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
-            $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
-            $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
+            if (! empty($post->published_at)) {
+                $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
+                $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
+            }
             $related = Post::with('category', 'tags', 'user:id,name')->where('category_id', $post->category_id)->limit(4)->get();
 
             $data['post'] = $post->toArray();
