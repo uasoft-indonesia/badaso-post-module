@@ -149,8 +149,6 @@ class PostController extends Controller
                 'thumbnail'        => 'nullable',
             ]);
 
-            $doc = new \DOMDocument();
-
             $post = Post::create([
                 'user_id'          => auth()->user()->id,
                 'parent_id'        => $request->parent ?? null,
