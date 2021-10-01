@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Module\Post\Controllers;
 
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,7 @@ class PostController extends Controller
                     });
                 })
                 ->when($search, function ($query, $search) {
-                    return $query->where('title', 'LIKE', '%'.$search.'%')
+                    return $query->where('title', 'LIKE', '%' . $search . '%')
                         ->orWhereHas('tags', function ($q) use ($search) {
                             $q->where('slug', $search)->orWhere('title', $search);
                         });
@@ -186,7 +187,7 @@ class PostController extends Controller
             $previous = null;
             $next = null;
 
-            if (! isset($post['thumbnail'])) {
+            if (!isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
                 @$doc->loadHTML($content);
@@ -195,7 +196,7 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
-            if (! empty($post->published_at)) {
+            if (!empty($post->published_at)) {
                 $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
                 $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
             }
@@ -234,9 +235,9 @@ class PostController extends Controller
                 'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post',
             ]);
 
-            $post = Post::with('category.parent', 'tags', 'user:id,name')->where('slug', $request->slug)->first();
+            $post = Post::with('category.parent', 'tags', 'user:id,name,username,avatar')->where('slug', $request->slug)->first();
 
-            if (! isset($post['thumbnail'])) {
+            if (!isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
                 @$doc->loadHTML($content);
@@ -245,9 +246,9 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
-            $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
-            $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
-            $related = Post::with('category', 'tags', 'user:id,name')->where('category_id', $post->category_id)->limit(4)->get();
+            $previous = Post::with('category', 'tags', 'user:id,name,username,avatar')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
+            $next = Post::with('category', 'tags', 'user:id,name,username,avatar')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
+            $related = Post::with('category', 'tags', 'user:id,name,username,avatar')->where('category_id', $post->category_id)->limit(4)->get();
 
             $data['post'] = $post->toArray();
 
@@ -268,6 +269,29 @@ class PostController extends Controller
             } else {
                 $data['related'] = null;
             }
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function author(Request $request)
+    {
+        try {
+            $request->validate([
+                'username' => 'required|exists:Uasoft\Badaso\Models\User,username',
+            ]);
+
+            $data['posts'] = Post::with('category.parent', 'tags')
+                ->whereHas('user', function ($query) use ($request) {
+                    return $query->where('username', $request->username);
+                })
+                ->paginate(18)
+                ->toArray();
+            $data['user'] = User::select(['id', 'name', 'username', 'avatar'])
+                ->where('username', $request->username)
+                ->firstOrFail();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
