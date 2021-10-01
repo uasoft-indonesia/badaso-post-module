@@ -13,6 +13,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
             Route::get('/popular', 'PostController@browseMostPopularPost');
             Route::get('/read', 'PostController@read')->middleware(BadasoCheckPermissions::class.':read_posts');
             Route::get('/read-slug', 'PostController@readBySlug');
+            Route::get('/author', 'PostController@author');
             Route::post('/add', 'PostController@add')->middleware(BadasoCheckPermissions::class.':add_posts');
             Route::put('/edit', 'PostController@edit')->middleware(BadasoCheckPermissions::class.':edit_posts');
             Route::delete('/delete', 'PostController@delete')->middleware(BadasoCheckPermissions::class.':delete_posts');
