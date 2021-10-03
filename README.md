@@ -21,7 +21,16 @@ composer require badaso/post-module:^1.0
 php artisan migrate
 php artisan badaso-post:setup
 composer dump-autoload
-php artisan db:seed --class=BadasoPostModuleSeed
+```
+
+For badaso v2.x (Laravel 8)
+```
+php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder"
+```
+
+For badaso v1.x (Laravel 5,6,7)
+```
+php artisan db:seed --class=BadasoPostModuleSeeder
 ```
 
 - Add the plugins to your `MIX_BADASO_MODULES` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
