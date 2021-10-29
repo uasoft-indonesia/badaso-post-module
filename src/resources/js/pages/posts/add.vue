@@ -25,6 +25,13 @@
                     :placeholder="$t('posts.add.field.content.placeholder')"
                     :alert="errors.content"
                   ></badaso-editor>
+                  <badaso-textarea
+                    v-model="post.summary"
+                    size="12"
+                    :label="$t('posts.add.field.summary.title')"
+                    :placeholder="$t('posts.add.field.summary.placeholder')"
+                    :alert="errors.summary"
+                  ></badaso-textarea>
                 </vs-row>
               </badaso-collapse-item>
               <badaso-collapse-item style="background: #fff;">
@@ -44,13 +51,7 @@
                     :placeholder="$t('posts.add.field.metaDescription.placeholder')"
                     :alert="errors.metaTitle"
                   ></badaso-text>
-                  <badaso-textarea
-                    v-model="post.summary"
-                    size="12"
-                    :label="$t('posts.add.field.summary.title')"
-                    :placeholder="$t('posts.add.field.summary.placeholder')"
-                    :alert="errors.summary"
-                  ></badaso-textarea>
+
                 </vs-row>
               </badaso-collapse-item>
             </badaso-collapse>
