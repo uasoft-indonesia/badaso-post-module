@@ -175,7 +175,7 @@ class GetData
         return $posts->values()->all();
     }
 
-    private static function getAnalyticsData($token, $data, $period, $url = [],)
+    private static function getAnalyticsData($token, $data, $period, $url = [])
     {
         if (count($url) > 0) {
             $client = new \GuzzleHttp\Client();
