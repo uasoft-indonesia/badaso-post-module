@@ -150,7 +150,7 @@ class GetData
         $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
         $response = json_decode($res->getBody()->getContents());
 
-        if (array_key_exists('rows', $response)) {
+        if (array_key_exists('rows', (array) $response)) {
             foreach ($response->rows as $key => $row) {
                 if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
                     $result[$row[0]] = (int) $row[1];
