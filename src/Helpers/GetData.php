@@ -95,7 +95,7 @@ class GetData
             }
         }
 
-        $rows = self::getAnalyticsData($token, $url, $data, $period);
+        $rows = self::getAnalyticsData($token, $data, $period, $url);
 
         foreach ($data['data'] as $key => $value) {
             $search = $rows[$prefix.'/'.$value['slug']] ?? null;
@@ -175,7 +175,7 @@ class GetData
         return $posts->values()->all();
     }
 
-    private static function getAnalyticsData($token, $url = [], $data, $period)
+    private static function getAnalyticsData($token, $data, $period, $url = [],)
     {
         if (count($url) > 0) {
             $client = new \GuzzleHttp\Client();
