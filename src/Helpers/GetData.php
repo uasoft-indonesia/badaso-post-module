@@ -177,6 +177,7 @@ class GetData
 
     private static function getAnalyticsData($token, $data, $period, $url = [])
     {
+        $prefix = config('badaso-post.post_url_prefix') ? '/'.config('badaso-post.post_url_prefix') : '';
         if (count($url) > 0) {
             $client = new \GuzzleHttp\Client();
             $data = [];
@@ -195,7 +196,7 @@ class GetData
             $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
             $response = json_decode($res->getBody()->getContents());
 
-            if (array_key_exists('rows', $response)) {
+            if (array_key_exists('rows', (array) $response)) {
                 foreach ($response->rows as $key => $row) {
                     if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
                         $data[$row[0]] = $row[1];
