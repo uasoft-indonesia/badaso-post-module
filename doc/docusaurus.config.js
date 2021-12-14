@@ -15,6 +15,7 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "uasoft-indonesia", // Usually your GitHub org/user name.
   projectName: "badaso-post-module-docs", // Usually your repo name.
+  trailingSlash: false,
 
   i18n: {
     defaultLocale: "en",
@@ -82,7 +83,7 @@ const config = {
             items: [
               {
                 label: "Introduction",
-                to: "/introduction",
+                to: "/",
               },
               {
                 label: "Installation",

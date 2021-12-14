@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
-docId: 'introduction'
+# docId: 'introduction'
+slug: /
 ---
 
 # Introduction
