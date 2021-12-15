@@ -56,12 +56,12 @@ const config = {
           src: "img/badaso-post-logo.png",
         },
         items: [
-          {
-            type: "doc",
-            docId: "introduction",
-            position: "left",
-            label: "Tutorial",
-          },
+          // {
+          //   type: "doc",
+          //   docId: "introduction",
+          //   position: "left",
+          //   label: "Tutorial",
+          // },
           
           {
             type: "localeDropdown",
