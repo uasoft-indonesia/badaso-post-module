@@ -46,7 +46,7 @@ class PostController extends Controller
                     });
                 })
                 ->when($search, function ($query, $search) {
-                    return $query->where('title', 'LIKE', '%'.$search.'%')
+                    return $query->where('title', 'LIKE', '%' . $search . '%')
                         ->orWhereHas('tags', function ($q) use ($search) {
                             $q->where('slug', $search)->orWhere('title', $search);
                         });
@@ -187,7 +187,7 @@ class PostController extends Controller
             $previous = null;
             $next = null;
 
-            if (! isset($post['thumbnail'])) {
+            if (!isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
                 @$doc->loadHTML($content);
@@ -196,7 +196,7 @@ class PostController extends Controller
                 $post['thumbnail'] = $src === '' ? null : $src;
             }
 
-            if (! empty($post->published_at)) {
+            if (!empty($post->published_at)) {
                 $previous = Post::with('category', 'tags', 'user:id,name')->where('published_at', '<', $post->published_at)->orderBy('published_at', 'desc')->first();
                 $next = Post::with('category', 'tags', 'user:id,name')->where('published_at', '>', $post->published_at)->orderBy('published_at', 'desc')->first();
             }
@@ -237,7 +237,7 @@ class PostController extends Controller
 
             $post = Post::with('category.parent', 'tags', 'user:id,name,username,avatar')->where('slug', $request->slug)->first();
 
-            if (! isset($post['thumbnail'])) {
+            if (!isset($post['thumbnail'])) {
                 $doc = new \DOMDocument();
                 $content = $post->content;
                 @$doc->loadHTML($content);
