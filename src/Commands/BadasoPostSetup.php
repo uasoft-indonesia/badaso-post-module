@@ -70,10 +70,11 @@ class BadasoPostSetup extends Command
     protected function envListUpload()
     {
         return [
-            'MIX_POST_URL_PREFIX' => '',
+            'MIX_POST_URL_PREFIX' => 'post',
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',
+            'MIX_FRONTEND_URL' => 'http://localhost:8000'
         ];
     }
 
@@ -111,7 +112,7 @@ class BadasoPostSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env '.$e->getMessage());
+            $this->error('Failed adding badaso env ' . $e->getMessage());
         }
     }
 
@@ -123,14 +124,14 @@ class BadasoPostSetup extends Command
             $tables = BadasoPostModule::getProtectedTables();
 
             foreach ($tables as $key => $value) {
-                if (! in_array($value, $config_hidden_tables)) {
+                if (!in_array($value, $config_hidden_tables)) {
                     array_push($config_hidden_tables, $value);
                 }
             }
 
             $exported_config = VarExporter::export($config_hidden_tables);
             $exported_config = <<<PHP
-                <?php 
+                <?php
                 return {$exported_config} ;
                 PHP;
             file_put_contents($config_path, $exported_config);

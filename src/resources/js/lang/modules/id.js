@@ -40,25 +40,25 @@ export default {
         },
         summary: {
           title: "Ringkasan",
-          placeholder: "Ringkasan"
+          placeholder: "Ringkasan",
         },
         metaTitle: {
           title: "Judul Meta",
-          placeholder: "Judul Meta untuk SEO"
+          placeholder: "Judul Meta untuk SEO",
         },
         metaDescription: {
           title: "Deskripsi Meta",
-          placeholder: "Deskripsi Meta untuk SEO"
+          placeholder: "Deskripsi Meta untuk SEO",
         },
         content: {
           title: "Konten",
-          placeholder: "Konten"
+          placeholder: "Konten",
         },
         published: {
           title: "Publikasi",
-          placeholder: "Publikasi"
+          placeholder: "Publikasi",
         },
-      }
+      },
     },
     edit: {
       title: "Post Konten",
@@ -86,29 +86,29 @@ export default {
         },
         summary: {
           title: "Ringkasan",
-          placeholder: "Ringkasan"
+          placeholder: "Ringkasan",
         },
         metaTitle: {
           title: "Judul Meta",
-          placeholder: "Judul Meta untuk SEO"
+          placeholder: "Judul Meta untuk SEO",
         },
         metaDescription: {
           title: "Deskripsi Meta",
-          placeholder: "Deskripsi Meta untuk SEO"
+          placeholder: "Deskripsi Meta untuk SEO",
         },
         content: {
           title: "Konten",
-          placeholder: "Konten"
+          placeholder: "Konten",
         },
         published: {
           title: "Publikasi",
-          placeholder: "Publikasi"
+          placeholder: "Publikasi",
         },
         featured: {
           title: "Thumbnail",
           placeholder: "Thumbnail",
-        }
-      }
+        },
+      },
     },
     detail: {
       title: "Detail Post",
@@ -165,9 +165,9 @@ export default {
         },
         content: {
           title: "Deskripsi",
-          placeholder: "Deskripsi"
-        }
-      }
+          placeholder: "Deskripsi",
+        },
+      },
     },
     edit: {
       title: "Ubah Kategori",
@@ -191,9 +191,9 @@ export default {
         },
         content: {
           title: "Deskripsi",
-          placeholder: "Deskripsi"
-        }
-      }
+          placeholder: "Deskripsi",
+        },
+      },
     },
     detail: {
       title: "Detail Kategori",
@@ -239,9 +239,9 @@ export default {
         },
         content: {
           title: "Deskripsi",
-          placeholder: "Deskripsi"
-        }
-      }
+          placeholder: "Deskripsi",
+        },
+      },
     },
     edit: {
       title: "Ubah Tag",
@@ -261,9 +261,9 @@ export default {
         },
         content: {
           title: "Deskripsi",
-          placeholder: "Deskripsi"
-        }
-      }
+          placeholder: "Deskripsi",
+        },
+      },
     },
     detail: {
       title: "Detail Tag",
@@ -302,7 +302,7 @@ export default {
           title: "Posting",
           placeholder: "Posting",
         },
-      }
+      },
     },
     edit: {
       title: "Ubah Komentar",
@@ -316,7 +316,7 @@ export default {
           title: "Posting",
           placeholder: "Posting",
         },
-      }
+      },
     },
     detail: {
       title: "Komentar Detail",
@@ -328,5 +328,8 @@ export default {
         submit: "Dikirim Pada",
       },
     },
-  }
+  },
+  browse: {
+    visitBlog: "Kunjungi Blog",
+  },
 };
