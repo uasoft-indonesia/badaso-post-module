@@ -184,8 +184,7 @@ class GetData
             $params = [
                 'query' => [
                     'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
-                    // 'start-date' => $period->startDate->format('Y-m-d'),
-                    'start-date' => '2020-01-01',
+                    'start-date' => $period->startDate->format('Y-m-d'),
                     'end-date' => $period->endDate->format('Y-m-d'),
                     'metrics' => 'ga:pageviews',
                     'dimensions' => 'ga:pagePath',
