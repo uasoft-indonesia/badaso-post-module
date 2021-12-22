@@ -8,13 +8,13 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "Badaso Post Module Documentation",
   tagline: "Badaso post module official documentation",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://badaso-post.uatech.co.id",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "uasoft-indonesia", // Usually your GitHub org/user name.
-  projectName: "badaso-post-module-docs", // Usually your repo name.
+  projectName: "badaso-post-module", // Usually your repo name.
   trailingSlash: false,
 
   i18n: {
@@ -30,14 +30,14 @@ const config = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "https://github.com/facebook/docusaurus/edit/main/website/",
+          editUrl: "https://github.com/uasoft-indonesia/badaso-post-module/edit/main/website/",
           routeBasePath: "/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/main/website/blog/",
+            "https://github.com/uasoft-indonesia/badaso-post-module/edit/main/website/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
