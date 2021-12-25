@@ -171,6 +171,7 @@ class GetData
         }
 
         $posts = collect($posts)->sortByDesc('view_count');
+
         return $posts->values()->all();
     }
 
