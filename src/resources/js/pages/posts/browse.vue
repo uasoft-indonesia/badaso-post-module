@@ -43,10 +43,18 @@
               @sort="handleSort"
             >
               <template slot="thead">
-                <badaso-th sort-key="title"> {{ $t("posts.header.title") }} </badaso-th>
-                <badaso-th sort-key="author"> {{ $t("posts.header.author") }} </badaso-th>
-                <badaso-th sort-key="category"> {{ $t("posts.header.category") }} </badaso-th>
-                <badaso-th sort-key="tags"> {{ $t("posts.header.tags") }} </badaso-th>
+                <badaso-th sort-key="title">
+                  {{ $t("posts.header.title") }}
+                </badaso-th>
+                <badaso-th sort-key="author">
+                  {{ $t("posts.header.author") }}
+                </badaso-th>
+                <badaso-th sort-key="category">
+                  {{ $t("posts.header.category") }}
+                </badaso-th>
+                <badaso-th sort-key="tags">
+                  {{ $t("posts.header.tags") }}
+                </badaso-th>
                 <vs-th> {{ $t("posts.header.action") }} </vs-th>
               </template>
 
@@ -56,9 +64,21 @@
                     {{ post.title }}
                     <br />
                     <div style="font-size: 12px; display: inline-flex">
-                      <div v-if="post.viewCount >= 0" class="mr-2"><vs-icon icon="visibility" color="gray" size="16px"></vs-icon> {{ post.viewCount }}</div>
+                      <div v-if="post.viewCount >= 0" class="mr-2">
+                        <vs-icon
+                          icon="visibility"
+                          color="gray"
+                          size="16px"
+                        ></vs-icon>
+                        {{ post.viewCount }}
+                      </div>
                       <div>
-                        <vs-icon icon="chat_bubble" color="gray" size="16px"></vs-icon> {{ post.commentCount }}
+                        <vs-icon
+                          icon="chat_bubble"
+                          color="gray"
+                          size="16px"
+                        ></vs-icon>
+                        {{ post.commentCount }}
                       </div>
                     </div>
                   </vs-td>
@@ -110,9 +130,17 @@
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
                           icon="poll"
-                          v-if="$helper.isAllowed('browse_posts') && post.viewCount >= 0"
+                          v-if="
+                            $helper.isAllowed('browse_posts') &&
+                            post.viewCount >= 0
+                          "
                         >
-                          <a :href="getAnalyticsLink(post.slug)" target="_blank" style="color: inherit;">Detail Analytic</a>
+                          <a
+                            :href="getAnalyticsLink(post.slug)"
+                            target="_blank"
+                            style="color: inherit"
+                            >Detail Analytic</a
+                          >
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
                     </badaso-dropdown>
@@ -146,6 +174,7 @@ export default {
     willDeleteId: null,
     analyticsBaseUrl: "https://analytics.google.com/analytics/web/#/report/content-pages/",
     analyticsDescUrl: "/explorer-table.plotKeys=%5B%5D&_r.drilldown=analytics.pagePath:",
+    search : "",
   }),
   mounted() {
     this.getPostList();
@@ -187,6 +216,7 @@ export default {
           filterValue: this.filter,
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
+          search : this.search,
         })
         .then((response) => {
           this.$closeLoader();
@@ -243,7 +273,7 @@ export default {
         });
     },
     handleSearch(e) {
-      this.filter = e.target.value;
+      this.search = e.target.value;
       this.page = 1;
       this.getPostList();
     },
