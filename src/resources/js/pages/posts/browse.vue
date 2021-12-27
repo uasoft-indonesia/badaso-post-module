@@ -194,11 +194,9 @@ export default {
     orderDirection: "desc",
     rowPerPage: null,
     willDeleteId: null,
-    analyticsBaseUrl:
-      "https://analytics.google.com/analytics/web/#/report/content-pages/",
-    analyticsDescUrl:
-      "/explorer-table.plotKeys=%5B%5D&_r.drilldown=analytics.pagePath:",
-    search: "",
+    analyticsBaseUrl: "https://analytics.google.com/analytics/web/#/report/content-pages/",
+    analyticsDescUrl: "/explorer-table.plotKeys=%5B%5D&_r.drilldown=analytics.pagePath:",
+    search : "",
   }),
   mounted() {
     this.getPostList();
