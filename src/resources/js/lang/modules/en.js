@@ -328,5 +328,8 @@ export default {
         submit: "Submitted On",
       },
     },
-  }
+  },
+  browse : {
+    'visitBlog' : 'Visit Blog'
+  },
 };

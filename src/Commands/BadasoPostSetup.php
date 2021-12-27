@@ -70,10 +70,11 @@ class BadasoPostSetup extends Command
     protected function envListUpload()
     {
         return [
-            'MIX_POST_URL_PREFIX' => '',
+            'MIX_POST_URL_PREFIX' => 'post',
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',
+            'MIX_FRONTEND_URL' => 'http://localhost:8000',
         ];
     }
 
@@ -130,7 +131,7 @@ class BadasoPostSetup extends Command
 
             $exported_config = VarExporter::export($config_hidden_tables);
             $exported_config = <<<PHP
-                <?php 
+                <?php
                 return {$exported_config} ;
                 PHP;
             file_put_contents($config_path, $exported_config);

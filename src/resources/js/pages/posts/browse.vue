@@ -5,6 +5,14 @@
         <vs-button
           color="primary"
           type="relief"
+          :href="getUrlPost()"
+          target="blank"
+          v-if="$helper.isAllowed('add_posts')"
+          ><vs-icon icon="public"></vs-icon> {{ $t("browse.visitBlog") }}</vs-button
+        >
+        <vs-button
+          color="primary"
+          type="relief"
           :to="{ name: 'PostsAdd' }"
           v-if="$helper.isAllowed('add_posts')"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
@@ -142,6 +150,20 @@
                             >Detail Analytic</a
                           >
                         </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="description"
+                          v-if="
+                            $helper.isAllowed('browse_posts') &&
+                            post.viewCount >= 0
+                          "
+                        >
+                          <a
+                            :href="getUrlViewPost(post.slug)"
+                            target="_blank"
+                            style="color: inherit"
+                            >View Post</a
+                          >
+                        </badaso-dropdown-item>
                       </vs-dropdown-menu>
                     </badaso-dropdown>
                   </vs-td>
@@ -216,7 +238,7 @@ export default {
           filterValue: this.filter,
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
-          search : this.search,
+          search: this.search,
         })
         .then((response) => {
           this.$closeLoader();
@@ -308,11 +330,32 @@ export default {
         : null;
 
       if (accountId && webPropertyId && viewId) {
-        return this.analyticsBaseUrl + accountId + webPropertyId + viewId + this.analyticsDescUrl + '~2F' + slug;
+        return (
+          this.analyticsBaseUrl +
+          accountId +
+          webPropertyId +
+          viewId +
+          this.analyticsDescUrl +
+          "~2F" +
+          slug
+        );
       } else {
-        return '#';
+        return "#";
       }
-    }
+    },
+    getUrlPost(urlPath = "") {
+      let MIX_FRONTEND_URL = process.env.MIX_FRONTEND_URL;
+      let MIX_POST_URL_PREFIX = process.env.MIX_POST_URL_PREFIX;
+
+      let urlPost = `${MIX_FRONTEND_URL}/${MIX_POST_URL_PREFIX}${urlPath}`;
+
+      return urlPost;
+    },
+    getUrlViewPost(slug) {
+      let urlDetailArticle = this.getUrlPost(`/${slug}`);
+
+      return urlDetailArticle;
+    },
   },
 };
 </script>
