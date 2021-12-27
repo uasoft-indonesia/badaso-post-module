@@ -1,10 +1,10 @@
 {
     "name": "badaso/post-module",
-    "version": "2.0.4",
+    "version": "2.1.0",
     "description": "Post system on badaso, create blog & news site faster",
     "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator", "blog", "badaso", "post", "news"],
     "license": "proprietary",
-    "homepage": "https://badaso.uatech.co.id/",
+    "homepage": "https://badaso-post.uatech.co.id/",
     "support": {
         "issues": "https://github.com/uasoft-indonesia/badaso-post-module/issues",
         "discussion": "https://github.com/uasoft-indonesia/badaso-post-module/discussions",
