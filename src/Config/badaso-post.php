@@ -5,7 +5,7 @@ return [
     'fronted_url' => env('MIX_FRONTEND_URL', 'http://localhost:8000'),
 
     /**
-     * Overriding controllers
+     * Overriding controllers.
      */
     'controllers' => [],
 ];

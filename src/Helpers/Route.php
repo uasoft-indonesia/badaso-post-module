@@ -10,8 +10,8 @@ class Route
         $controllers = config('badaso-post.controllers');
 
         // if the key is not found, return $key
-        if (!isset($controllers[$key])) {
-            return 'Uasoft\\Badaso\\Module\\Post\\Controllers\\' . $key;
+        if (! isset($controllers[$key])) {
+            return 'Uasoft\\Badaso\\Module\\Post\\Controllers\\'.$key;
         }
 
         // return the value of the key
