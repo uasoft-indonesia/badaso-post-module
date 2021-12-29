@@ -1,6 +1,6 @@
 {
     "name": "badaso/post-module",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Post system on badaso, create blog & news site faster",
     "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator", "blog", "badaso", "post", "news"],
     "license": "proprietary",
