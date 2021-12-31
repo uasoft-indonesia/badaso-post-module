@@ -349,7 +349,7 @@ export default {
       let MIX_FRONTEND_URL = process.env.MIX_FRONTEND_URL;
       let MIX_POST_URL_PREFIX = process.env.MIX_POST_URL_PREFIX;
 
-      let urlPost = `${MIX_FRONTEND_URL}/${MIX_POST_URL_PREFIX}${urlPath}`;
+      let urlPost = `${MIX_FRONTEND_URL}${MIX_POST_URL_PREFIX}${urlPath}`;
 
       return urlPost;
     },
