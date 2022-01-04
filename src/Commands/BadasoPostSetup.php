@@ -112,7 +112,7 @@ class BadasoPostSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env ' . $e->getMessage());
+            $this->error('Failed adding badaso env '.$e->getMessage());
         }
     }
 
@@ -124,7 +124,7 @@ class BadasoPostSetup extends Command
             $tables = BadasoPostModule::getProtectedTables();
 
             foreach ($tables as $key => $value) {
-                if (!in_array($value, $config_hidden_tables)) {
+                if (! in_array($value, $config_hidden_tables)) {
                     array_push($config_hidden_tables, $value);
                 }
             }
