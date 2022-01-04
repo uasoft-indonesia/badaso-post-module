@@ -70,7 +70,7 @@ class BadasoPostSetup extends Command
     protected function envListUpload()
     {
         return [
-            'MIX_POST_URL_PREFIX' => 'post',
+            'MIX_POST_URL_PREFIX' => '/post',
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',

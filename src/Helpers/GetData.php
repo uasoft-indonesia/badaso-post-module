@@ -72,7 +72,7 @@ class GetData
 
     public static function getAnalytics($data, $oldest = null)
     {
-        $prefix = config('badaso-post.post_url_prefix') ? '/'.config('badaso-post.post_url_prefix') : '';
+        $prefix = config('badaso-post.post_url_prefix', '/post');
         $token = self::getToken();
 
         if (! isset($token)) {
@@ -112,7 +112,7 @@ class GetData
 
     public static function getPopularPosts($model, $request, $relations, $oldest)
     {
-        $prefix = config('badaso-post.post_url_prefix') ? '/'.config('badaso-post.post_url_prefix') : '';
+        $prefix = config('badaso-post.post_url_prefix', '/post');
         $posts = [];
         $result = [];
         $filteredResult = [];
@@ -177,7 +177,7 @@ class GetData
 
     private static function getAnalyticsData($token, $data, $period, $url = [])
     {
-        $prefix = config('badaso-post.post_url_prefix') ? '/'.config('badaso-post.post_url_prefix') : '';
+        $prefix = config('badaso-post.post_url_prefix', '/post');
         if (count($url) > 0) {
             $client = new \GuzzleHttp\Client();
             $data = [];
