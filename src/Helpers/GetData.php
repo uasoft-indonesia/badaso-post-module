@@ -128,10 +128,16 @@ class GetData
             }
         }
 
-        $query->where('published', true)->skip(0)->take($request->limit ?? 10)->get()->toArray();
+        $query = $query
+            ->where('published', true);
 
+        // result if nullable token
         if (! isset($token)) {
-            return $query->get()->toArray();
+            return $query
+                ->skip(0)
+                ->take($request->limit ?? 10)
+                ->get()
+                ->toArray();
         }
 
         $client = new \GuzzleHttp\Client();
@@ -151,6 +157,17 @@ class GetData
         $response = json_decode($res->getBody()->getContents());
 
         if (array_key_exists('rows', (array) $response)) {
+
+            // sort and limited google track view
+            $response->rows = collect($response->rows)->sortByDesc(function ($row) {
+                [$slug, $count] = $row;
+
+                return $count;
+            })
+                ->skip(0)
+                ->take($request->limit ?? 10);
+
+            // restructure rows google track view
             foreach ($response->rows as $key => $row) {
                 if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
                     $result[$row[0]] = (int) $row[1];
