@@ -132,7 +132,7 @@ class GetData
             ->where('published', true);
 
         // result if nullable token
-        if (!isset($token)) {
+        if (! isset($token)) {
             return $query
                 ->skip(0)
                 ->take($request->limit ?? 10)
@@ -143,7 +143,7 @@ class GetData
         $client = new \GuzzleHttp\Client();
         $params = [
             'query' => [
-                'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
+                'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
                 'start-date' => $period->startDate->format('Y-m-d'),
                 'end-date' => $period->endDate->format('Y-m-d'),
                 'metrics' => 'ga:pageviews',
@@ -161,6 +161,7 @@ class GetData
             // sort and limited google track view
             $response->rows = collect($response->rows)->sortByDesc(function ($row) {
                 [$slug, $count] = $row;
+
                 return $count;
             })
                 ->skip(0)
@@ -176,7 +177,7 @@ class GetData
             $result = array_filter($result);
 
             foreach ($result as $key => $row) {
-                $filteredResult[str_replace($prefix . '/', '', $key)] = $row;
+                $filteredResult[str_replace($prefix.'/', '', $key)] = $row;
             }
         }
 
@@ -187,6 +188,7 @@ class GetData
         }
 
         $posts = collect($posts)->sortByDesc('view_count');
+
         return $posts->values()->all();
     }
 
