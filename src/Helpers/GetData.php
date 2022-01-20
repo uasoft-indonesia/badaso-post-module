@@ -72,36 +72,36 @@ class GetData
 
     public static function getAnalytics($data, $oldest = null)
     {
-        $prefix = config('badaso-post.post_url_prefix', '/post');
+        $prefix = config('badaso-post.post_url_prefix') ? '/' . config('badaso-post.post_url_prefix') : '';
         $token = self::getToken();
 
-        if (! isset($token)) {
+        if (!isset($token)) {
             return $data;
         }
 
         $url = [];
 
-        if (gettype($oldest) !== 'array' && ! empty($oldest)) {
+        if (gettype($oldest) !== 'array' && !empty($oldest)) {
             $oldest = $oldest->toArray();
         }
 
         $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
 
         foreach ($data['data'] as $key => $value) {
-            if (! empty($prefix)) {
-                $url[] = 'ga:pagePath=='.$prefix.'/'.$value['slug'];
+            if (!empty($prefix)) {
+                $url[] = 'ga:pagePath==' . $prefix . '/' . $value['slug'];
             } else {
-                $url[] = 'ga:pagePath==/'.$value['slug'];
+                $url[] = 'ga:pagePath==/' . $value['slug'];
             }
         }
 
         $rows = self::getAnalyticsData($token, $data, $period, $url);
 
         foreach ($data['data'] as $key => $value) {
-            $search = $rows[$prefix.'/'.$value['slug']] ?? null;
+            $search = $rows[$prefix . '/' . $value['slug']] ?? null;
 
             if ($search !== null) {
-                $data['data'][$key]['view_count'] = $rows[$prefix.'/'.$value['slug']];
+                $data['data'][$key]['view_count'] = $rows[$prefix . '/' . $value['slug']];
             } else {
                 $data['data'][$key]['view_count'] = 0;
             }
@@ -112,7 +112,7 @@ class GetData
 
     public static function getPopularPosts($model, $request, $relations, $oldest)
     {
-        $prefix = config('badaso-post.post_url_prefix', '/post');
+        $prefix = config('badaso-post.post_url_prefix') ? '/' . config('badaso-post.post_url_prefix') : '';
         $posts = [];
         $result = [];
         $filteredResult = [];
@@ -128,16 +128,22 @@ class GetData
             }
         }
 
-        $query->where('published', true)->skip(0)->take($request->limit ?? 10)->get()->toArray();
+        $query = $query
+            ->where('published', true);
 
-        if (! isset($token)) {
-            return $query->get()->toArray();
+        // result if nullable token
+        if (!isset($token)) {
+            return $query
+                ->skip(0)
+                ->take($request->limit ?? 10)
+                ->get()
+                ->toArray();
         }
 
         $client = new \GuzzleHttp\Client();
         $params = [
             'query' => [
-                'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
+                'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
                 'start-date' => $period->startDate->format('Y-m-d'),
                 'end-date' => $period->endDate->format('Y-m-d'),
                 'metrics' => 'ga:pageviews',
@@ -151,6 +157,16 @@ class GetData
         $response = json_decode($res->getBody()->getContents());
 
         if (array_key_exists('rows', (array) $response)) {
+
+            // sort and limited google track view
+            $response->rows = collect($response->rows)->sortByDesc(function ($row) {
+                [$slug, $count] = $row;
+                return $count;
+            })
+                ->skip(0)
+                ->take($request->limit ?? 10);
+
+            // restructure rows google track view
             foreach ($response->rows as $key => $row) {
                 if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
                     $result[$row[0]] = (int) $row[1];
@@ -160,7 +176,7 @@ class GetData
             $result = array_filter($result);
 
             foreach ($result as $key => $row) {
-                $filteredResult[str_replace($prefix.'/', '', $key)] = $row;
+                $filteredResult[str_replace($prefix . '/', '', $key)] = $row;
             }
         }
 
@@ -171,19 +187,18 @@ class GetData
         }
 
         $posts = collect($posts)->sortByDesc('view_count');
-
         return $posts->values()->all();
     }
 
     private static function getAnalyticsData($token, $data, $period, $url = [])
     {
-        $prefix = config('badaso-post.post_url_prefix', '/post');
+        $prefix = config('badaso-post.post_url_prefix') ? '/' . config('badaso-post.post_url_prefix') : '';
         if (count($url) > 0) {
             $client = new \GuzzleHttp\Client();
             $data = [];
             $params = [
                 'query' => [
-                    'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
+                    'ids' => 'ga:' . env('MIX_ANALYTICS_VIEW_ID', null),
                     'start-date' => $period->startDate->format('Y-m-d'),
                     'end-date' => $period->endDate->format('Y-m-d'),
                     'metrics' => 'ga:pageviews',
@@ -212,7 +227,7 @@ class GetData
     {
         $credential_path = storage_path('app/analytics/service-account-credentials.json');
 
-        if (! file_exists($credential_path)) {
+        if (!file_exists($credential_path)) {
             return;
         }
 
