@@ -250,9 +250,9 @@ class BadasoPostModuleApiTest extends TestCase
     {
         $token = CallHelperTest::login($this);
         $tablePost = Post::latest()->first();
-   
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'),[
-            "id" => "$tablePost->id"
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'), [
+            'id' => "$tablePost->id",
         ]);
         $response->assertSuccessful();
         $deleteData = Post::where('id', "$tablePost->id")->get();

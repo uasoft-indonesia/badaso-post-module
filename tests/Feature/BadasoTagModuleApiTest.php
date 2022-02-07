@@ -109,7 +109,7 @@ class BadasoTagModuleApiTest extends TestCase
         $response->assertSuccessful();
 
         $datas = $response->json('data.tags');
-     
+
         foreach ($datas as $item => $datas) {
             $tagId = $datas['id'];
             $tagDB = Tag::find($tagId);

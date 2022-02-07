@@ -74,7 +74,7 @@ class BadasoCategoriesApiTest extends TestCase
 
         $datas = $response->json('data.category');
         $CategoryDB = Category::find($tableCategory->id);
-        
+
         $this->assertTrue($CategoryDB['title'] == $datas['title']);
         $this->assertTrue($CategoryDB['parent_id'] == $datas['parentId']);
         $this->assertTrue($CategoryDB['meta_title'] == $datas['metaTitle']);
@@ -103,11 +103,11 @@ class BadasoCategoriesApiTest extends TestCase
     public function test_read_slug_category()
     {
         $slug = Category::select('slug')->latest()->first();
-        $except = "true";
-        
-        $response = $this->json("GET", CallHelperTest::getApiV1('/category/read-slug'), [
-            "slug" => "$slug->slug",
-            "except" => $except,
+        $except = 'true';
+
+        $response = $this->json('GET', CallHelperTest::getApiV1('/category/read-slug'), [
+            'slug' => "$slug->slug",
+            'except' => $except,
         ]);
         $response->assertSuccessful();
         $CategoryDB = Category::all();

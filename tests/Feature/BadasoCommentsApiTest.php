@@ -127,8 +127,6 @@ class BadasoCommentsApiTest extends TestCase
         $response->assertSuccessful();
 
         $datas = $response->json('data.comments');
-        
-
     }
 
     public function test_read_comment()
