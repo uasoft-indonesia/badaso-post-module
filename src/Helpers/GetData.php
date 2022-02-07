@@ -94,7 +94,7 @@ class GetData
                 $url[] = 'ga:pagePath==/'.$value['slug'];
             }
         }
-    
+
         $rows = self::getAnalyticsData($token, $data, $period, $url);
 
         foreach ($data['data'] as $key => $value) {
