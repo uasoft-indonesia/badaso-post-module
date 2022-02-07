@@ -9,10 +9,10 @@ class BadasoPostTestSetup extends Command
 {
     public static $PHPUNIT_XML_PATH = 'phpunit.xml';
     public static $BADASO_UNIT_TEST_PATHS = [
-        './packages/badaso/post-module/tests/Unit',
+        './vendor/badaso/post-module/tests/Unit',
     ];
     public static $BADASO_FEATURE_TEST_PATHS = [
-        './packages/badaso/post-module/tests/Feature',
+        './vendor/badaso/post-module/tests/Feature',
     ];
 
     /**
