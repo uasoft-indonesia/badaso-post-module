@@ -20,7 +20,7 @@ class GetData
         ];
 
         $posts = GetData::serverSide($model, $builder_params, $relations);
-        
+
         return $posts;
     }
 
@@ -72,10 +72,9 @@ class GetData
 
     public static function getAnalytics($data, $oldest = null)
     {
-        
         $prefix = config('badaso-post.post_url_prefix', '/post');
         $token = self::getToken();
-       
+
         if (! isset($token)) {
             return $data;
         }
@@ -105,11 +104,9 @@ class GetData
                 $data['data'][$key]['view_count'] = $rows[$prefix.'/'.$value['slug']];
             } else {
                 $data['data'][$key]['view_count'] = 0;
-                
             }
-           
         }
-        
+
         return $data;
     }
 
@@ -121,7 +118,7 @@ class GetData
         $filteredResult = [];
 
         $query = $model::query();
-        
+
         $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
         $token = self::getToken();
 
@@ -134,7 +131,6 @@ class GetData
         $query = $query
             ->where('published', true);
 
-
         // result if nullable token
         if (! isset($token)) {
             return $query
@@ -145,7 +141,7 @@ class GetData
         }
 
         $client = new \GuzzleHttp\Client();
-       
+
         $params = [
             'query' => [
                 'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
@@ -158,7 +154,7 @@ class GetData
             ],
         ];
         $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
-        
+
         $response = json_decode($res->getBody()->getContents());
         if (array_key_exists('rows', (array) $response)) {
 
@@ -193,7 +189,6 @@ class GetData
 
         $posts = collect($posts)->sortByDesc('view_count');
 
-        
         return $posts->values()->all();
     }
 
