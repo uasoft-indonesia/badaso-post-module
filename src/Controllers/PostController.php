@@ -91,7 +91,7 @@ class PostController extends Controller
             $oldest = Post::oldest()->first();
             $data = GetData::getData(new Post(), $request->all(), ['category.parent', 'tags', 'user:id,name']);
             $data = GetData::getAnalytics($data, $oldest);
-            
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -105,10 +105,10 @@ class PostController extends Controller
                 'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
             ]);
-            
+
             $oldest = Post::oldest()->first();
             $data['posts'] = GetData::getPopularPosts(new Post(), $request, ['category.parent', 'tags', 'user:id,name'], $oldest);
-            
+
             $doc = new \DOMDocument();
 
             foreach ($data['posts'] as $key => $post) {
@@ -121,7 +121,7 @@ class PostController extends Controller
 
                 $data['posts'][$key] = $post;
             }
-          
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
