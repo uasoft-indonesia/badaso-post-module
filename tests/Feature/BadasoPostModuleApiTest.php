@@ -191,11 +191,10 @@ class BadasoPostModuleApiTest extends TestCase
         $response = $this->get(CallHelperTest::getApiV1("/post?order_field={$order_field}&order_direction={$order_direction}&category={$category}&tag={$tag}&page={$page}&limit={$limit}&search={$search}"));
         $response->assertSuccessful();
         $datas = $response->json('data.posts.data');
-        // dd($datas);
+
         foreach ($datas as $item => $datas) {
             $postId = $datas['id'];
             $postDB = Post::find($postId);
-            // dd($postDB);
 
             $this->assertNotEmpty($postDB);
             $this->assertTrue($datas['id'] == $postDB['id']);
@@ -255,7 +254,7 @@ class BadasoPostModuleApiTest extends TestCase
     public function test_delete_posts(){
        $token = CallHelperTest::login($this);
         $tablePost = Post::latest()->first();
-        // dd($tablePost->id);
+   
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'),[
             "id" => "$tablePost->id"
         ]);

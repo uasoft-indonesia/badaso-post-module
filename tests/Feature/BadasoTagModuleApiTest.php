@@ -111,11 +111,10 @@ class BadasoTagModuleApiTest extends TestCase
         $response->assertSuccessful();
 
         $datas = $response->json('data.tags');
-        // dd($datas);
+     
         foreach ($datas as $item => $datas) {
             $tagId = $datas['id'];
             $tagDB = Tag::find($tagId);
-            // dd($postDB);
 
             $this->assertNotEmpty($tagDB);
             $this->assertTrue($datas['id'] == $tagDB['id']);
