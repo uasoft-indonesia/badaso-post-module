@@ -103,7 +103,7 @@ class CommentController extends Controller
             ]);
 
             $comment = Comment::with('post', 'user:id,name', 'parent', 'children')->first();
-
+            // dd($comment);
             $data['comment'] = $comment->toArray();
 
             return ApiResponse::success($data);
