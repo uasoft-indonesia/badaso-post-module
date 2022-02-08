@@ -72,27 +72,7 @@ class BadasoCommentsApiTest extends TestCase
         $this->assertTrue($post_count == 0);
     }
 
-    public function test_delete_multiple_comment()
-    {
-        $token = CallHelperTest::login($this);
-        $tableComment = Comment::orderBy('id', 'desc')
-            ->limit(2)
-            ->get();
-
-        $ids = [];
-        foreach ($tableComment as $key => $value) {
-            $ids[] = $value->id;
-        }
-
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/comment/delete-multiple'), [
-            'ids' => join(',', $ids),
-        ]);
-        $response->assertStatus(200);
-
-        $posts = Comment::whereIn('id', $ids)->get();
-        $posts_count = $posts->count();
-        $this->assertTrue($posts_count == 0);
-    }
+   
 
     public function test_comment_comment()
     {
@@ -144,9 +124,28 @@ class BadasoCommentsApiTest extends TestCase
         $CommentDB = Comment::find($tableComment->id);
 
         $response->assertStatus(200);
-        // $this->assertTrue($datas['id'] == $CommentDB['id']);
-        // $this->assertTrue($datas['postId'] == $CommentDB['post_id']);
-        // $this->assertTrue($datas['parentId'] == $CommentDB['parent_id']);
-        // $this->assertTrue($datas['content'] == $CommentDB['content']);
+
+    }
+
+    public function test_delete_multiple_comment()
+    {
+        $token = CallHelperTest::login($this);
+        $tableComment = Comment::orderBy('id', 'desc')
+        ->limit(4)
+            ->get();
+
+        $ids = [];
+        foreach ($tableComment as $key => $value) {
+            $ids[] = $value->id;
+        }
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/comment/delete-multiple'), [
+            'ids' => join(',', $ids),
+        ]);
+        $response->assertStatus(200);
+
+        $posts = Comment::whereIn('id', $ids)->get();
+        $posts_count = $posts->count();
+        $this->assertTrue($posts_count == 0);
     }
 }

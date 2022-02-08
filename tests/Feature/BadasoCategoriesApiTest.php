@@ -123,13 +123,25 @@ class BadasoCategoriesApiTest extends TestCase
             $this->assertTrue($CategoryDB['content'] == $datas['content']);
         }
     }
+    public function test_delete_category()
+    {
+        $token = CallHelperTest::login($this);
+        $tableCategory = Category::latest()->first();
 
+        $id = [
+            'id' => "$tableCategory->id",
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
+        $response->assertSuccessful();
+        $CatergoryId = Category::find($tableCategory->id);
+
+        $this->assertTrue($CatergoryId == 0);
+    }
     public function test_delete_multiple_category()
     {
         $token = CallHelperTest::login($this);
-        $tableCategory = Category::orderBy('id', 'desc')
-                    ->limit(2)
-                    ->get();
+        $tableCategory = Category::orderBy('id', 'Desc')->limit(4)->get();
 
         $ids = [];
         foreach ($tableCategory as $key => $value) {
@@ -146,19 +158,5 @@ class BadasoCategoriesApiTest extends TestCase
         $this->assertTrue($posts_count == 0);
     }
 
-    public function test_delete_category()
-    {
-        $token = CallHelperTest::login($this);
-        $tableCategory = Category::latest()->first();
-
-        $id = [
-            'id' => "$tableCategory->id",
-        ];
-
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
-        $response->assertSuccessful();
-        $CatergoryId = Category::find($tableCategory->id);
-
-        $this->assertTrue($CatergoryId == 0);
-    }
+ 
 }

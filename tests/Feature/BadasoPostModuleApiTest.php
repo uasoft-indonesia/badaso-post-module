@@ -264,7 +264,7 @@ class BadasoPostModuleApiTest extends TestCase
     {
         $token = CallHelperTest::login($this);
         $tablePost = Post::orderBy('id', 'desc')
-                    ->limit(2)
+                    ->limit(4)
                     ->get();
 
         $ids = [];
