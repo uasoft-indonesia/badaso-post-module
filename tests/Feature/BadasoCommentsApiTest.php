@@ -72,8 +72,6 @@ class BadasoCommentsApiTest extends TestCase
         $this->assertTrue($post_count == 0);
     }
 
-   
-
     public function test_comment_comment()
     {
         $token = CallHelperTest::login($this);
@@ -124,7 +122,6 @@ class BadasoCommentsApiTest extends TestCase
         $CommentDB = Comment::find($tableComment->id);
 
         $response->assertStatus(200);
-
     }
 
     public function test_delete_multiple_comment()
