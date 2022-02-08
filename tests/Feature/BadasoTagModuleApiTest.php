@@ -71,27 +71,7 @@ class BadasoTagModuleApiTest extends TestCase
         $this->assertTrue($tagDB->count() == 0);
     }
 
-    public function test_delete_multiple_tag()
-    {
-        $token = CallHelperTest::login($this);
-        $tableTag = Tag::orderBy('id', 'desc')
-            ->limit(4)
-            ->get();
-
-        $ids = [];
-        foreach ($tableTag as $key => $value) {
-            $ids[] = $value->id;
-        }
-
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/tag/delete-multiple'), [
-            'ids' => join(',', $ids),
-        ]);
-        $response->assertSuccessful();
-
-        $posts = Tag::whereIn('id', $ids)->get();
-        $posts_count = $posts->count();
-        $this->assertTrue($posts_count == 0);
-    }
+    
 
     public function test_tag_tag()
     {
@@ -162,5 +142,26 @@ class BadasoTagModuleApiTest extends TestCase
         $this->assertTrue($datas['slug'] == $tagDB['slug']);
         $this->assertTrue($datas['content'] == $tagDB['content']);
         $this->assertTrue($datas['metaTitle'] == $tagDB['meta_title']);
+    }
+    public function test_delete_multiple_tag()
+    {
+        $token = CallHelperTest::login($this);
+        $tableTag = Tag::orderBy('id', 'desc')
+            ->limit(4)
+            ->get();
+
+        $ids = [];
+        foreach ($tableTag as $key => $value) {
+            $ids[] = $value->id;
+        }
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/tag/delete-multiple'), [
+            'ids' => join(',', $ids),
+        ]);
+        $response->assertSuccessful();
+
+        $posts = Tag::whereIn('id', $ids)->get();
+        $posts_count = $posts->count();
+        $this->assertTrue($posts_count == 0);
     }
 }
