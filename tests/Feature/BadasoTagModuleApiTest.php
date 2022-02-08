@@ -71,8 +71,6 @@ class BadasoTagModuleApiTest extends TestCase
         $this->assertTrue($tagDB->count() == 0);
     }
 
-    
-
     public function test_tag_tag()
     {
         CallHelperTest::login($this);
@@ -143,6 +141,7 @@ class BadasoTagModuleApiTest extends TestCase
         $this->assertTrue($datas['content'] == $tagDB['content']);
         $this->assertTrue($datas['metaTitle'] == $tagDB['meta_title']);
     }
+
     public function test_delete_multiple_tag()
     {
         $token = CallHelperTest::login($this);

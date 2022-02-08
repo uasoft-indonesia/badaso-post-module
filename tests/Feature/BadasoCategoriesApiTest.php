@@ -123,6 +123,7 @@ class BadasoCategoriesApiTest extends TestCase
             $this->assertTrue($CategoryDB['content'] == $datas['content']);
         }
     }
+
     public function test_delete_category()
     {
         $token = CallHelperTest::login($this);
@@ -138,6 +139,7 @@ class BadasoCategoriesApiTest extends TestCase
 
         $this->assertTrue($CatergoryId == 0);
     }
+
     public function test_delete_multiple_category()
     {
         $token = CallHelperTest::login($this);
@@ -157,6 +159,4 @@ class BadasoCategoriesApiTest extends TestCase
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
     }
-
- 
 }
