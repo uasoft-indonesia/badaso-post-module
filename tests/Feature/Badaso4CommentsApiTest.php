@@ -143,7 +143,6 @@ class BadasoCommentsApiTest extends TestCase
         $posts = Comment::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
-         
 
         $tablePost = Post::latest()->first();
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'), [
@@ -157,6 +156,5 @@ class BadasoCommentsApiTest extends TestCase
 
         $tableCategory = Category::latest()->first();
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), ['id' => "$tableCategory->id"]);
-
     }
 }
