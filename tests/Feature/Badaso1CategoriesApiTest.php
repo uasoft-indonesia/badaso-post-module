@@ -143,7 +143,7 @@ class BadasoCategoriesApiTest extends TestCase
     public function test_delete_multiple_category()
     {
         $token = CallHelperTest::login($this);
-        $tableCategory = Category::orderBy('id', 'Desc')->limit(4)->get();
+        $tableCategory = Category::orderBy('id', 'Desc')->limit(3)->get();
 
         $ids = [];
         foreach ($tableCategory as $key => $value) {

@@ -5,8 +5,10 @@ namespace Uasoft\Badaso\Module\Post\Tests\Feature;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Module\Post\Models\Category;
 use Uasoft\Badaso\Module\Post\Models\Comment;
 use Uasoft\Badaso\Module\Post\Models\Post;
+use Uasoft\Badaso\Module\Post\Models\Tag;
 
 class BadasoCommentsApiTest extends TestCase
 {
@@ -118,9 +120,6 @@ class BadasoCommentsApiTest extends TestCase
         $response = $this->withHeader('Authorization', "Bearer $token")->json('GET', CallHelperTest::getApiV1('/comment/read'), $requset_data);
         $response->assertSuccessful();
 
-        $datas = $response->json('data.comment');
-        $CommentDB = Comment::find($tableComment->id);
-
         $response->assertStatus(200);
     }
 
@@ -144,5 +143,20 @@ class BadasoCommentsApiTest extends TestCase
         $posts = Comment::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
+         
+
+        $tablePost = Post::latest()->first();
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'), [
+            'id' => "$tablePost->id",
+        ]);
+
+        $tableTag = Tag::latest()->first();
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('DELETE', CallHelperTest::getApiV1('/tag/delete'), [
+            'id' => "$tableTag->id",
+        ]);
+
+        $tableCategory = Category::latest()->first();
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), ['id' => "$tableCategory->id"]);
+
     }
 }

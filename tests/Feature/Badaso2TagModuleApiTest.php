@@ -146,7 +146,7 @@ class BadasoTagModuleApiTest extends TestCase
     {
         $token = CallHelperTest::login($this);
         $tableTag = Tag::orderBy('id', 'desc')
-            ->limit(4)
+            ->limit(3)
             ->get();
 
         $ids = [];
