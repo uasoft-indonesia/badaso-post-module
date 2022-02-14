@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Uasoft\Badaso\Module\Post\BadasoPostModule;
 use Uasoft\Badaso\Module\Post\Commands\BadasoPostSetup;
+use Uasoft\Badaso\Module\Post\Commands\BadasoPostTestSetup;
 use Uasoft\Badaso\Module\Post\Facades\BadasoPostModule as FacadesBadasoPost;
 
 class BadasoPostModuleServiceProvider extends ServiceProvider
@@ -54,5 +55,6 @@ class BadasoPostModuleServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(BadasoPostSetup::class);
+        $this->commands(BadasoPostTestSetup::class);
     }
 }

@@ -141,6 +141,7 @@ class GetData
         }
 
         $client = new \GuzzleHttp\Client();
+
         $params = [
             'query' => [
                 'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
@@ -152,10 +153,9 @@ class GetData
                 'access_token' => $token,
             ],
         ];
-
         $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
-        $response = json_decode($res->getBody()->getContents());
 
+        $response = json_decode($res->getBody()->getContents());
         if (array_key_exists('rows', (array) $response)) {
 
             // sort and limited google track view
