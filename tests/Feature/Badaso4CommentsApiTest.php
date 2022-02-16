@@ -25,8 +25,8 @@ class BadasoCommentsApiTest extends TestCase
                 'content'=> 'Lorem ipsum dolor sit amet',
             ];
 
-           $response = $this->withHeader('Authorization', "$token")->json('POST', CallHelperTest::getApiV1('/comment/add'), $request_data);
-  
+            $response = $this->withHeader('Authorization', "$token")->json('POST', CallHelperTest::getApiV1('/comment/add'), $request_data);
+
             $response->assertSuccessful();
 
             $datas = $response->json('data');
@@ -156,7 +156,6 @@ class BadasoCommentsApiTest extends TestCase
         ]);
 
         $tableCategory = Category::latest()->first();
-        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/category/delete'), ['id' => "$tableCategory->id"]); 
-    
+        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/category/delete'), ['id' => "$tableCategory->id"]);
     }
 }

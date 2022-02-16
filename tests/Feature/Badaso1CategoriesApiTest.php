@@ -36,9 +36,7 @@ class BadasoCategoriesApiTest extends TestCase
             $this->assertTrue($CategoryDB['meta_title'] == $request_data['metaTitle']);
             $this->assertTrue($CategoryDB['slug'] == $request_data['slug']);
             $this->assertTrue($CategoryDB['content'] == $request_data['content']);
-            
         }
-        
     }
 
     public function test_edit_category()
@@ -160,7 +158,5 @@ class BadasoCategoriesApiTest extends TestCase
         $posts = Post::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
-        
     }
-    
 }
