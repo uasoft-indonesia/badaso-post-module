@@ -162,6 +162,5 @@ class BadasoTagModuleApiTest extends TestCase
         $posts = Tag::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
-    
     }
 }
