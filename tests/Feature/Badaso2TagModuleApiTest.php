@@ -11,7 +11,7 @@ class BadasoTagModuleApiTest extends TestCase
 {
     public function test_add_tags()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
             $request_data = [
@@ -21,7 +21,7 @@ class BadasoTagModuleApiTest extends TestCase
                 'content' => Str::random(10),
             ];
 
-            $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/tag/add'), $request_data);
+            $response = $this->withHeader('Authorization', "$token")->json('POST', CallHelperTest::getApiV1('/tag/add'), $request_data);
             $response->assertSuccessful();
 
             $datas = $response->json('data');
@@ -35,7 +35,7 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_edit_tag()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
         $tableTag = Tag::latest()->first();
         $count = 5;
         $request_data = [
@@ -46,7 +46,7 @@ class BadasoTagModuleApiTest extends TestCase
             'content' => Str::random(10),
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->json('PUT', CallHelperTest::getApiV1('/tag/edit'), $request_data);
+        $response = $this->withHeader('Authorization', "$token")->json('PUT', CallHelperTest::getApiV1('/tag/edit'), $request_data);
         $response->assertSuccessful();
 
         $datas = $response->json('data');
@@ -59,12 +59,12 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_delete_tag()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
         $tableTag = Tag::latest()->first();
         $request_data = [
             'id' => "$tableTag->id",
         ];
-        $response = $this->withHeader('Authorization', "Bearer $token")->json('DELETE', CallHelperTest::getApiV1('/tag/delete'), $request_data);
+        $response = $this->withHeader('Authorization', "$token")->json('DELETE', CallHelperTest::getApiV1('/tag/delete'), $request_data);
 
         $tagDB = Tag::where('id', $tableTag->id)->get();
 
@@ -104,7 +104,7 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_read_tag()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
         $tableTag = Tag::latest()->first();
         $request_data = [
             'id' => "$tableTag->id",
@@ -124,7 +124,7 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_read_slug_tag()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
         $tableTag = Tag::latest()->first();
         $request_data = [
             'slug' => "$tableTag->slug",
@@ -144,9 +144,9 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_delete_multiple_tag()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
         $tableTag = Tag::orderBy('id', 'desc')
-            ->limit(4)
+            ->limit(3)
             ->get();
 
         $ids = [];
@@ -154,7 +154,7 @@ class BadasoTagModuleApiTest extends TestCase
             $ids[] = $value->id;
         }
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/tag/delete-multiple'), [
+        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/tag/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertSuccessful();
@@ -162,5 +162,6 @@ class BadasoTagModuleApiTest extends TestCase
         $posts = Tag::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
+    
     }
 }
