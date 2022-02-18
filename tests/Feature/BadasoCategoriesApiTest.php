@@ -18,7 +18,8 @@ class BadasoCategoriesApiTest extends TestCase
         for ($i = 0; $i < $count; $i++) {
             $request_data = [
                 'title'=> 'Example Category',
-                'parentId'=> isset($tableCategory->id) ? $tableCategory->id : null,
+                'parentId'=> isset(
+                    $tableCategory->id) ? $tableCategory->id : null,
                 'metaTitle'=> 'example',
                 'slug'=> Str::random(10),
                 'content'=> 'An example of create new category.',
@@ -32,7 +33,6 @@ class BadasoCategoriesApiTest extends TestCase
             $CategoryDB = Category::find($datas);
 
             $this->assertTrue($CategoryDB['title'] == $request_data['title']);
-            // $this->assertTrue($CategoryDB['parent_id'] == $request_data['parentId']);
             $this->assertTrue($CategoryDB['meta_title'] == $request_data['metaTitle']);
             $this->assertTrue($CategoryDB['slug'] == $request_data['slug']);
             $this->assertTrue($CategoryDB['content'] == $request_data['content']);
@@ -143,7 +143,7 @@ class BadasoCategoriesApiTest extends TestCase
     public function test_delete_multiple_category()
     {
         $token = CallHelperTest::login($this);
-        $tableCategory = Category::orderBy('id', 'Desc')->limit(3)->get();
+        $tableCategory = Category::orderBy('id', 'Desc')->limit(4)->get();
 
         $ids = [];
         foreach ($tableCategory as $key => $value) {
@@ -158,5 +158,6 @@ class BadasoCategoriesApiTest extends TestCase
         $posts = Post::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
+        
     }
 }
