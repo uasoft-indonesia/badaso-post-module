@@ -57,7 +57,6 @@ class BadasoCommentsApiTest extends TestCase
         ];
         $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/post/add'), $request_data);
         $tablePost = Post::latest()->first();
-        // dd($tableTag->id, $tablePost->id, $tableCategory->id);
         $tableComment = Comment::latest()->first();
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
