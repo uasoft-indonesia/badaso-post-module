@@ -142,7 +142,7 @@ class BadasoTagModuleApiTest extends TestCase
     public function test_delete_multiple_tag()
     {
         $token = CallHelperTest::login($this);
-      
+
         $tableTag = Tag::orderBy('id', 'asc')
             ->limit(4)
             ->get();
@@ -155,7 +155,7 @@ class BadasoTagModuleApiTest extends TestCase
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/tag/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
-        
+
         $response->assertSuccessful();
 
         $posts = Tag::whereIn('id', $ids)->get();

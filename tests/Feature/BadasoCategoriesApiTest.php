@@ -158,6 +158,5 @@ class BadasoCategoriesApiTest extends TestCase
         $posts = Post::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
-        
     }
 }
