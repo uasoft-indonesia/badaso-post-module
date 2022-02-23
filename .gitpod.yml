@@ -27,7 +27,7 @@ tasks:
       echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-      php artisan db:seed --class="Database\Seeders\Badaso\Content\BadasoContentModuleSeeder" &&
+      php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
       php artisan storage:link &&
       php artisan migrate &&
       npm install &&
