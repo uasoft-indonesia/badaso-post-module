@@ -13,9 +13,32 @@ class BadasoPostModuleApiTest extends TestCase
 {
     public function test_add_posts()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
-        $tableTags = Tag::latest()->first();
+        
+        $request_data = [
+            'title'=> 'Example Category',
+            'parentId'=> null,
+            'metaTitle'=> 'example',
+            'slug'=> Str::random(10),
+            'content'=> 'An example of create new category.',
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
+
+        $request_data = [
+                'title' => Str::random(10),
+                'metaTitle' => Str::random(10),
+                'slug' => Str::random(10),
+                'content' => Str::random(10),
+            ];
+
+            $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/tag/add'), $request_data);
+            $response->assertSuccessful();
+
+        $tableTag = Tag::latest()->first();
+        
+        $tableCategory = Category::latest()->first();
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
             $request_data = [
@@ -27,12 +50,12 @@ class BadasoPostModuleApiTest extends TestCase
                 'summary' => Str::random(40),
                 'published' => true,
                 'tags' => [
-                    $tableTags->id,
+                    $tableTag->id,
                 ],
                 'category' => $tableCategory->id,
                 'thumbnail' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
             ];
-            $response = $this->withHeader('Authorization', "$token")->post(CallHelperTest::getApiV1('/post/add'), $request_data);
+            $response = $this->withHeader('Aut', "Bearer $token")->post(CallHelperTest::getApiV1('/post/add'), $request_data);
             $response->assertSuccessful();
             $datas = $response->json('data.id');
 
@@ -53,10 +76,10 @@ class BadasoPostModuleApiTest extends TestCase
 
     public function test_edit_posts()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
+        $tableTag = Tag::latest()->first();
         $tablePost = Post::latest()->first();
-        $tableTags = Tag::latest()->first();
         $request_data = [
             'id' => "$tablePost->id",
             'title' => Str::random(40),
@@ -67,12 +90,12 @@ class BadasoPostModuleApiTest extends TestCase
             'summary' => Str::random(40),
             'published' => true,
             'tags' => [
-                $tableTags->id,
+                $tableTag->id,
             ],
             'category' => "$tableCategory->id",
             'thumbnail' => 'https://img.era.id/N_gmQ0pRGFpWHeUgv5tCEfpvUBGhW5OOi_QM5snA0PM/rs:fill:1280:720/g:sm/bG9jYWw6Ly8vcHVibGlzaGVycy8zNzY0My8yMDIwMDkxMTA5MzUtbWFpbi5jcm9wcGVkXzE1OTk3OTE3OTYuY3JvcHBlZF8xNTk5NzkxODQxLnBuZw.jpg',
         ];
-        $response = $this->withHeader('Authorization', "$token")->put(CallHelperTest::getApiV1('/post/edit'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->put(CallHelperTest::getApiV1('/post/edit'), $request_data);
         $response->assertSuccessful();
         $datas = $response->json('data.id');
         $postDB = Post::find($datas);
@@ -92,10 +115,10 @@ class BadasoPostModuleApiTest extends TestCase
 
     public function test_browse_posts()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
 
         $tablePost = Post::latest()->first();
-        $response = $this->withHeader('Authorization', "$token")->get(CallHelperTest::getApiV1("/post/read?id={$tablePost->id}"));
+        $response = $this->withHeader('Authorization', "Bearer $token")->get(CallHelperTest::getApiV1("/post/read?id={$tablePost->id}"));
         $response->assertSuccessful();
 
         $datas = $response->json('data.post');
@@ -213,7 +236,7 @@ class BadasoPostModuleApiTest extends TestCase
 
     public function test_browse_analytics_posts()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
         $order_field = 'updated_at';
         $order_direction = 'asc';
@@ -223,7 +246,7 @@ class BadasoPostModuleApiTest extends TestCase
         $limit = '2';
         $search = '';
 
-        $response = $this->withHeader('Authorization', "$token")->get(CallHelperTest::getApiV1("/post/browse-analytics?order_field={$order_field}&order_direction={$order_direction}&category={$category}&tag={$tag}&page={$page}&limit={$limit}&search={$search}"));
+        $response = $this->withHeader('Authorization', "Bearer $token")->get(CallHelperTest::getApiV1("/post/browse-analytics?order_field={$order_field}&order_direction={$order_direction}&category={$category}&tag={$tag}&page={$page}&limit={$limit}&search={$search}"));
         $response->assertSuccessful();
 
         $datas = $response->json('data.data');
@@ -250,10 +273,10 @@ class BadasoPostModuleApiTest extends TestCase
 
     public function test_delete_posts()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tablePost = Post::latest()->first();
 
-        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/post/delete'), [
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'), [
             'id' => "$tablePost->id",
         ]);
         $response->assertSuccessful();
@@ -264,9 +287,10 @@ class BadasoPostModuleApiTest extends TestCase
 
     public function test_delete_multiple_posts()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+
+        $token = CallHelperTest::login($this);
         $tablePost = Post::orderBy('id', 'desc')
-                    ->limit(3)
+                    ->limit(4)
                     ->get();
 
         $ids = [];
@@ -274,14 +298,27 @@ class BadasoPostModuleApiTest extends TestCase
             $ids[] = $value->id;
         }
 
-        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/post/delete-multiple'), [
+        $tableCategory = Category::latest()->first();
+
+        $id = [
+            'id' => "$tableCategory->id",
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
+        $response->assertSuccessful();   
+
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertStatus(200);
+         $tableTag = Tag::latest()->first();
+        $request_data = [
+            'id' => "$tableTag->id",
+        ];
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('DELETE', CallHelperTest::getApiV1('/tag/delete'), $request_data);
 
         $posts = Post::whereIn('id', $ids)->get();
         $posts_count = $posts->count();
         $this->assertTrue($posts_count == 0);
-       
     }
 }

@@ -12,7 +12,7 @@ class BadasoCategoriesApiTest extends TestCase
 {
     public function test_add_category()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
@@ -24,7 +24,7 @@ class BadasoCategoriesApiTest extends TestCase
                 'content'=> 'An example of create new category.',
             ];
 
-            $response = $this->withHeader('Authorization', "$token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
+            $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
             $response->assertSuccessful();
 
             $datas = $response->json('data.id');
@@ -36,14 +36,12 @@ class BadasoCategoriesApiTest extends TestCase
             $this->assertTrue($CategoryDB['meta_title'] == $request_data['metaTitle']);
             $this->assertTrue($CategoryDB['slug'] == $request_data['slug']);
             $this->assertTrue($CategoryDB['content'] == $request_data['content']);
-            
         }
-        
     }
 
     public function test_edit_category()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
         $request_data = [
             'id' => "$tableCategory->id",
@@ -54,7 +52,7 @@ class BadasoCategoriesApiTest extends TestCase
             'content' => Str::random(5),
         ];
 
-        $response = $this->withHeader('Authorization', "$token")->put(CallHelperTest::getApiV1('/category/edit'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->put(CallHelperTest::getApiV1('/category/edit'), $request_data);
         $response->assertSuccessful();
 
         $datas = $response->json('data.id');
@@ -128,14 +126,14 @@ class BadasoCategoriesApiTest extends TestCase
 
     public function test_delete_category()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
 
         $id = [
             'id' => "$tableCategory->id",
         ];
 
-        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
         $response->assertSuccessful();
         $CatergoryId = Category::find($tableCategory->id);
 
@@ -144,15 +142,15 @@ class BadasoCategoriesApiTest extends TestCase
 
     public function test_delete_multiple_category()
     {
-        $token = CallHelperTest::getTokenUserAdminAuthorizeBearer();
-        $tableCategory = Category::orderBy('id', 'Desc')->limit(3)->get();
+        $token = CallHelperTest::login($this);
+        $tableCategory = Category::orderBy('id', 'Desc')->limit(4)->get();
 
         $ids = [];
         foreach ($tableCategory as $key => $value) {
             $ids[] = $value->id;
         }
 
-        $response = $this->withHeader('Authorization', "$token")->delete(CallHelperTest::getApiV1('/category/delete-multiple'), [
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertStatus(200);
@@ -162,5 +160,4 @@ class BadasoCategoriesApiTest extends TestCase
         $this->assertTrue($posts_count == 0);
         
     }
-    
 }
