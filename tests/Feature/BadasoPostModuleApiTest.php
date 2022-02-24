@@ -15,7 +15,7 @@ class BadasoPostModuleApiTest extends TestCase
     {
         $token = CallHelperTest::login($this);
         $tableCategory = Category::latest()->first();
-        
+
         $request_data = [
             'title'=> 'Example Category',
             'parentId'=> null,
@@ -27,17 +27,17 @@ class BadasoPostModuleApiTest extends TestCase
         $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
 
         $request_data = [
-                'title' => Str::random(10),
-                'metaTitle' => Str::random(10),
-                'slug' => Str::random(10),
-                'content' => Str::random(10),
-            ];
+            'title' => Str::random(10),
+            'metaTitle' => Str::random(10),
+            'slug' => Str::random(10),
+            'content' => Str::random(10),
+        ];
 
-            $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/tag/add'), $request_data);
-            $response->assertSuccessful();
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/tag/add'), $request_data);
+        $response->assertSuccessful();
 
         $tableTag = Tag::latest()->first();
-        
+
         $tableCategory = Category::latest()->first();
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
@@ -287,7 +287,6 @@ class BadasoPostModuleApiTest extends TestCase
 
     public function test_delete_multiple_posts()
     {
-
         $token = CallHelperTest::login($this);
         $tablePost = Post::orderBy('id', 'desc')
                     ->limit(4)
@@ -305,13 +304,13 @@ class BadasoPostModuleApiTest extends TestCase
         ];
 
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
-        $response->assertSuccessful();   
+        $response->assertSuccessful();
 
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertStatus(200);
-         $tableTag = Tag::latest()->first();
+        $tableTag = Tag::latest()->first();
         $request_data = [
             'id' => "$tableTag->id",
         ];
