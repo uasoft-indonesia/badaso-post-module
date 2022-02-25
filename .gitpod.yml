@@ -32,6 +32,8 @@ tasks:
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
       php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
+      php artisan db:seed --class="Database\Seeders\Badaso\PostTheme" &&
+      php artisan db:seed --class="Database\Seeders\Badaso\Content" &&
       php artisan storage:link &&
       php artisan migrate &&
       npm install &&
