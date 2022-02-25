@@ -168,6 +168,7 @@ return [
 
         "Uasoft\\Badaso\\Providers\\BadasoServiceProvider",
         "Uasoft\\Badaso\\Module\\Post\\Providers\\BadasoPostModuleServiceProvider",
+        "Uasoft\\Badaso\\Theme\\PostTheme\\Providers\\PostThemeProvider",
 
         /*
          * Application Service Providers...
