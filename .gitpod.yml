@@ -19,6 +19,7 @@ tasks:
       mysql -u root -e "create database laravel"
     command: php artisan badaso:setup --force &&
       php artisan badaso-post:setup &&
+      php artisan badaso-post-theme:setup &&
       sed -i 's/http:\/\/localhost//g' .env &&
       sed -i 's/FILESYSTEM_DRIVER=local/FILESYSTEM_DRIVER=public/g' .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
