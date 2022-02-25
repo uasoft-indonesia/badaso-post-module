@@ -8,6 +8,7 @@ tasks:
       cd laravel/packages/badaso &&
       git clone --branch 2.x --single-branch https://github.com/uasoft-indonesia/badaso.git core &&
       git clone https://github.com/uasoft-indonesia/badaso-post-theme.git post-theme &&
+      git clone https://github.com/uasoft-indonesia/badaso-content-module.git content-module &&
       cd ../../ &&
       cp packages/badaso/post-module/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/post-module/.gitpod/app.php config/app.php &&
@@ -24,9 +25,9 @@ tasks:
       sed -i 's/FILESYSTEM_DRIVER=local/FILESYSTEM_DRIVER=public/g' .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
       sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env &&
-      sed -i 's/MIX_DEFAULT_MENU=general/MIX_DEFAULT_MENU=general,post-module,post-theme/g' .env &&
-      sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module,post-theme/g' .env &&
-      echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
+      sed -i 's/MIX_DEFAULT_MENU=general/MIX_DEFAULT_MENU=general,post-module,post-theme,content-module/g' .env &&
+      sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module,post-theme,content-module/g' .env &&
+      echo -e "\nMIX_BADASO_MODULES=post-module,content-module" >> .env &&
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
       php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
