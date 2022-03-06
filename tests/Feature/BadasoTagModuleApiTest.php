@@ -37,7 +37,6 @@ class BadasoTagModuleApiTest extends TestCase
     {
         $token = CallHelperTest::login($this);
         $tableTag = Tag::latest()->first();
-        $count = 5;
         $request_data = [
             'id' => "$tableTag->id",
             'title' => Str::random(10),
@@ -104,7 +103,6 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_read_tag()
     {
-        $token = CallHelperTest::login($this);
         $tableTag = Tag::latest()->first();
         $request_data = [
             'id' => "$tableTag->id",
@@ -124,7 +122,6 @@ class BadasoTagModuleApiTest extends TestCase
 
     public function test_read_slug_tag()
     {
-        $token = CallHelperTest::login($this);
         $tableTag = Tag::latest()->first();
         $request_data = [
             'slug' => "$tableTag->slug",
@@ -145,7 +142,8 @@ class BadasoTagModuleApiTest extends TestCase
     public function test_delete_multiple_tag()
     {
         $token = CallHelperTest::login($this);
-        $tableTag = Tag::orderBy('id', 'desc')
+
+        $tableTag = Tag::orderBy('id', 'asc')
             ->limit(4)
             ->get();
 
@@ -157,6 +155,7 @@ class BadasoTagModuleApiTest extends TestCase
         $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/tag/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
+
         $response->assertSuccessful();
 
         $posts = Tag::whereIn('id', $ids)->get();
