@@ -107,15 +107,19 @@ jobs:
           touch database/database.sqlite &&
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
+          
 
       # Sqlite | Laravel setup
       - name: Sqlite | Laravel setup
         run: cd laravel &&
           php artisan badaso:setup --force &&
           php artisan badaso-test:setup &&
+          php artisan badaso-post:setup  &&
+          php artisan badaso-post-test:setup  &&
           php artisan db:wipe &&
           php artisan migrate &&
-          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
+          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" 
 
       # Sqlite | Badaso core test
       - name: Sqlite | Badaso core test
@@ -136,9 +140,12 @@ jobs:
         run: cd laravel &&
           php artisan badaso:setup --force &&
           php artisan badaso-test:setup &&
+          php artisan badaso-post:setup  &&
+          php artisan badaso-post-test:setup  &&
           php artisan db:wipe &&
           php artisan migrate &&
-          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
+          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" 
 
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
