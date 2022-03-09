@@ -96,9 +96,6 @@ jobs:
       # Mysql | Badaso core test & post module test
       - name: Mysql | Badaso core test
         run: cd laravel && 
-        sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module/g' .env &&
-        echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
-        echo -e "\nMIX_POST_URL_PREFIX=post" >> .env &&
         php artisan test
 
       # # Sqlite | Laravel configuration
