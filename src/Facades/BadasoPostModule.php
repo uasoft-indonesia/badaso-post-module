@@ -13,6 +13,6 @@ class BadasoPostModule extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'badaso-post-modules';
+        return 'badaso-post-module';
     }
 }
