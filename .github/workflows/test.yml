@@ -74,7 +74,7 @@ jobs:
           composer show laravel/framework &&
           php artisan db:wipe
 
-      # Laravel require badaso core
+      # Laravel require badaso core and badaso post module
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
@@ -96,8 +96,8 @@ jobs:
           echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
           echo -e "\nMIX_POST_URL_PREFIX=/post" >> .env 
 
-      # Mysql | Badaso core test
-      - name: Mysql | Badaso core test
+      # Mysql | Badaso Post Module test
+      - name: Mysql | Badaso Post Module test
         run: cd laravel && php artisan test
 
       # Sqlite | Laravel configuration
@@ -119,8 +119,8 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" 
 
-      # Sqlite | Badaso core test
-      - name: Sqlite | Badaso core test
+      # Sqlite | Badaso Post Module test
+      - name: Sqlite | Badaso Post Module test
         run: cd laravel && php artisan test
 
       # Pgsql | Laravel configuration
@@ -144,6 +144,6 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" 
 
-      # Pgsql | Badaso core test
-      - name: Pgsql | Badaso core test
+      # Pgsql | Badaso Post Module test
+      - name: Pgsql | Badaso Post Module test
         run: cd laravel && php artisan test
