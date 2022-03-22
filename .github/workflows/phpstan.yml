@@ -52,11 +52,6 @@ jobs:
           composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 
-       # Laravel setup
-      - name: Laravel setup
-        run: cd laravel &&
-          php artisan badaso-post:setup
-
       # Badaso PostModule Test PHPStan
       - name: Badaso PostModule test PHPStan
         run: cd laravel &&
