@@ -4,7 +4,6 @@ parameters:
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method App\\Models\\User::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Helpers\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     - '#Method Uasoft\\Badaso\\Module\\Post\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing+.#'
 
 
