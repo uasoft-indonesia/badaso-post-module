@@ -50,7 +50,7 @@ jobs:
         run: git branch &&
           cd laravel &&
           composer require badaso/core:2.x-dev &&
-          composer require badaso/post-module:2.x-dev &&
+          composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 
       # Badaso PostModule Test PHPStan
