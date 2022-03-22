@@ -55,7 +55,7 @@ jobs:
        # Laravel setup
       - name: Laravel setup
         run: cd laravel &&
-          php artisan badaso-post:setup --force
+          php artisan badaso-post:setup
 
       # Badaso PostModule Test PHPStan
       - name: Badaso PostModule test PHPStan
