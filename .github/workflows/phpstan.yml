@@ -49,8 +49,14 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
+          composer require badaso/core:2.x-dev &&
           composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
+
+       # Laravel setup
+      - name: Laravel setup
+        run: cd laravel &&
+          php artisan badaso:setup --force
 
       # Badaso PostModule Test PHPStan
       - name: Badaso PostModule test PHPStan
