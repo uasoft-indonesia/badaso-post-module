@@ -2,10 +2,12 @@
 
 namespace Database\Seeders\Badaso\Post;
 
+use Exception;
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\RolePermission;
+use Illuminate\Support\Facades\DB;
 
 class PostRolePermissionsSeeder extends Seeder
 {
@@ -18,7 +20,7 @@ class PostRolePermissionsSeeder extends Seeder
      */
     public function run()
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $editor = Role::where('name', 'editor')->firstOrFail();
@@ -45,10 +47,10 @@ class PostRolePermissionsSeeder extends Seeder
                 }
             }
 
-            \DB::commit();
+            DB::commit();
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
-            \DB::rollBack();
+            DB::rollBack();
         }
     }
 }

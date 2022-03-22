@@ -2,8 +2,10 @@
 
 namespace Database\Seeders\Badaso\Post;
 
+use Exception;
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class PostRolesSeeder extends Seeder
 {
@@ -16,7 +18,7 @@ class PostRolesSeeder extends Seeder
      */
     public function run()
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $roles = [
@@ -26,10 +28,10 @@ class PostRolesSeeder extends Seeder
 
             Role::firstOrCreate($roles);
 
-            \DB::commit();
+            DB::commit();
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
-            \DB::rollBack();
+            DB::rollBack();
         }
     }
 }
