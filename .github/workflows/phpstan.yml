@@ -45,20 +45,14 @@ jobs:
         run: cd laravel &&
           composer show laravel/framework
 
-      # Laravel require badaso commerce-module
+      # Laravel require badaso post-module
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-          composer require badaso/core:2.x-dev &&
-          composer require badaso/commerce-theme:dev-${GITHUB_HEAD_REF} &&
+          composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 
-      # Laravel setup
-      - name: Laravel setup
+      # Badaso PostModule Test PHPStan
+      - name: Badaso PostModule test PHPStan
         run: cd laravel &&
-          php artisan badaso:setup --force
-
-      # Badaso CommerceTheme Test PHPStan
-      - name: Badaso CommerceTheme test PHPStan
-        run: cd laravel &&
-             ./vendor/bin/phpstan analyse -c vendor/badaso/commerce-theme/phpstan.neon.dist
+             ./vendor/bin/phpstan analyse -c vendor/badaso/post-module/phpstan.neon.dist
