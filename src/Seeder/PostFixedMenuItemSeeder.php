@@ -4,9 +4,9 @@ namespace Database\Seeders\Badaso\Post;
 
 use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
-use Illuminate\Support\Facades\DB;
 
 class PostFixedMenuItemSeeder extends Seeder
 {
