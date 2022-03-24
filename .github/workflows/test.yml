@@ -44,6 +44,7 @@ jobs:
         mysql-version: [8.0]
         badaso-core: [2.x]
 
+
     name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
     steps:
@@ -78,7 +79,7 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-          composer require badaso/core:^2.0 &&
+          composer require badaso/core:dev-main &&
           composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 

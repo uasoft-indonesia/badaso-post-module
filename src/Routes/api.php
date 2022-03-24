@@ -46,7 +46,7 @@ Route::group(['prefix' => $api_route_prefix, 'as' => 'badaso.', 'middleware' => 
             Route::get('/', HelpersRoute::getController('CommentController@browse'))->middleware(BadasoCheckPermissions::class.':browse_comments');
             Route::get('/post', HelpersRoute::getController('CommentController@getCommentByPostSlug'));
             Route::get('/read', HelpersRoute::getController('CommentController@read'))->middleware(BadasoCheckPermissions::class.':read_comments');
-            Route::post('/add', HelpersRoute::getController('CommentController@add'));
+            Route::post('/add', HelpersRoute::getController('CommentController@add'))->middleware(BadasoCheckPermissions::class.':add_comments');
             Route::put('/edit', HelpersRoute::getController('CommentController@edit'))->middleware(BadasoCheckPermissions::class.':edit_comments');
             Route::delete('/delete', HelpersRoute::getController('CommentController@delete'))->middleware(BadasoCheckPermissions::class.':delete_comments');
             Route::delete('/delete-multiple', HelpersRoute::getController('CommentController@deleteMultiple'))->middleware(BadasoCheckPermissions::class.':delete_comments');
