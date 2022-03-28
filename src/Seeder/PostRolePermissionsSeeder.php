@@ -4,10 +4,10 @@ namespace Database\Seeders\Badaso\Post;
 
 use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\RolePermission;
-use Illuminate\Support\Facades\DB;
 
 class PostRolePermissionsSeeder extends Seeder
 {
