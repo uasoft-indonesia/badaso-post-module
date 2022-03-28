@@ -1,15 +1,11 @@
 parameters:
-    excludePaths:
-    - src/Commands/*.php
-    - src/Config/badaso-post.php
-    - src/Seeder/*.php
-    - src/Models/*.php
-    - src/Migrations/*.php
-    - src/Helpers/*.php
-    - src/Controllers/*.php
-    - src/Facades/BadasoPostModule.php
-    - src/Providers/BadasoPostModuleServiceProvider.php
-    - src/Routes/api.php
+    ignoreErrors:
+    -'#Call to an undefined static method Uasoft\\Badaso\\Module\\Post\\Facades\\BadasoPostModule::getProtectedTables[()]+.#'
+    -'#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
+    -'#Call to an undefined static method Uasoft\\Badaso\\Module\\Post\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
+    -'#Call to an undefined static method Illuminate\\Support\\Facades\\DB::rollback[()]+.#'
+
+
 
 
 
