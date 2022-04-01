@@ -7,3 +7,4 @@ parameters:
     - '#Method Uasoft\\Badaso\\Module\\Post\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing+.#'
 
 
+
