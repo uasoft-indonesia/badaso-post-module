@@ -113,7 +113,6 @@ jobs:
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
 
-
       # Sqlite | Laravel setup
       - name: Sqlite | Laravel setup
         run: cd laravel &&
