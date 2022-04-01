@@ -4,8 +4,8 @@ namespace Database\Seeders\Badaso\Post;
 
 use Exception;
 use Illuminate\Database\Seeder;
-use Uasoft\Badaso\Models\Role;
 use Illuminate\Support\Facades\DB;
+use Uasoft\Badaso\Models\Role;
 
 class PostRolesSeeder extends Seeder
 {
