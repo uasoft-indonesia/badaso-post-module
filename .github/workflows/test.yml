@@ -42,7 +42,10 @@ jobs:
         laravel: ["8.*"]
         laravel-require: [8.0]
         mysql-version: [8.0]
+<<<<<<< HEAD
         badaso-core: [2.x]
+=======
+>>>>>>> 14279e5f8932ac0b09689670e4bbff4b0a02b556
 
     name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
@@ -78,7 +81,11 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
+<<<<<<< HEAD
           composer require badaso/core:^2.0 &&
+=======
+          composer require badaso/core:dev-main &&
+>>>>>>> 14279e5f8932ac0b09689670e4bbff4b0a02b556
           composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 
