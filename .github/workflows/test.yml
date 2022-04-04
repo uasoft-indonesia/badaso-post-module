@@ -94,7 +94,7 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module/g' .env &&
           echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
-          echo -e "\nMIX_POST_URL_PREFIX=/post" >> .env 
+          echo -e "\nMIX_POST_URL_PREFIX=/post" >> .env
 
       # Mysql | Badaso Post Module test
       - name: Mysql | Badaso Post Module test
@@ -106,7 +106,7 @@ jobs:
           touch database/database.sqlite &&
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
-          
+
 
       # Sqlite | Laravel setup
       - name: Sqlite | Laravel setup
@@ -117,7 +117,7 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" 
+          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder"
 
       # Sqlite | Badaso Post Module test
       - name: Sqlite | Badaso Post Module test
@@ -142,7 +142,7 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" 
+          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder"
 
       # Pgsql | Badaso Post Module test
       - name: Pgsql | Badaso Post Module test
