@@ -2,12 +2,12 @@
 
 namespace Uasoft\Badaso\Module\Post\Controllers;
 
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Post\Helpers\GetData;
 use Uasoft\Badaso\Module\Post\Models\Post;
 use Uasoft\Badaso\Traits\FileHandler;
