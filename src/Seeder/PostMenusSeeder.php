@@ -2,7 +2,9 @@
 
 namespace Database\Seeders\Badaso\Post;
 
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Models\Menu;
 
 class PostMenusSeeder extends Seeder
@@ -16,7 +18,7 @@ class PostMenusSeeder extends Seeder
      */
     public function run()
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $menus = [
@@ -37,9 +39,9 @@ class PostMenusSeeder extends Seeder
             }
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
-            \DB::rollBack();
+            DB::rollBack();
         }
 
-        \DB::commit();
+        DB::commit();
     }
 }

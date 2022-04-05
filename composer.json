@@ -49,5 +49,10 @@
                 "Uasoft\\Badaso\\Module\\Post\\Providers\\BadasoPostModuleServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.5",
+        "badaso/core": "^2.4.10",
+        "orchestra/testbench": "*"
     }
 }

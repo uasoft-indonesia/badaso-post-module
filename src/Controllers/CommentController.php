@@ -71,7 +71,6 @@ class CommentController extends Controller
                     'post_id'   => $request->post_id,
                     'parent_id' => $request->parent_id ?? null,
                     'user_id'   => auth()->user()->id,
-                    'post_id'   => $request->post_id,
                     'content'   => $request->content,
                 ]);
 
@@ -129,7 +128,6 @@ class CommentController extends Controller
                 'post_id'   => $request->post_id,
                 'parent_id' => $request->parent_id ?? null,
                 'user_id'   => auth()->user()->id,
-                'post_id'   => $request->post_id,
                 'content'   => $request->content,
             ]);
 

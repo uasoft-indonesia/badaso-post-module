@@ -14,7 +14,7 @@ class Period
 
     public static function create(DateTimeInterface $startDate, DateTimeInterface $endDate): self
     {
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
     public static function days(int $numberOfDays)
@@ -23,7 +23,7 @@ class Period
 
         $startDate = Carbon::today()->subDays($numberOfDays)->startOfDay();
 
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
     public static function months(int $numberOfMonths)
@@ -32,7 +32,7 @@ class Period
 
         $startDate = Carbon::today()->subMonths($numberOfMonths)->startOfDay();
 
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
     public static function years(int $numberOfYears)
@@ -41,7 +41,7 @@ class Period
 
         $startDate = Carbon::today()->subYears($numberOfYears)->startOfDay();
 
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
     public function __construct(DateTimeInterface $startDate, DateTimeInterface $endDate)
