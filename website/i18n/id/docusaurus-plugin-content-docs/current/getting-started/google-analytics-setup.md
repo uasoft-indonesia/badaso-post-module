@@ -3,6 +3,12 @@ sidebar_position: 2
 ---
 
 # Penyiapan Google Analytics
+## Mengaktifkan services Google Analytics
+1. Pergi ke [Google Api Console](https://console.cloud.google.com/)
+2. Cari 'Google Analytics Api' di kotak pencarian
+3. Klik tombol 'enable'
+![Screenshot from 2022-07-07 17-27-51](https://user-images.githubusercontent.com/79588035/177752913-e7148b37-5954-4f4c-b135-9c8c80571eef.png)
+
 ## Mendapatkan kredensial JSON
 
 1. Pergi ke [Google Analytics](http://analytics.google.com/) halaman.
