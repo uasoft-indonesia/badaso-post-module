@@ -3,6 +3,14 @@ sidebar_position: 2
 ---
 
 # Google Analytics Setup
+
+## Enable services
+1. Visit [Google Api Console](https://console.cloud.google.com/)
+2. Search product 'Google Analytics Api' 
+3. Click enable
+ 
+![Screenshot from 2022-07-07 17-27-51](https://user-images.githubusercontent.com/79588035/177752913-e7148b37-5954-4f4c-b135-9c8c80571eef.png)
+
 ## Getting credentials JSON
 
 1. Go to [Google Analytics](http://analytics.google.com/) page.
@@ -90,3 +98,4 @@ https://analytics.google.com/analytics/web/?authuser=1#/report-home/a000000000w2
    The web property ID for that account is 299999997.
 
 ![Imgur](https://i.imgur.com/XWimJm5.png)
+
