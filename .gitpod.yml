@@ -31,7 +31,7 @@ tasks:
       sed -i 's/FILESYSTEM_DRIVER=local/FILESYSTEM_DRIVER=public/g' .env &&
       sed -i 's/MIX_DEFAULT_MENU=general/MIX_DEFAULT_MENU=general,post-module,post-theme,content-module/g' .env &&
       sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module,post-theme,content-module/g' .env &&
-      echo -e "\nMIX_BADASO_MODULES=post-module,post-theme,content-module" >> .env &&
+      echo -e "\nMIX_BADASO_PLUGINS=post-module,post-theme,content-module" >> .env &&
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
       php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
