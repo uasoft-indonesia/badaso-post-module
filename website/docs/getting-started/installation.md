@@ -57,4 +57,4 @@ sidebar_position: 1
       View id from google analytics | optional
       
 1. Install & compile the JS 
-    `yarn && yarn dev`
+    `npm install && npm run dev`
