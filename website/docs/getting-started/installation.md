@@ -34,7 +34,7 @@ sidebar_position: 1
     php artisan db:seed --class=BadasoPostModuleSeeder
     ```
 
-1. Add the plugins to your `MIX_BADASO_MODULES` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
+1. Add the plugins to your `MIX_BADASO_PLUGINS` to `.env`. If you have another plugins installed, include them using delimiter comma (,).
 
     ```
     MIX_BADASO_PLUGINS=post-module
