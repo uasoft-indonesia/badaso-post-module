@@ -34,10 +34,10 @@ Untuk badaso v1.x (Laravel 5, 6, 7)
 php artisan db:seed --class=BadasoPostModuleSeeder
 ```
 
-3. Tambahkan plugin ke `MIX_BADASO_MODULES` Anda ke `.env`. Jika Anda memiliki plugin lain yang diinstal, sertakan plugin tersebut menggunakan koma pembatas (,).
+3. Tambahkan plugin ke `MIX_BADASO_PLUGINS` Anda ke `.env`. Jika Anda memiliki plugin lain yang diinstal, sertakan plugin tersebut menggunakan koma pembatas (,).
 
 ```
-MIX_BADASO_MODULES=post-module
+MIX_BADASO_PLUGINS=post-module
 ```
 
 4. Tambahkan menu plugin ke `MIX_BADASO_MENU` Anda ke `.env`. Jika Anda memiliki menu lain, sertakan menu tersebut menggunakan koma pembatas (,).

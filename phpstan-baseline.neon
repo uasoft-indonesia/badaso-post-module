@@ -4,3 +4,11 @@ parameters:
     -'#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     -'#Call to an undefined static method Uasoft\\Badaso\\Module\\Post\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     -'#Call to an undefined static method Illuminate\\Support\\Facades\\DB::rollback[()]+.#'
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> f986b620481ac6a3659cd732b3b0ed0323af9026

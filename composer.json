@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "name": "badaso/post-module",
     "version": "2.2.1",
     "description": "Post system on badaso, create blog & news site faster",
@@ -55,4 +56,64 @@
         "badaso/core": "^2.4.10",
         "orchestra/testbench": "*"
     }
+=======
+  "name": "badaso/post-module",
+  "version": "2.2.1",
+  "description": "Post system on badaso, create blog & news site faster",
+  "keywords": [
+    "laravel",
+    "admin",
+    "panel",
+    "dashboard",
+    "pwa",
+    "vue",
+    "generator",
+    "blog",
+    "badaso",
+    "post",
+    "news"
+  ],
+  "license": "proprietary",
+  "homepage": "https://badaso-post.uatech.co.id/",
+  "support": {
+    "issues": "https://github.com/uasoft-indonesia/badaso-post-module/issues",
+    "discussion": "https://github.com/uasoft-indonesia/badaso-post-module/discussions",
+    "source": "https://github.com/uasoft-indonesia/badaso-post-module"
+  },
+  "type": "library",
+  "require": {
+    "badaso/core": "^2.0",
+    "symfony/var-exporter": "^5.2.0|^6.0",
+    "google/apiclient": "^2.9",
+    "guzzlehttp/guzzle": "^7.3"
+  },
+  "authors": [
+    {
+      "name": "UASOFT",
+      "email": "hello@uatech.co.id"
+    }
+  ],
+  "minimum-stability": "alpha",
+  "autoload": {
+    "psr-4": {
+      "Uasoft\\Badaso\\Module\\Post\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Uasoft\\Badaso\\Module\\Post\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uasoft\\Badaso\\Module\\Post\\Providers\\BadasoPostModuleServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.4",
+    "orchestra/testbench": "*"
+  }
+>>>>>>> f986b620481ac6a3659cd732b3b0ed0323af9026
 }
