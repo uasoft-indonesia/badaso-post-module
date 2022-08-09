@@ -84,11 +84,7 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-<<<<<<< HEAD:.github/workflows/phpunit.yml
-          composer require badaso/core:^2.0 &&
-=======
           composer require badaso/core:dev-main &&
->>>>>>> f986b620481ac6a3659cd732b3b0ed0323af9026:.github/workflows/test.yml
           composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 
@@ -103,11 +99,7 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module/g' .env &&
-<<<<<<< HEAD:.github/workflows/phpunit.yml
-          echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
-=======
           echo -e "\nMIX_BADASO_PLUGINS=post-module" >> .env &&
->>>>>>> f986b620481ac6a3659cd732b3b0ed0323af9026:.github/workflows/test.yml
           echo -e "\nMIX_POST_URL_PREFIX=/post" >> .env
 
       # Mysql | Badaso Post Module test

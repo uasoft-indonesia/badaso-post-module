@@ -24,18 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-<<<<<<< HEAD
     # Run composer badaso post-module
-=======
-    # Run composer badaso commerce-theme
->>>>>>> f986b620481ac6a3659cd732b3b0ed0323af9026
       - name: Composer update
         run: composer update --no-interaction
 
     # Badaso PostModule Test PHPStan
       - name: Badaso PostModule test PHPStan
         run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist
-<<<<<<< HEAD
-=======
-
->>>>>>> f986b620481ac6a3659cd732b3b0ed0323af9026
