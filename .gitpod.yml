@@ -5,23 +5,28 @@ tasks:
     init: composer create-project laravel/laravel:^8.0 laravel &&
       mkdir -p laravel/packages/badaso/post-module &&
       mv {,.}* laravel/packages/badaso/post-module 2>/dev/null; true &&
+      
       cd laravel/packages/badaso &&
       git clone --branch 2.x --single-branch https://github.com/uasoft-indonesia/badaso.git core &&
-      git clone https://github.com/uasoft-indonesia/badaso-post-theme.git post-theme &&
       git clone https://github.com/uasoft-indonesia/badaso-content-module.git content-module &&
+      git clone https://github.com/uasoft-indonesia/badaso-posty-theme.git posty-theme &&
+      
       cd ../../ &&
       cp packages/badaso/post-module/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/post-module/.gitpod/app.php config/app.php &&
       cp packages/badaso/post-module/.gitpod/composer.json composer.json &&
-      cp packages/badaso/post-module/.gitpod/webpack.mix.js webpack.mix.js &&
+      
       cp .env.example .env &&
       composer update &&
       php artisan key:generate &&
       mysql -u root -e "create database laravel"
     command: php artisan badaso:setup --force &&
       php artisan badaso-post:setup &&
-      php artisan badaso-post-theme:setup &&
+      php artisan badaso-posty-theme:setup &&
       php artisan badaso-content:setup &&
+
+      cp packages/badaso/post-module/.gitpod/webpack.mix.js webpack.mix.js &&
+
       sed -i 's/http:\/\/localhost//g' .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
       sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env &&
@@ -29,16 +34,16 @@ tasks:
       sed -i "s|MIX_FRONTEND_URL=|MIX_FRONTEND_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
       sed -i "s|MIX_FRONTEND_URL=https://|MIX_FRONTEND_URL=https://8000-|g" .env &&
       sed -i 's/FILESYSTEM_DRIVER=local/FILESYSTEM_DRIVER=public/g' .env &&
-      sed -i 's/MIX_DEFAULT_MENU=general/MIX_DEFAULT_MENU=general,post-module,post-theme,content-module/g' .env &&
-      sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module,post-theme,content-module/g' .env &&
-      echo -e "\nMIX_BADASO_MODULES=post-module,post-theme,content-module" >> .env &&
+      sed -i 's/MIX_DEFAULT_MENU=general/MIX_DEFAULT_MENU=general,post-module,content-module,posty-theme/g' .env &&
+      sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module,content-module,posty-theme/g' .env &&
+
+      echo -e "\nMIX_BADASO_PLUGINS=post-module,content-module,posty-theme" >> .env &&
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
       php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
-      php artisan db:seed --class="Database\Seeders\Badaso\PostTheme\BadasoPostThemeSeeder" &&
+      php artisan db:seed --class="Database\Seeders\Badaso\PostyTheme\BadasoPostyThemeSeeder" &&
       php artisan db:seed --class="Database\Seeders\Badaso\Content\BadasoContentModuleSeeder" &&
       php artisan storage:link &&
-      php artisan migrate &&
       npm install &&
       php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && 
       npm run dev &&
