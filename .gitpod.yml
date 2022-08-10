@@ -15,7 +15,6 @@ tasks:
       cp packages/badaso/post-module/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/post-module/.gitpod/app.php config/app.php &&
       cp packages/badaso/post-module/.gitpod/composer.json composer.json &&
-      cp packages/badaso/post-module/.gitpod/webpack.mix.js webpack.mix.js &&
       
       cp .env.example .env &&
       composer update &&
@@ -25,6 +24,9 @@ tasks:
       php artisan badaso-post:setup &&
       php artisan badaso-posty-theme:setup &&
       php artisan badaso-content:setup &&
+
+      cp packages/badaso/post-module/.gitpod/webpack.mix.js webpack.mix.js &&
+
       sed -i 's/http:\/\/localhost//g' .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
       sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env &&
@@ -34,6 +36,7 @@ tasks:
       sed -i 's/FILESYSTEM_DRIVER=local/FILESYSTEM_DRIVER=public/g' .env &&
       sed -i 's/MIX_DEFAULT_MENU=general/MIX_DEFAULT_MENU=general,post-module,content-module,posty-theme/g' .env &&
       sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module,content-module,posty-theme/g' .env &&
+
       echo -e "\nMIX_BADASO_PLUGINS=post-module,content-module,posty-theme" >> .env &&
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&

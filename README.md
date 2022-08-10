@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://badaso-post-theme.uatech.co.id/">
+  <a href="https://badaso-post.uatech.co.id/">
     <img src="https://badaso-post.uatech.co.id/img/badaso-post-logo.png" width="150px" alt="Badaso Post Theme Logo" />
   </a>
 </p>
