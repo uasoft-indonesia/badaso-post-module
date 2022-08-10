@@ -6,13 +6,11 @@ tasks:
       mkdir -p laravel/packages/badaso/post-module &&
       mv {,.}* laravel/packages/badaso/post-module 2>/dev/null; true &&
       
-      # install other module 
       cd laravel/packages/badaso &&
       git clone --branch 2.x --single-branch https://github.com/uasoft-indonesia/badaso.git core &&
       git clone https://github.com/uasoft-indonesia/badaso-content-module.git content-module &&
       git clone https://github.com/uasoft-indonesia/badaso-posty-theme.git posty-theme &&
       
-      # copy all configured setting for gitpod to root
       cd ../../ &&
       cp packages/badaso/post-module/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/post-module/.gitpod/app.php config/app.php &&
