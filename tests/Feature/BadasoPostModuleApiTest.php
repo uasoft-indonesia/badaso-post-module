@@ -17,11 +17,11 @@ class BadasoPostModuleApiTest extends TestCase
         $tableCategory = Category::latest()->first();
 
         $request_data = [
-            'title'=> 'Example Category',
-            'parentId'=> null,
-            'metaTitle'=> 'example',
-            'slug'=> Str::random(10),
-            'content'=> 'An example of create new category.',
+            'title' => 'Example Category',
+            'parentId' => null,
+            'metaTitle' => 'example',
+            'slug' => Str::random(10),
+            'content' => 'An example of create new category.',
         ];
 
         $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
