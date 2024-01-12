@@ -24,7 +24,7 @@
   },
   "type": "library",
   "require": {
-    "badaso/core": "^2.0",
+    "badaso/core": "^2.9.10",
     "symfony/var-exporter": "^5.2.0|^6.0",
     "google/apiclient": "^2.9",
     "guzzlehttp/guzzle": "^7.3"
