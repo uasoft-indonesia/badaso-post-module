@@ -18,11 +18,11 @@ class BadasoCommentsApiTest extends TestCase
         $tableCategory = Category::latest()->first();
 
         $request_data = [
-            'title'=> 'Example Category',
-            'parentId'=> isset($tableCategory->id) ? $tableCategory->id : null,
-            'metaTitle'=> 'example',
-            'slug'=> Str::random(10),
-            'content'=> 'An example of create new category.',
+            'title' => 'Example Category',
+            'parentId' => isset($tableCategory->id) ? $tableCategory->id : null,
+            'metaTitle' => 'example',
+            'slug' => Str::random(10),
+            'content' => 'An example of create new category.',
         ];
 
         $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
@@ -61,9 +61,9 @@ class BadasoCommentsApiTest extends TestCase
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
             $request_data = [
-                'postId'=> isset($tablePost->id) ? $tablePost->id : 1,
-                'parentId'=> isset($tableComment->id) ? $tableComment->id : null,
-                'content'=> 'Lorem ipsum dolor sit amet',
+                'postId' => isset($tablePost->id) ? $tablePost->id : 1,
+                'parentId' => isset($tableComment->id) ? $tableComment->id : null,
+                'content' => 'Lorem ipsum dolor sit amet',
             ];
 
             $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/comment/add'), $request_data);
