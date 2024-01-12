@@ -26,7 +26,7 @@ jobs:
 
     # Run composer badaso post-module
       - name: Composer update
-        run: composer update --no-interaction
+        run: composer update --no-interaction -W
 
     # Badaso PostModule Test PHPStan
       - name: Badaso PostModule test PHPStan
