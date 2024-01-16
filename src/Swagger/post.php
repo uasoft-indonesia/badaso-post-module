@@ -7,22 +7,27 @@
  *      tags={"post"},
  *      summary="Browse Post",
  *      description="Returns list of Post",
+ *
  *      @OA\Parameter(
  *          name="order_field",
  *          required=false,
  *          example="updated_at",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          ),
  *          style="form"
  *      ),
+ *
  *      @OA\Parameter(
  *          name="order_direction",
  *          required=false,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="array",
+ *
  *              @OA\Items(
  *                   type="string",
  *                   enum={"asc", "desc"},
@@ -30,51 +35,62 @@
  *              )
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="category",
  *          required=false,
  *          example="example-category",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="tag",
  *          required=false,
  *          example="example-tag",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="page",
  *          required=true,
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          required=true,
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="search",
  *          required=false,
  *          example="lorem ipsum",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -89,22 +105,27 @@
  *      tags={"post"},
  *      summary="Browse Post with Analytics Parameter",
  *      description="Returns list of Post with total view count",
+ *
  *      @OA\Parameter(
  *          name="order_field",
  *          required=false,
  *          example="updated_at",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          ),
  *          style="form"
  *      ),
+ *
  *      @OA\Parameter(
  *          name="order_direction",
  *          required=false,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="array",
+ *
  *              @OA\Items(
  *                   type="string",
  *                   enum={"asc", "desc"},
@@ -112,51 +133,62 @@
  *              )
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="category",
  *          required=false,
  *          example="example-category",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="tag",
  *          required=false,
  *          example="example-tag",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="page",
  *          required=true,
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          required=true,
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="search",
  *          required=false,
  *          example="lorem ipsum",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -174,24 +206,29 @@
  *      tags={"post"},
  *      summary="Browse Popular Post",
  *      description="Returns list of Popular Post",
+ *
  *      @OA\Parameter(
  *          name="page",
  *          required=true,
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          required=true,
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -206,14 +243,17 @@
  *      tags={"post"},
  *      summary="Get Post based on id",
  *      description="Returns Post based on id",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -231,15 +271,18 @@
  *      tags={"post"},
  *      summary="Get Post based on slug",
  *      description="Returns Post based on slug",
+ *
  *      @OA\Parameter(
  *          name="slug",
  *          required=true,
  *          in="query",
  *          example="post-example",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -254,10 +297,14 @@
  *      tags={"post"},
  *      summary="Insert new Post",
  *      description="Insert new Post into database",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="title",
  *                     type="string",
@@ -296,11 +343,13 @@
  *                 @OA\Property(
  *                     property="tags",
  *                     type="array",
+ *
  *                     @OA\Items(
  *                         type="string",
  *                         example="1"
  *                     ),
  *                 ),
+ *
  *                 @OA\Property(
  *                     property="category",
  *                     type="string",
@@ -314,6 +363,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -331,10 +381,14 @@
  *      tags={"post"},
  *      summary="Edit an existing Post",
  *      description="Edit an existing Post",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="string",
@@ -378,11 +432,13 @@
  *                 @OA\Property(
  *                     property="tags",
  *                     type="array",
+ *
  *                     @OA\Items(
  *                         type="string",
  *                         example="1"
  *                     ),
  *                 ),
+ *
  *                 @OA\Property(
  *                     property="category",
  *                     type="string",
@@ -396,6 +452,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -413,10 +470,14 @@
  *      tags={"post"},
  *      summary="Delete one record of Post",
  *      description="Delete one record of Post",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -425,6 +486,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -442,10 +504,14 @@
  *      tags={"post"},
  *      summary="Delete multiple record of Post",
  *      description="Delete multiple record of Post",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -454,6 +520,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

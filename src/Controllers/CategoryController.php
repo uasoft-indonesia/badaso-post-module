@@ -30,11 +30,11 @@ class CategoryController extends Controller
 
         try {
             $request->validate([
-                'title'      => 'required|string|max:255',
+                'title' => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Category',
-                'content'    => 'nullable|string',
-                'parent_id'  => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
+                'slug' => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Category',
+                'content' => 'nullable|string',
+                'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
             ]);
 
             $category = Category::create($request->all());
@@ -54,7 +54,7 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'id'     => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
                 'except' => 'nullable|in:true,false',
             ]);
 
@@ -76,7 +76,7 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'slug'   => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
+                'slug' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
                 'except' => 'nullable|in:true,false',
             ]);
 
@@ -100,12 +100,12 @@ class CategoryController extends Controller
 
         try {
             $request->validate([
-                'id'         => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
-                'title'      => 'required|string|max:255',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Category',
+                'title' => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
-                'content'    => 'nullable|string',
-                'parent_id'  => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
+                'slug' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
+                'content' => 'nullable|string',
+                'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,id',
             ]);
 
             $category = Category::findOrFail($request->id);
