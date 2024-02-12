@@ -41,29 +41,29 @@ export default {
         },
         summary: {
           title: "Summary",
-          placeholder: "Summary"
+          placeholder: "Summary",
         },
         metaTitle: {
           title: "Meta Title",
-          placeholder: "Meta Title for SEO"
+          placeholder: "Meta Title for SEO",
         },
         metaDescription: {
           title: "Meta Description",
-          placeholder: "Meta Description for SEO"
+          placeholder: "Meta Description for SEO",
         },
         content: {
           title: "Content",
-          placeholder: "Content"
+          placeholder: "Content",
         },
         published: {
           title: "Published",
-          placeholder: "Published"
+          placeholder: "Published",
         },
         featured: {
           title: "Thumbnail",
           placeholder: "Thumbnail",
         },
-      }
+      },
     },
     edit: {
       title: "Post Content",
@@ -90,25 +90,25 @@ export default {
         },
         summary: {
           title: "Summary",
-          placeholder: "Summary"
+          placeholder: "Summary",
         },
         metaTitle: {
           title: "Meta Title",
-          placeholder: "Meta Title for SEO"
+          placeholder: "Meta Title for SEO",
         },
         metaDescription: {
           title: "Meta Description",
-          placeholder: "Meta Description for SEO"
+          placeholder: "Meta Description for SEO",
         },
         content: {
           title: "Content",
-          placeholder: "Content"
+          placeholder: "Content",
         },
         published: {
           title: "Published",
-          placeholder: "Published"
+          placeholder: "Published",
         },
-      }
+      },
     },
     detail: {
       title: "Detail Post",
@@ -165,9 +165,9 @@ export default {
         },
         content: {
           title: "Description",
-          placeholder: "Description"
-        }
-      }
+          placeholder: "Description",
+        },
+      },
     },
     edit: {
       title: "Edit Category",
@@ -191,9 +191,9 @@ export default {
         },
         content: {
           title: "Description",
-          placeholder: "Description"
-        }
-      }
+          placeholder: "Description",
+        },
+      },
     },
     detail: {
       title: "Detail Category",
@@ -239,9 +239,9 @@ export default {
         },
         content: {
           title: "Description",
-          placeholder: "Description"
-        }
-      }
+          placeholder: "Description",
+        },
+      },
     },
     edit: {
       title: "Edit Tag",
@@ -261,9 +261,9 @@ export default {
         },
         content: {
           title: "Description",
-          placeholder: "Description"
-        }
-      }
+          placeholder: "Description",
+        },
+      },
     },
     detail: {
       title: "Detail Tags",
@@ -282,6 +282,7 @@ export default {
       user: "Author",
       comment: "Comment",
       post: "Post",
+      approved: "Approved",
       submit: "Submitted On",
       action: "Action",
     },
@@ -302,7 +303,8 @@ export default {
           title: "Post",
           placeholder: "Post",
         },
-      }
+        approved: "Approved",
+      },
     },
     edit: {
       title: "Edit Comment",
@@ -316,7 +318,8 @@ export default {
           title: "Post",
           placeholder: "Post",
         },
-      }
+        approved: "Approved",
+      },
     },
     detail: {
       title: "Comment Detail",
@@ -325,11 +328,19 @@ export default {
         parent: "Parent Comment",
         comment: "Comment",
         post: "Post",
+        approved: {
+          title: "Approved",
+          yes: "Yes",
+          no: "No",
+        },
         submit: "Submitted On",
       },
     },
+    help: {
+      approved: "Comment will be publicly available",
+    },
   },
-  browse : {
-    'visitBlog' : 'Visit Blog'
+  browse: {
+    visitBlog: "Visit Blog",
   },
 };

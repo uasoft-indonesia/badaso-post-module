@@ -23,6 +23,14 @@
               :placeholder="$t('comment.edit.field.comment.placeholder')"
               :alert="errors.content"
             ></badaso-textarea>
+              <badaso-switch
+              v-model="comment.approved"
+              size="3"
+              :label="$t('comment.edit.field.approved')"
+              placeholder="Approved"
+              :alert="errors.approved"
+              :tooltip="$t('comment.help.approved')"
+            ></badaso-switch>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -50,6 +58,7 @@ export default {
     comment: {
       postId: "",
       content: "",
+      approved: false,
     },
     posts: []
   }),
@@ -92,6 +101,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.comment = response.data.comment
+          this.comment.approved = this.comment.approved === 1 ? true : false;
         })
         .catch((error) => {
           this.$closeLoader();

@@ -25,6 +25,9 @@ class Comment extends Model
         'parent_id',
         'user_id',
         'content',
+        'approved',
+        'guest_name',
+        'guest_email',
     ];
 
     public function children()
