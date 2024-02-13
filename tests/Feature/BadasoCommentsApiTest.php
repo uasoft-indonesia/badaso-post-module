@@ -2,15 +2,15 @@
 
 namespace Uasoft\Badaso\Module\Post\Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Post\Models\Category;
 use Uasoft\Badaso\Module\Post\Models\Comment;
 use Uasoft\Badaso\Module\Post\Models\Post;
 use Uasoft\Badaso\Module\Post\Models\Tag;
-use Uasoft\Badaso\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class BadasoCommentsApiTest extends TestCase
 {
@@ -104,7 +104,7 @@ class BadasoCommentsApiTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -132,13 +132,12 @@ class BadasoCommentsApiTest extends TestCase
         $count = 5;
 
         for ($i = 0; $i < $count; $i++) {
-
             $request_data = [
                 'postId' => $post->id,
                 'parentId' => isset($tableComment->id) ? $tableComment->id : null,
                 'userId' => null,
                 'guestName' => Str::random(10),
-                'guestEmail' => Str::random(10) . '@gmail.com',
+                'guestEmail' => Str::random(10).'@gmail.com',
                 'content' => 'Lorem ipsum dolor sit amet',
                 'approved' => rand(0, 1),
             ];
