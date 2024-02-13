@@ -103,7 +103,7 @@ class BadasoCommentsApiTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -134,7 +134,7 @@ class BadasoCommentsApiTest extends TestCase
             'parent_id' => isset($tableComment->id) ? $tableComment->id : null,
             'userId' => null,
             'guest_name' => $name,
-            'guest_email' => $name . '@gmail.com',
+            'guest_email' => $name.'@gmail.com',
             'content' => 'Lorem ipsum dolor sit amet',
         ]);
 
