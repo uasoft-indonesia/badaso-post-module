@@ -108,7 +108,7 @@ class BadasoCommentsApiTest extends TestCase
         ]);
 
         $post = Post::create([
-            'user_id'=>$user->id,
+            'user_id' => $user->id,
             'title' => Str::random(40),
             'slug' => $category->slug,
             'content' => Str::random(40),
@@ -162,7 +162,7 @@ class BadasoCommentsApiTest extends TestCase
             'postId' => $tablePost->id,
             'parentId' => $tableComment->id,
             'content' => Str::random(),
-            'approved' => rand(0,1),
+            'approved' => rand(0, 1),
         ];
 
         $response = $this->withHeader('Authorization', "Bearer $token")->json('PUT', CallHelperTest::getApiV1('/comment/edit'), $request_data);

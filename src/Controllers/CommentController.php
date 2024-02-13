@@ -62,7 +62,7 @@ class CommentController extends Controller
                 $request->validate([
                     'post_id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
                     'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
-                    'content'   => 'required|string',
+                    'content' => 'required|string',
                 ]);
 
                 $post = Post::find($request->post_id);
