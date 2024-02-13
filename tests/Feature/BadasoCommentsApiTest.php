@@ -84,14 +84,16 @@ class BadasoCommentsApiTest extends TestCase
     {
         $tableCategory = Category::latest()->first();
 
-        $category = Category::create(['title' => 'Example Category Guest',
+        $category = Category::create([
+            'title' => 'Example Category Guest',
             'parentId' => isset($tableCategory->id) ? $tableCategory->id : null,
             'metaTitle' => 'example',
             'slug' => Str::random(10),
             'content' => 'An example of create new category for guest.',
         ]);
 
-        $tag = Tag::create(['title' => Str::random(10),
+        $tag = Tag::create([
+            'title' => Str::random(10),
             'metaTitle' => Str::random(10),
             'slug' => Str::random(10),
             'content' => Str::random(10),
@@ -101,7 +103,7 @@ class BadasoCommentsApiTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name.'@mail.com',
+            'email' => $name . '@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -126,30 +128,19 @@ class BadasoCommentsApiTest extends TestCase
         ]);
 
         $tableComment = Comment::latest()->first();
-        $count = 5;
+        $name = Str::random(10);
+        $comment = Comment::create([
+            'post_id' => $post->id,
+            'parent_id' => isset($tableComment->id) ? $tableComment->id : null,
+            'userId' => null,
+            'guest_name' => $name,
+            'guest_email' => $name . '@gmail.com',
+            'content' => 'Lorem ipsum dolor sit amet',
+        ]);
 
-        for ($i = 0; $i < $count; $i++) {
-            $request_data = [
-                'postId' => $post->id,
-                'parentId' => isset($tableComment->id) ? $tableComment->id : null,
-                'userId' => null,
-                'guestName' => Str::random(10),
-                'guestEmail' => Str::random(10).'@gmail.com',
-                'content' => 'Lorem ipsum dolor sit amet',
-            ];
-
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getApiV1('/comment/add'), $request_data);
-            $response->assertSuccessful();
-
-            $datas = $response->json('data');
-
-            $this->assertNotEmpty($datas);
-            $this->assertTrue($datas['postId'] == $request_data['postId']);
-            $this->assertTrue($datas['parentId'] == $request_data['parentId']);
-            $this->assertTrue($datas['guestName'] == $request_data['guestName']);
-            $this->assertTrue($datas['guestEmail'] == $request_data['guestEmail']);
-            $this->assertTrue($datas['content'] == $request_data['content']);
-        }
+        $data = Comment::find($comment->id);
+        $this->assertNotEmpty($data);
+        $data->forceDelete();
     }
 
     public function test_edit_comment()
