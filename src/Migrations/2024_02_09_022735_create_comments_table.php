@@ -25,10 +25,10 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
-            $table->foreign('post_id')->references('id')->on(config('badaso.database.prefix') . 'posts')->onDelete('cascade');
-            $table->foreign('parent_id')->references('id')->on(config('badaso.database.prefix') . 'comments')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix') . 'users');
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
+            $table->foreign('post_id')->references('id')->on(config('badaso.database.prefix').'posts')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on(config('badaso.database.prefix').'comments')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users');
         });
     }
 
