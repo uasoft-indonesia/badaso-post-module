@@ -13,8 +13,8 @@ class AddApprovedToBadasoCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
-             $table->boolean('approved')->default(false)->after('content');
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
+            $table->boolean('approved')->default(false)->after('content');
         });
     }
 
@@ -25,7 +25,7 @@ class AddApprovedToBadasoCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
             $table->dropColumn('approved');
         });
     }
