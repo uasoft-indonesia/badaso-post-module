@@ -87,6 +87,7 @@ class CommentController extends Controller
                 $request->validate([
                     'post_id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
                     'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
+                    'user_id' => 'nullable',
                     'content' => 'required|string',
                     'guest_name' => 'required|string|max:255',
                     'guest_email' => 'required|string|email|max:255',
@@ -96,6 +97,7 @@ class CommentController extends Controller
                 $comment = Comment::create([
                     'post_id' => $request->post_id,
                     'parent_id' => $request->parent_id ?? null,
+                    'user_id' => null,
                     'guest_name' => $request->guest_name,
                     'guest_email' => $request->guest_email,
                     'content' => $request->content,
