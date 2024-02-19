@@ -17,11 +17,8 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->foreignId('post_id');
             $table->foreignId('parent_id')->nullable();
-            $table->string('guest_name')->nullable();
-            $table->string('guest_email')->nullable();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id');
             $table->longText('content');
-            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
 
