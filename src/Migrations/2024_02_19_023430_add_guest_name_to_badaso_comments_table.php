@@ -13,8 +13,8 @@ class AddGuestNameToBadasoCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
-             $table->string('guest_name')->nullable()->after('parent_id');
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
+            $table->string('guest_name')->nullable()->after('parent_id');
         });
     }
 
@@ -25,7 +25,7 @@ class AddGuestNameToBadasoCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
             $table->dropColumn('guest_name');
         });
     }
