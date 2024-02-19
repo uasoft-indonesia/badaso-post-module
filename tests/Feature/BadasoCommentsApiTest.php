@@ -132,7 +132,7 @@ class BadasoCommentsApiTest extends TestCase
         $comment = Comment::create([
             'post_id' => $post->id,
             'parent_id' => isset($tableComment->id) ? $tableComment->id : null,
-            'userId' => null,
+            'user_id' => null,
             'guest_name' => $name,
             'guest_email' => $name.'@gmail.com',
             'content' => 'Lorem ipsum dolor sit amet',
