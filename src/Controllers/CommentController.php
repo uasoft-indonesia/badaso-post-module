@@ -66,7 +66,6 @@ class CommentController extends Controller
                 ]);
 
                 $post = Post::find($request->post_id);
-
                 $comment = Comment::create([
                     'post_id' => $request->post_id,
                     'parent_id' => $request->parent_id ?? null,
@@ -85,7 +84,35 @@ class CommentController extends Controller
 
                 return ApiResponse::success($comment_with_user);
             } else {
-                return ApiResponse::failed(__('badaso_post::validation.auth.user_not_logged_in'));
+                $request->validate([
+                    'post_id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
+                    'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
+                    'user_id' => 'nullable',
+                    'content' => 'required|string',
+                    'guest_name' => 'required|string|max:255',
+                    'guest_email' => 'required|string|email|max:255',
+                ]);
+
+                $post = Post::find($request->post_id);
+                $comment = Comment::create([
+                    'post_id' => $request->post_id,
+                    'parent_id' => $request->parent_id ?? null,
+                    'user_id' => null,
+                    'guest_name' => $request->guest_name,
+                    'guest_email' => $request->guest_email,
+                    'content' => $request->content,
+                ]);
+
+                $post->comment_count += 1;
+                $post->save();
+
+                $comment_with_user = Comment::where('id', $comment->id)->first();
+
+                $comment_with_user = json_decode(json_encode($comment_with_user));
+
+                DB::commit();
+
+                return ApiResponse::success($comment_with_user);
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -101,7 +128,7 @@ class CommentController extends Controller
                 'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment',
             ]);
 
-            $comment = Comment::with('post', 'user:id,name', 'parent', 'children')->first();
+            $comment = Comment::with('post', 'user:id,name', 'parent', 'children')->where('id', $request->id)->first();
 
             $data['comment'] = $comment->toArray();
 
@@ -114,21 +141,22 @@ class CommentController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
                 'post_id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
                 'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
                 'content' => 'required|string',
+                'approved' => 'required',
             ]);
 
             $comment = Comment::findOrFail($request->id);
+
             $comment->update([
                 'post_id' => $request->post_id,
                 'parent_id' => $request->parent_id ?? null,
-                'user_id' => auth()->user()->id,
                 'content' => $request->content,
+                'approved' => $request->approved,
             ]);
 
             DB::commit();

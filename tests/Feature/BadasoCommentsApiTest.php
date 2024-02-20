@@ -2,9 +2,11 @@
 
 namespace Uasoft\Badaso\Module\Post\Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Post\Models\Category;
 use Uasoft\Badaso\Module\Post\Models\Comment;
 use Uasoft\Badaso\Module\Post\Models\Post;
@@ -56,7 +58,7 @@ class BadasoCommentsApiTest extends TestCase
         ];
         $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/post/add'), $request_data);
         $tablePost = Post::latest()->first();
-        // dd($tableTag->id, $tablePost->id, $tableCategory->id);
+
         $tableComment = Comment::latest()->first();
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
@@ -78,6 +80,69 @@ class BadasoCommentsApiTest extends TestCase
         }
     }
 
+    public function test_add_comment_guest()
+    {
+        $tableCategory = Category::latest()->first();
+
+        $category = Category::create([
+            'title' => 'Example Category Guest',
+            'parentId' => isset($tableCategory->id) ? $tableCategory->id : null,
+            'metaTitle' => 'example',
+            'slug' => Str::random(10),
+            'content' => 'An example of create new category for guest.',
+        ]);
+
+        $tag = Tag::create([
+            'title' => Str::random(10),
+            'metaTitle' => Str::random(10),
+            'slug' => Str::random(10),
+            'content' => Str::random(10),
+        ]);
+
+        $name = Str::uuid();
+        $user = User::create([
+            'name' => $name,
+            'username' => $name,
+            'email' => $name.'@mail.com',
+            'password' => Hash::make('secret'),
+            'avatar' => 'photos/shares/default-user.png',
+            'additional_info' => null,
+        ]);
+
+        $post = Post::create([
+            'user_id' => $user->id,
+            'title' => Str::random(40),
+            'slug' => $category->slug,
+            'content' => Str::random(40),
+            'metaTitle' => Str::random(40),
+            'metaDescription' => Str::random(40),
+            'summary' => Str::random(40),
+            'published' => true,
+            'tags' => [
+                $tag->id,
+            ],
+            'category_id' => $category->id,
+            'thumbnail' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
+            'comment_count' => 0,
+            'published_at' => (string) now(),
+        ]);
+
+        $tableComment = Comment::latest()->first();
+        $name = Str::random(10);
+        $comment = Comment::create([
+            'post_id' => $post->id,
+            'parent_id' => isset($tableComment->id) ? $tableComment->id : null,
+            'user_id' => null,
+            'guest_name' => $name,
+            'guest_email' => $name.'@gmail.com',
+            'content' => 'Lorem ipsum dolor sit amet',
+        ]);
+
+        $data = Comment::find($comment->id);
+        $this->assertNotEmpty($data);
+        $data->forceDelete();
+    }
+
     public function test_edit_comment()
     {
         $token = CallHelperTest::login($this);
@@ -88,6 +153,7 @@ class BadasoCommentsApiTest extends TestCase
             'postId' => $tablePost->id,
             'parentId' => $tableComment->id,
             'content' => Str::random(),
+            'approved' => rand(0, 1),
         ];
 
         $response = $this->withHeader('Authorization', "Bearer $token")->json('PUT', CallHelperTest::getApiV1('/comment/edit'), $request_data);
@@ -98,6 +164,7 @@ class BadasoCommentsApiTest extends TestCase
         $this->assertTrue($datas['postId'] == $request_data['postId']);
         $this->assertTrue($datas['parentId'] == $request_data['parentId']);
         $this->assertTrue($datas['content'] == $request_data['content']);
+        $this->assertTrue($datas['approved'] == $request_data['approved']);
     }
 
     public function test_delete_comment()
