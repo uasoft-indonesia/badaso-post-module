@@ -60,18 +60,18 @@ class CommentController extends Controller
         try {
             if (Auth::check()) {
                 $request->validate([
-                    'post_id'   => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
+                    'post_id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
                     'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
-                    'content'   => 'required|string',
+                    'content' => 'required|string',
                 ]);
 
                 $post = Post::find($request->post_id);
 
                 $comment = Comment::create([
-                    'post_id'   => $request->post_id,
+                    'post_id' => $request->post_id,
                     'parent_id' => $request->parent_id ?? null,
-                    'user_id'   => auth()->user()->id,
-                    'content'   => $request->content,
+                    'user_id' => auth()->user()->id,
+                    'content' => $request->content,
                 ]);
 
                 $post->comment_count += 1;
@@ -144,19 +144,19 @@ class CommentController extends Controller
 
         try {
             $request->validate([
-                'id'        => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
-                'post_id'   => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
+                'post_id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Post,id',
                 'parent_id' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Comment,id',
-                'content'   => 'required|string',
+                'content' => 'required|string',
                 'approved' => 'required',
             ]);
 
             $comment = Comment::findOrFail($request->id);
             $comment->update([
-                'post_id'   => $request->post_id,
+                'post_id' => $request->post_id,
                 'parent_id' => $request->parent_id ?? null,
-                'user_id'   => auth()->user()->id,
-                'content'   => $request->content,
+                'user_id' => auth()->user()->id,
+                'content' => $request->content,
                 'approved' => $request->approved,
             ]);
 

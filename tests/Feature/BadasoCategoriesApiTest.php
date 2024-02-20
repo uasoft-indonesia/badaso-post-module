@@ -17,12 +17,12 @@ class BadasoCategoriesApiTest extends TestCase
         $count = 5;
         for ($i = 0; $i < $count; $i++) {
             $request_data = [
-                'title'=> 'Example Category',
-                'parentId'=> isset(
+                'title' => 'Example Category',
+                'parentId' => isset(
                     $tableCategory->id) ? $tableCategory->id : null,
-                'metaTitle'=> 'example',
-                'slug'=> Str::random(10),
-                'content'=> 'An example of create new category.',
+                'metaTitle' => 'example',
+                'slug' => Str::random(10),
+                'content' => 'An example of create new category.',
             ];
 
             $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);

@@ -10,13 +10,13 @@ class GetData
     {
         $posts = [];
         $builder_params = [
-            'limit'           => isset($request['limit']) ? $request['limit'] : 10,
-            'page'            => isset($request['page']) ? $request['page'] : null,
-            'category'            => isset($request['category']) ? $request['category'] : null,
-            'tag'            => isset($request['tag']) ? $request['tag'] : null,
-            'order_field'     => isset($request['order_field']) ? $request['order_field'] : 'id',
+            'limit' => isset($request['limit']) ? $request['limit'] : 10,
+            'page' => isset($request['page']) ? $request['page'] : null,
+            'category' => isset($request['category']) ? $request['category'] : null,
+            'tag' => isset($request['tag']) ? $request['tag'] : null,
+            'order_field' => isset($request['order_field']) ? $request['order_field'] : 'id',
             'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : 'asc',
-            'search'    => isset($request['search']) ? $request['search'] : '',
+            'search' => isset($request['search']) ? $request['search'] : '',
         ];
 
         $posts = GetData::serverSide($model, $builder_params, $relations);
@@ -157,7 +157,6 @@ class GetData
 
         $response = json_decode($res->getBody()->getContents());
         if (array_key_exists('rows', (array) $response)) {
-
             // sort and limited google track view
             $response->rows = collect($response->rows)->sortByDesc(function ($row) {
                 [$slug, $count] = $row;
