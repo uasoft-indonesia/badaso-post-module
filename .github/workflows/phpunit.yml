@@ -84,9 +84,9 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-          composer require badaso/core:^2.0 &&
-          composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
-          composer update --no-interaction
+          composer require badaso/core:^2.0 -W &&
+          composer require badaso/post-module:dev-${GITHUB_HEAD_REF} -W &&
+          composer update --no-interaction -W
 
       # Mysql | Laravel setup
       - name: Mysql | Laravel setup
@@ -98,9 +98,12 @@ jobs:
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
+          key=$(eval "php artisan jwt:secret -s") &&
+          sed -i 's/JWT_SECRET=/JWT_SECRET="'${key}'"/g' .env &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module/g' .env &&
-          echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
+          echo -e "\nMIX_BADASO_PLUGINS=post-module" >> .env &&
           echo -e "\nMIX_POST_URL_PREFIX=/post" >> .env
+
 
       # Mysql | Badaso Post Module test
       - name: Mysql | Badaso Post Module test

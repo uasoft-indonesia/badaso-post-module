@@ -51,7 +51,11 @@ class BadasoPostSetup extends Command
 
     protected function generateSwagger()
     {
-        $this->call('l5-swagger:generate');
+        try {
+            $this->call('l5-swagger:generate');
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 
     protected function publishBadasoProvider()
