@@ -84,7 +84,7 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-          composer require badaso/core:^2.0 &&
+          composer require badaso/core:^2.0 -W &&
           composer require badaso/post-module:dev-${GITHUB_HEAD_REF} -W &&
           composer update --no-interaction -W
 
