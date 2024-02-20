@@ -13,7 +13,7 @@ class MakeUserIdNullableOnBadasoCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
             $table->foreignId('user_id')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ class MakeUserIdNullableOnBadasoCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix') . 'comments', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'comments', function (Blueprint $table) {
             $table->foreignId('user_id')->nullable(false)->change();
         });
     }
