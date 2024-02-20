@@ -7,6 +7,7 @@
  *      tags={"tag"},
  *      summary="Browse Tag",
  *      description="Returns list of Tag",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,14 +22,17 @@
  *      tags={"tag"},
  *      summary="Get Tag based on id",
  *      description="Returns Tag based on id",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -43,15 +47,18 @@
  *      tags={"tag"},
  *      summary="Get Tag based on slug",
  *      description="Returns Tag based on slug",
+ *
  *      @OA\Parameter(
  *          name="slug",
  *          required=true,
  *          in="query",
  *          example="tag-example",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -66,10 +73,14 @@
  *      tags={"tag"},
  *      summary="Insert new Tag",
  *      description="Insert new Tag into database",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="title",
  *                     type="object",
@@ -93,6 +104,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -110,10 +122,14 @@
  *      tags={"tag"},
  *      summary="Edit an existing Tag",
  *      description="Edit an existing Tag",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -142,6 +158,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -159,10 +176,14 @@
  *      tags={"tag"},
  *      summary="Delete one record of Tag",
  *      description="Delete one record of Tag",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -171,6 +192,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -188,10 +210,14 @@
  *      tags={"tag"},
  *      summary="Delete multiple record of Tag",
  *      description="Delete multiple record of Tag",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -200,6 +226,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

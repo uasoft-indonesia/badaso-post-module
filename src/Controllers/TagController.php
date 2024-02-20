@@ -30,10 +30,10 @@ class TagController extends Controller
 
         try {
             $request->validate([
-                'title'      => 'required|string|max:255',
+                'title' => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Tag',
-                'content'    => 'nullable|string',
+                'slug' => 'required|string|max:255|unique:Uasoft\Badaso\Module\Post\Models\Tag',
+                'content' => 'nullable|string',
             ]);
 
             $tags = Tag::create($request->all());
@@ -89,11 +89,11 @@ class TagController extends Controller
 
         try {
             $request->validate([
-                'id'         => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
-                'title'      => 'required|string|max:255',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Post\Models\Tag,id',
+                'title' => 'required|string|max:255',
                 'meta_title' => 'nullable|string|max:255',
-                'slug'       => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
-                'content'    => 'nullable|string',
+                'slug' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
+                'content' => 'nullable|string',
             ]);
 
             $tags = Tag::findOrFail($request->id);
