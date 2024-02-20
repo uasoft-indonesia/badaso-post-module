@@ -24,7 +24,7 @@
             </tr>
             <tr>
               <th>{{ $t("comment.detail.header.user") }}</th>
-              <td>{{ comment.user.name }}</td>
+              <td>{{ comment.user !== null ? comment.user.name :  comment.guestName }}</td>
             </tr>
             <tr>
               <th>{{ $t("comment.detail.header.parent") }}</th>
@@ -37,6 +37,10 @@
             <tr>
               <th>{{ $t("comment.detail.header.submit") }}</th>
               <td>{{ comment.createdAt }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("comment.detail.header.approved.title") }}</th>
+              <td>{{ comment.approved == 1 ? "Yes" :  "No"}}</td>
             </tr>
           </table>
         </vs-card>
@@ -61,7 +65,9 @@ export default {
       },
       post:{
         title: ""
-      }
+      },
+      guestName: "",
+      approved:"",
     },
   }),
   mounted() {
