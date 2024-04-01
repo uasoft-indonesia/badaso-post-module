@@ -11,7 +11,6 @@ Route::group(['prefix' => $api_route_prefix, 'as' => 'badaso.', 'middleware' => 
     Route::group(['prefix' => 'module/post/v1'], function () {
         Route::group(['prefix' => 'post'], function () {
             Route::get('/', HelpersRoute::getController('PostController@browse'));
-            Route::get('/browse-analytics', HelpersRoute::getController('PostController@browseWithAnalytics'))->middleware(BadasoCheckPermissions::class.':browse_posts');
             Route::get('/popular', HelpersRoute::getController('PostController@browseMostPopularPost'));
             Route::get('/read', HelpersRoute::getController('PostController@read'))->middleware(BadasoCheckPermissions::class.':read_posts');
             Route::get('/read-slug', HelpersRoute::getController('PostController@readBySlug'));

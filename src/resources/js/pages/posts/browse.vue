@@ -139,12 +139,11 @@
                         <badaso-dropdown-item
                           icon="poll"
                           v-if="
-                            $helper.isAllowed('browse_posts') &&
-                            post.viewCount >= 0
+                            $helper.isAllowed('browse_posts')
                           "
                         >
                           <a
-                            :href="getAnalyticsLink(post.slug)"
+                            :href="getAnalyticsLink()"
                             target="_blank"
                             style="color: inherit"
                             >Detail Analytic</a
@@ -153,8 +152,7 @@
                         <badaso-dropdown-item
                           icon="description"
                           v-if="
-                            $helper.isAllowed('browse_posts') &&
-                            post.viewCount >= 0
+                            $helper.isAllowed('browse_posts')
                           "
                         >
                           <a
@@ -194,8 +192,8 @@ export default {
     orderDirection: "desc",
     rowPerPage: null,
     willDeleteId: null,
-    analyticsBaseUrl: "https://analytics.google.com/analytics/web/#/report/content-pages/",
-    analyticsDescUrl: "/explorer-table.plotKeys=%5B%5D&_r.drilldown=analytics.pagePath:",
+    analyticsBaseUrl: "https://analytics.google.com/analytics/web/#/",
+    analyticsDescUrl: "/reports/intelligenthome",
     search : "",
   }),
   mounted() {
@@ -244,7 +242,7 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.data = response.data;
-          this.posts = response.data.data;
+          this.posts = response.data.posts.data;
         })
         .catch((error) => {
           this.$closeLoader();
@@ -316,13 +314,13 @@ export default {
     handleSelect(data) {
       this.selected = data;
     },
-    getAnalyticsLink(slug) {
+    getAnalyticsLink() {
       let accountId = process.env.MIX_ANALYTICS_ACCOUNT_ID
-        ? "a" + process.env.MIX_ANALYTICS_ACCOUNT_ID
+        ? process.env.MIX_ANALYTICS_ACCOUNT_ID
         : null;
 
       let webPropertyId = process.env.MIX_ANALYTICS_WEBPROPERTY_ID
-        ? "w" + process.env.MIX_ANALYTICS_WEBPROPERTY_ID
+        ? process.env.MIX_ANALYTICS_WEBPROPERTY_ID
         : null;
 
       let viewId = process.env.MIX_ANALYTICS_VIEW_ID
@@ -332,12 +330,8 @@ export default {
       if (accountId && webPropertyId && viewId) {
         return (
           this.analyticsBaseUrl +
-          accountId +
-          webPropertyId +
           viewId +
-          this.analyticsDescUrl +
-          "~2F" +
-          slug
+          this.analyticsDescUrl
         );
       } else {
         return "#";

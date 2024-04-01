@@ -234,43 +234,6 @@ class BadasoPostModuleApiTest extends TestCase
         }
     }
 
-    public function test_browse_analytics_posts()
-    {
-        $token = CallHelperTest::login($this);
-        $tableCategory = Category::latest()->first();
-        $order_field = 'updated_at';
-        $order_direction = 'asc';
-        $category = "$tableCategory->slug";
-        $tag = "$tableCategory->tag";
-        $page = '4';
-        $limit = '2';
-        $search = '';
-
-        $response = $this->withHeader('Authorization', "Bearer $token")->get(CallHelperTest::getApiV1("/post/browse-analytics?order_field={$order_field}&order_direction={$order_direction}&category={$category}&tag={$tag}&page={$page}&limit={$limit}&search={$search}"));
-        $response->assertSuccessful();
-
-        $datas = $response->json('data.data');
-        foreach ($datas as $key => $datas) {
-            $postId = $datas['id'];
-            $postDB = Post::find($postId);
-
-            $this->assertNotEmpty($postDB);
-            $this->assertTrue($datas['id'] == $postDB['id']);
-            $this->assertTrue($datas['firstPageUrl'] == $postDB['parent_id']);
-            $this->assertTrue($datas['lastPage'] == $postDB['category_id']);
-            $this->assertTrue($datas['lastPageUrl'] == $postDB['title']);
-            $this->assertTrue($datas['slug'] == $postDB['slug']);
-            $this->assertTrue($datas['metaTitle'] == $postDB['meta_title']);
-            $this->assertTrue($datas['metaDescription'] == $postDB['meta_description']);
-            $this->assertTrue($datas['summary'] == $postDB['summary']);
-            $this->assertTrue($datas['content'] == $postDB['content']);
-            $this->assertTrue($datas['thumbnail'] == $postDB['thumbnail']);
-            $this->assertTrue($datas['published'] == $postDB['published']);
-            $this->assertTrue($datas['commentCount'] == $postDB['comment_count']);
-            $this->assertTrue($datas['publishedAt'] == $postDB['published_at']);
-        }
-    }
-
     public function test_delete_posts()
     {
         $token = CallHelperTest::login($this);
