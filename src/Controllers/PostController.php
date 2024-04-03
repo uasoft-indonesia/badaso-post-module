@@ -75,29 +75,6 @@ class PostController extends Controller
         }
     }
 
-    public function browseWithAnalytics(Request $request)
-    {
-        try {
-            $request->validate([
-                'order_field' => 'nullable|string',
-                'order_direction' => 'nullable|string|in:desc,asc',
-                'category' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Category,slug',
-                'tag' => 'nullable|exists:Uasoft\Badaso\Module\Post\Models\Tag,slug',
-                'page' => 'sometimes|required|integer',
-                'limit' => 'sometimes|required|integer',
-                'search' => 'nullable|string',
-            ]);
-
-            $oldest = Post::oldest()->first();
-            $data = GetData::getData(new Post(), $request->all(), ['category.parent', 'tags', 'user:id,name']);
-            $data = GetData::getAnalytics($data, $oldest);
-
-            return ApiResponse::success($data);
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
-
     public function browseMostPopularPost(Request $request)
     {
         try {
