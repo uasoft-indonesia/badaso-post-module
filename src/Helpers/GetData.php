@@ -22,7 +22,7 @@ class GetData
             ->where('published', true);
 
         // result if nullable token
-        if (!isset($token)) {
+        if (! isset($token)) {
             return $query
                 ->skip(0)
                 ->take($request->limit ?? 10)
@@ -66,12 +66,12 @@ class GetData
         $options = [
             'json' => $body,
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
                 'Content-Type' => 'application/json',
             ],
         ];
 
-        $res = $client->post('https://analyticsdata.googleapis.com/v1beta/properties/' . $propertyId . ':runRealtimeReport', $options);
+        $res = $client->post('https://analyticsdata.googleapis.com/v1beta/properties/'.$propertyId.':runRealtimeReport', $options);
 
         $response = json_decode($res->getBody()->getContents());
         $get_posts = $query->get();
