@@ -88,7 +88,6 @@ class PostController extends Controller
             $doc = new \DOMDocument();
 
             foreach ($data['posts'] as $key => $post) {
-
                 if ($post['thumbnail'] === null) {
                     @$doc->loadHTML($post['content']);
                     $xpath = new \DOMXPath($doc);
@@ -371,5 +370,4 @@ class PostController extends Controller
             return ApiResponse::failed($e);
         }
     }
-
 }
