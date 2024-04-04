@@ -2,124 +2,14 @@
 
 namespace Uasoft\Badaso\Module\Post\Helpers;
 
-use Carbon\Carbon;
-
 class GetData
 {
-    public static function getData($model, $request, $relations = [])
+    public static function getPopularPosts($model, $request, $relations)
     {
-        $posts = [];
-        $builder_params = [
-            'limit' => isset($request['limit']) ? $request['limit'] : 10,
-            'page' => isset($request['page']) ? $request['page'] : null,
-            'category' => isset($request['category']) ? $request['category'] : null,
-            'tag' => isset($request['tag']) ? $request['tag'] : null,
-            'order_field' => isset($request['order_field']) ? $request['order_field'] : 'id',
-            'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : 'asc',
-            'search' => isset($request['search']) ? $request['search'] : '',
-        ];
-
-        $posts = GetData::serverSide($model, $builder_params, $relations);
-
-        return $posts;
-    }
-
-    public static function serverSide($model, $builder_params, $relations = [])
-    {
-        $fields = $model->getFillable();
-
-        $limit = $builder_params['limit'];
-        $category = $builder_params['category'];
-        $tag = $builder_params['tag'];
-        $order_field = $builder_params['order_field'];
-        $order_direction = $builder_params['order_direction'];
-        $search = $builder_params['search'];
-
-        $records = [];
-        $query = $model::query();
-        if ($search) {
-            foreach ($fields as $index => $field) {
-                if ($index == 0) {
-                    $query->where($field, 'LIKE', "%{$search}%");
-                } else {
-                    $query->orWhere($field, 'LIKE', "%{$search}%");
-                }
-            }
-        }
-
-        $query->when($tag, function ($query, $tag) {
-            return $query->whereHas('tags', function ($q) use ($tag) {
-                $q->where('slug', $tag)->orWhere('title', $tag);
-            });
-        })->when($category, function ($query, $category) {
-            return $query->whereHas('category', function ($q) use ($category) {
-                $q->where('slug', $category)->orWhere('title', $category);
-            });
-        });
-
-        if ($order_field) {
-            $query->orderBy($order_field, $order_direction);
-        }
-        if (count($relations) > 0) {
-            foreach ($relations as $key => $relation) {
-                $query->with($relation);
-            }
-        }
-        $data = $query->paginate($limit ?? 10)->toArray();
-
-        return $data;
-    }
-
-    public static function getAnalytics($data, $oldest = null)
-    {
-        $prefix = config('badaso-post.post_url_prefix', '/post');
-        $token = self::getToken();
-
-        if (! isset($token)) {
-            return $data;
-        }
-
-        $url = [];
-
-        if (gettype($oldest) !== 'array' && ! empty($oldest)) {
-            $oldest = $oldest->toArray();
-        }
-
-        $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
-
-        foreach ($data['data'] as $key => $value) {
-            if (! empty($prefix)) {
-                $url[] = 'ga:pagePath=='.$prefix.'/'.$value['slug'];
-            } else {
-                $url[] = 'ga:pagePath==/'.$value['slug'];
-            }
-        }
-
-        $rows = self::getAnalyticsData($token, $data, $period, $url);
-
-        foreach ($data['data'] as $key => $value) {
-            $search = $rows[$prefix.'/'.$value['slug']] ?? null;
-
-            if ($search !== null) {
-                $data['data'][$key]['view_count'] = $rows[$prefix.'/'.$value['slug']];
-            } else {
-                $data['data'][$key]['view_count'] = 0;
-            }
-        }
-
-        return $data;
-    }
-
-    public static function getPopularPosts($model, $request, $relations, $oldest)
-    {
-        $prefix = config('badaso-post.post_url_prefix', '/post');
         $posts = [];
         $result = [];
-        $filteredResult = [];
 
         $query = $model::query();
-
-        $period = Period::create(Carbon::parse($oldest['created_at']), now()->addDay());
         $token = self::getToken();
 
         if (count($relations) > 0) {
@@ -141,87 +31,75 @@ class GetData
         }
 
         $client = new \GuzzleHttp\Client();
+        $propertyId = env('MIX_ANALYTICS_WEBPROPERTY_ID');
 
-        $params = [
-            'query' => [
-                'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
-                'start-date' => $period->startDate->format('Y-m-d'),
-                'end-date' => $period->endDate->format('Y-m-d'),
-                'metrics' => 'ga:pageviews',
-                'dimensions' => 'ga:pagePath',
-                'sort' => '-ga:pageviews',
-                'access_token' => $token,
+        $body = [
+            'metrics' => [
+                [
+                    'name' => 'activeUsers'
+                ],
+                [
+                    'name' => 'screenPageViews'
+                ]
             ],
+            'dimensions' => [
+                [
+                    'name' => 'unifiedScreenName'
+                ]
+            ],
+            'minuteRanges' => [
+                [
+                    'name' => '0-29 minutes ago',
+                    'startMinutesAgo' => 29
+                ]
+            ],
+            'orderBys' => [
+                [
+                    'metric' => [
+                        'metricName' => 'screenPageViews'
+                    ]
+                ]
+            ],
+            'limit' => '10'
         ];
-        $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
+
+        $options = [
+            'json' => $body,
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json'
+            ]
+        ];
+
+        $res = $client->post('https://analyticsdata.googleapis.com/v1beta/properties/'.$propertyId. ':runRealtimeReport', $options);
 
         $response = json_decode($res->getBody()->getContents());
+        $get_posts = $query->get();
+
         if (array_key_exists('rows', (array) $response)) {
-            // sort and limited google track view
-            $response->rows = collect($response->rows)->sortByDesc(function ($row) {
-                [$slug, $count] = $row;
 
-                return $count;
-            })
-                ->skip(0)
-                ->take($request->limit ?? 10);
+            foreach ($response->rows as $row)
+            {
+                foreach ($row->dimensionValues as $dimension)
+                {
+                    $value = $dimension->value;
 
-            // restructure rows google track view
-            foreach ($response->rows as $key => $row) {
-                if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
-                    $result[$row[0]] = (int) $row[1];
-                }
-            }
+                    foreach($get_posts as $post)
+                    {
+                        if(str_starts_with($value, $post->title))
+                        {
+                            $title = $post->title;
+                            array_push($result,$title);
+                        }
 
-            $result = array_filter($result);
-
-            foreach ($result as $key => $row) {
-                $filteredResult[str_replace($prefix.'/', '', $key)] = $row;
-            }
-        }
-
-        $posts = $query->whereIn('slug', array_keys($filteredResult))->get()->toArray();
-
-        foreach ($posts as $key => $post) {
-            $posts[$key]['view_count'] = $filteredResult[$post['slug']];
-        }
-
-        $posts = collect($posts)->sortByDesc('view_count');
-
-        return $posts->values()->all();
-    }
-
-    private static function getAnalyticsData($token, $data, $period, $url = [])
-    {
-        $prefix = config('badaso-post.post_url_prefix', '/post');
-        if (count($url) > 0) {
-            $client = new \GuzzleHttp\Client();
-            $data = [];
-            $params = [
-                'query' => [
-                    'ids' => 'ga:'.env('MIX_ANALYTICS_VIEW_ID', null),
-                    'start-date' => $period->startDate->format('Y-m-d'),
-                    'end-date' => $period->endDate->format('Y-m-d'),
-                    'metrics' => 'ga:pageviews',
-                    'dimensions' => 'ga:pagePath',
-                    'filters' => implode(',', $url),
-                    'access_token' => $token,
-                ],
-            ];
-
-            $res = $client->request('GET', 'https://www.googleapis.com/analytics/v3/data/ga', $params);
-            $response = json_decode($res->getBody()->getContents());
-
-            if (array_key_exists('rows', (array) $response)) {
-                foreach ($response->rows as $key => $row) {
-                    if (strpos($row[0], empty($prefix) ? '/' : $prefix) !== false) {
-                        $data[$row[0]] = $row[1];
                     }
                 }
-            }
 
-            return $data;
+            }
         }
+        $posts = $query->whereIn('title', $result)->get()->toArray();
+
+        return $posts;
     }
 
     private static function getToken()

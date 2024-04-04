@@ -83,12 +83,12 @@ class PostController extends Controller
                 'limit' => 'sometimes|required|integer',
             ]);
 
-            $oldest = Post::oldest()->first();
-            $data['posts'] = GetData::getPopularPosts(new Post(), $request, ['category.parent', 'tags', 'user:id,name'], $oldest);
+            $data['posts'] = GetData::getPopularPosts(new Post(), $request, ['category.parent', 'tags', 'user:id,name']);
 
             $doc = new \DOMDocument();
 
             foreach ($data['posts'] as $key => $post) {
+
                 if ($post['thumbnail'] === null) {
                     @$doc->loadHTML($post['content']);
                     $xpath = new \DOMXPath($doc);
@@ -371,4 +371,5 @@ class PostController extends Controller
             return ApiResponse::failed($e);
         }
     }
+
 }
