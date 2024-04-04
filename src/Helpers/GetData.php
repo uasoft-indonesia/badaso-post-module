@@ -36,65 +36,58 @@ class GetData
         $body = [
             'metrics' => [
                 [
-                    'name' => 'activeUsers'
+                    'name' => 'activeUsers',
                 ],
                 [
-                    'name' => 'screenPageViews'
-                ]
+                    'name' => 'screenPageViews',
+                ],
             ],
             'dimensions' => [
                 [
-                    'name' => 'unifiedScreenName'
-                ]
+                    'name' => 'unifiedScreenName',
+                ],
             ],
             'minuteRanges' => [
                 [
                     'name' => '0-29 minutes ago',
-                    'startMinutesAgo' => 29
-                ]
+                    'startMinutesAgo' => 29,
+                ],
             ],
             'orderBys' => [
                 [
                     'metric' => [
-                        'metricName' => 'screenPageViews'
-                    ]
-                ]
+                        'metricName' => 'screenPageViews',
+                    ],
+                ],
             ],
-            'limit' => '10'
+            'limit' => '10',
         ];
 
         $options = [
             'json' => $body,
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Content-Type' => 'application/json'
-            ]
+                'Authorization' => 'Bearer '.$token,
+                'Content-Type' => 'application/json',
+            ],
         ];
 
-        $res = $client->post('https://analyticsdata.googleapis.com/v1beta/properties/'.$propertyId. ':runRealtimeReport', $options);
+        $res = $client->post('https://analyticsdata.googleapis.com/v1beta/properties/'.$propertyId.':runRealtimeReport', $options);
 
         $response = json_decode($res->getBody()->getContents());
         $get_posts = $query->get();
 
         if (array_key_exists('rows', (array) $response)) {
-
-            foreach ($response->rows as $row)
-            {
-                foreach ($row->dimensionValues as $dimension)
-                {
+            foreach ($response->rows as $row) {
+                foreach ($row->dimensionValues as $dimension) {
                     $value = $dimension->value;
 
-                    foreach($get_posts as $post)
-                    {
-                        if(str_starts_with($value, $post->title))
-                        {
+                    foreach ($get_posts as $post) {
+                        if (str_starts_with($value, $post->title)) {
                             $title = $post->title;
-                            array_push($result,$title);
+                            array_push($result, $title);
                         }
-
                     }
                 }
-
             }
         }
         $posts = $query->whereIn('title', $result)->get()->toArray();
