@@ -7,7 +7,7 @@ let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
 
 export default {
   browse(data = {}) {
-    let ep = apiPrefix + "/v1/post/browse-analytics";
+    let ep = apiPrefix + "/v1/post";
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
