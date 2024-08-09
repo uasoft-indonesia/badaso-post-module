@@ -75,7 +75,7 @@ export default {
           this.$closeLoader();
           this.selected = [];
           if (response.data.posts) {
-            this.posts = response.data.posts.map((post, index) => {
+            this.posts = response.data.posts.data.map((post, index) => {
               return {
                 label: post.title,
                 value: post.id
