@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   name: "CommentBrowse",
   components: {},
@@ -157,6 +158,17 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.comments = response.data.comments;
+          this.comments.map((tr) => {
+            if (tr.createdAt || tr.updatedAt) {
+              tr.createdAt = moment(tr.createdAt).format(
+                "YYYY-MM-DD hh:mm:ss"
+              );
+              tr.updatedAt = moment(tr.updatedAt).format(
+                "YYYY-MM-DD hh:mm:ss"
+              );
+            }
+            return tr;
+          });
         })
         .catch((error) => {
           this.$closeLoader();
