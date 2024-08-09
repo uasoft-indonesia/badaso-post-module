@@ -35,18 +35,28 @@
               :description-body="$t('comment.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="title"> {{ $t("comment.header.user") }} </vs-th>
-                <vs-th sort-key="slug"> {{ $t("comment.header.comment") }} </vs-th>
-                <vs-th sort-key="metaTitle"> {{ $t("comment.header.post") }} </vs-th>
-                <vs-th sort-key="approved"> {{ $t("comment.header.approved") }} </vs-th>
-                <vs-th sort-key="metaTitle"> {{ $t("comment.header.submit") }} </vs-th>
+                <vs-th sort-key="title">
+                  {{ $t("comment.header.user") }}
+                </vs-th>
+                <vs-th sort-key="slug">
+                  {{ $t("comment.header.comment") }}
+                </vs-th>
+                <vs-th sort-key="metaTitle">
+                  {{ $t("comment.header.post") }}
+                </vs-th>
+                <vs-th sort-key="approved">
+                  {{ $t("comment.header.approved") }}
+                </vs-th>
+                <vs-th sort-key="metaTitle">
+                  {{ $t("comment.header.submit") }}
+                </vs-th>
                 <vs-th> {{ $t("comment.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                   <vs-td :data="tr.user">
-                    {{ tr.user !== null ? tr.user.name :  tr.guestName }}
+                    {{ tr.user !== null ? tr.user.name : tr.guestName }}
                   </vs-td>
                   <vs-td :data="tr.content">
                     {{ tr.content }}
@@ -54,8 +64,8 @@
                   <vs-td :data="tr.post">
                     {{ tr.post !== null ? tr.post.title : null }}
                   </vs-td>
-                   <vs-td :data="tr.approved">
-                    {{ tr.approved == 1 ? 'Yes' : 'No' }}
+                  <vs-td :data="tr.approved">
+                    {{ tr.approved == 1 ? "Yes" : "No" }}
                   </vs-td>
                   <vs-td :data="tr.createdAt">
                     {{ tr.createdAt }}
@@ -109,6 +119,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   name: "CommentBrowse",
   components: {},
@@ -157,6 +168,17 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.comments = response.data.comments;
+          this.comments.map((tr) => {
+            if (tr.createdAt || tr.updatedAt) {
+              tr.createdAt = moment(tr.createdAt).format(
+                "YYYY-MM-DD hh:mm:ss"
+              );
+              tr.updatedAt = moment(tr.updatedAt).format(
+                "YYYY-MM-DD hh:mm:ss"
+              );
+            }
+            return tr;
+          });
         })
         .catch((error) => {
           this.$closeLoader();
