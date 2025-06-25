@@ -133,27 +133,34 @@ jobs:
 
       # Pgsql | Laravel configuration
       - name: Pgsql | Laravel file configuration
-        run: cd laravel &&
-          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=pgsql/g' .env &&
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel/g' .env &&
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=postgres/g' .env  &&
-          sed -i 's/DB_HOST=.*/DB_HOST=postgres/g' .env &&
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=postgres/g' .env &&
-          sed -i 's/DB_PORT=.*/DB_PORT=5432/g' .env
+        run: |
+          cd laravel
+          sed -i '/DB_CONNECTION=/d' .env
+          sed -i '/DB_HOST=/d' .env
+          sed -i '/DB_PORT=/d' .env
+          sed -i '/DB_DATABASE=/d' .env
+          sed -i '/DB_USERNAME=/d' .env
+          sed -i '/DB_PASSWORD=/d' .env
+          echo "DB_CONNECTION=pgsql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_DATABASE=laravel" >> .env
+          echo "DB_USERNAME=postgres" >> .env
+          echo "DB_PASSWORD=postgres" >> .env
 
       # Pgsql | Laravel setup
       - name: Pgsql | Laravel setup
         run: cd laravel &&
           php artisan badaso:setup --force &&
-          php artisan badaso-post:setup  &&
-          php artisan badaso-post-test:setup  &&
+          php artisan badaso-content:setup &&
+          php artisan badaso-content-test:setup  &&
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Content\BadasoContentModuleSeeder"
 
-      # Pgsql | Badaso Post Module test
-      - name: Pgsql | Badaso Post Module test
+      # Pgsql | Badaso Content Module test
+      - name: Pgsql | Badaso Content Module test
         run: cd laravel && php artisan test
 
       # Running Test
