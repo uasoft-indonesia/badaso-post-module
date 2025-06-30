@@ -5,7 +5,7 @@ namespace Uasoft\Badaso\Module\Post\Tests\Feature;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Post\Models\Category;
 use Uasoft\Badaso\Module\Post\Models\Comment;
@@ -16,7 +16,7 @@ class BadasoCommentsApiTest extends TestCase
 {
     public function test_add_comments()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelper::login($this);
         $tableCategory = Category::latest()->first();
 
         $request_data = [
@@ -27,7 +27,7 @@ class BadasoCommentsApiTest extends TestCase
             'content' => 'An example of create new category.',
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/category/add'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelper::getApiV1('/category/add'), $request_data);
 
         $request_data = [
             'title' => Str::random(10),
@@ -36,7 +36,7 @@ class BadasoCommentsApiTest extends TestCase
             'content' => Str::random(10),
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/tag/add'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelper::getApiV1('/tag/add'), $request_data);
         $response->assertSuccessful();
 
         $tableTag = Tag::latest()->first();
@@ -56,7 +56,7 @@ class BadasoCommentsApiTest extends TestCase
             'category' => $tableCategory->id,
             'thumbnail' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
         ];
-        $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelperTest::getApiV1('/post/add'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->post(CallHelper::getApiV1('/post/add'), $request_data);
         $tablePost = Post::latest()->first();
 
         $tableComment = Comment::latest()->first();
@@ -68,7 +68,7 @@ class BadasoCommentsApiTest extends TestCase
                 'content' => 'Lorem ipsum dolor sit amet',
             ];
 
-            $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelperTest::getApiV1('/comment/add'), $request_data);
+            $response = $this->withHeader('Authorization', "Bearer $token")->json('POST', CallHelper::getApiV1('/comment/add'), $request_data);
             $response->assertSuccessful();
 
             $datas = $response->json('data');
@@ -145,7 +145,7 @@ class BadasoCommentsApiTest extends TestCase
 
     public function test_edit_comment()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelper::login($this);
         $tablePost = Post::latest()->first();
         $tableComment = Comment::latest()->first();
         $request_data = [
@@ -156,7 +156,7 @@ class BadasoCommentsApiTest extends TestCase
             'approved' => rand(0, 1),
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->json('PUT', CallHelperTest::getApiV1('/comment/edit'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('PUT', CallHelper::getApiV1('/comment/edit'), $request_data);
         $response->assertSuccessful();
 
         $datas = $response->json('data');
@@ -169,10 +169,10 @@ class BadasoCommentsApiTest extends TestCase
 
     public function test_delete_comment()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelper::login($this);
         $tableComment = Comment::latest()->first();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/comment/delete'), [
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelper::getApiV1('/comment/delete'), [
             'id' => "$tableComment->id",
         ]);
 
@@ -184,8 +184,8 @@ class BadasoCommentsApiTest extends TestCase
 
     public function test_comment_comment()
     {
-        $token = CallHelperTest::login($this);
-        $response = $this->get(CallHelperTest::getApiV1('/comment'));
+        $token = CallHelper::login($this);
+        $response = $this->get(CallHelper::getApiV1('/comment'));
         $response->assertSuccessful();
         $datas = $response->json('data.comments');
 
@@ -211,7 +211,7 @@ class BadasoCommentsApiTest extends TestCase
             'per_page' => '2',
             'sort' => '',
         ];
-        $response = $this->json('GET', CallHelperTest::getApiV1('/comment/post'), $requset_data);
+        $response = $this->json('GET', CallHelper::getApiV1('/comment/post'), $requset_data);
         $response->assertSuccessful();
 
         $datas = $response->json('data.comments');
@@ -219,13 +219,13 @@ class BadasoCommentsApiTest extends TestCase
 
     public function test_read_comment()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelper::login($this);
         $tableComment = Comment::latest()->first();
         $requset_data = [
             'id' => $tableComment->id,
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->json('GET', CallHelperTest::getApiV1('/comment/read'), $requset_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('GET', CallHelper::getApiV1('/comment/read'), $requset_data);
         $response->assertSuccessful();
 
         $datas = $response->json('data.comment');
@@ -236,7 +236,7 @@ class BadasoCommentsApiTest extends TestCase
 
     public function test_delete_multiple_comment()
     {
-        $token = CallHelperTest::login($this);
+        $token = CallHelper::login($this);
         $tableComment = Comment::orderBy('id', 'desc')
         ->limit(4)
             ->get();
@@ -246,7 +246,7 @@ class BadasoCommentsApiTest extends TestCase
             $ids[] = $value->id;
         }
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/comment/delete-multiple'), [
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelper::getApiV1('/comment/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertStatus(200);
@@ -256,7 +256,7 @@ class BadasoCommentsApiTest extends TestCase
         $this->assertTrue($posts_count == 0);
 
         $tablePost = Post::latest()->first();
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/post/delete'), [
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelper::getApiV1('/post/delete'), [
             'id' => "$tablePost->id",
         ]);
         $response->assertSuccessful();
@@ -271,9 +271,9 @@ class BadasoCommentsApiTest extends TestCase
         $request_data = [
             'id' => "$tableTag->id",
         ];
-        $response = $this->withHeader('Authorization', "Bearer $token")->json('DELETE', CallHelperTest::getApiV1('/tag/delete'), $request_data);
+        $response = $this->withHeader('Authorization', "Bearer $token")->json('DELETE', CallHelper::getApiV1('/tag/delete'), $request_data);
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelperTest::getApiV1('/category/delete'), $id);
+        $response = $this->withHeader('Authorization', "Bearer $token")->delete(CallHelper::getApiV1('/category/delete'), $id);
         $response->assertSuccessful();
     }
 }
